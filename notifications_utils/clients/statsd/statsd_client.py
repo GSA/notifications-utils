@@ -8,7 +8,7 @@ from statsd.client.base import StatsClientBase
 
 
 def time_monotonic_with_jitter():
-    jitter = random.uniform(-3, 3)
+    jitter = random.uniform(-3, 3)  # nosec B311 - this is not security sensitive
     return time.monotonic() + jitter
 
 

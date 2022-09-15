@@ -82,7 +82,8 @@ class NotifyCelery(Celery):
         )
 
         # Make sure this is present upfront to avoid errors later on.
-        assert app.statsd_client
+        if not app.statsd_client:
+            raise RuntimeError("statsd_client is missing")
 
         # Configure Celery app with options from the main app config.
         self.conf.update(app.config['CELERY'])
