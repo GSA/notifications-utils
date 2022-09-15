@@ -1,0 +1,46 @@
+{
+	"name": "notification-utils",
+	"dockerComposeFile": "../docker-compose.devcontainer.yml",
+	"service": "utils",
+	"workspaceFolder": "/workspace",
+	"shutdownAction": "stopCompose",
+	"remoteEnv": {
+		"PATH": "/home/vscode/.local/bin:${containerEnv:PATH}" // give our installed Python modules precedence
+	},
+	"settings": {
+		"[python]": {
+			"editor.formatOnSave": true
+		},
+		"python.linting.enabled": true,
+		"python.linting.pylintEnabled": true,
+		"python.defaultInterpreterPath": "/usr/bin/python3",
+		"python.linting.pylintPath": "/usr/local/share/pip-global/bin/pylint",
+		"python.analysis.extraPaths": [
+			"/home/vscode/.local/lib/python3.9/site-packages"
+		]
+	},
+	"features": {
+		"docker-from-docker": {
+			"version": "latest",
+			"moby": true
+		}
+	},
+	"extensions": [
+		// "ms-python.python",
+		"donjayamanne.python-extension-pack",
+		// "ms-azuretools.vscode-docker",
+		"ms-python.vscode-pylance",
+		"eamodio.gitlens",
+		"wholroyd.jinja",
+		"pmbenjamin.vscode-snyk",
+		"visualstudioexptteam.vscodeintellicode",
+		"yzhang.markdown-all-in-one",
+		"ms-ossdata.vscode-postgresql",
+		// "ms-vsliveshare.vsliveshare",
+		// "mtxr.sqltools",
+		// "mtxr.sqltools-driver-pg"
+	],
+	"forwardPorts": [],
+	"postCreateCommand": "notify-utils-entrypoint.sh",
+	"remoteUser": "vscode"
+}

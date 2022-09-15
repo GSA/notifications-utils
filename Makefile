@@ -23,6 +23,17 @@ clean:
 fix-imports:
 	isort ./notifications_utils ./tests
 
+.PHONY: audit
+audit:
+	pip install --upgrade pip-audit
+	pip-audit -l --ignore-vuln PYSEC-2022-237
+	pip-audit -r requirements_for_test.txt -l
+
+.PHONY: static-scan
+static-scan:
+	pip install --upgrade bandit
+	bandit -r notifications_utils/
+
 .PHONY: reset-version
 reset-version:
 	git fetch
