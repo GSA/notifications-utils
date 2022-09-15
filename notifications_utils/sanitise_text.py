@@ -1,3 +1,4 @@
+import ast
 import unicodedata
 
 
@@ -45,7 +46,7 @@ class SanitiseText:
         # lets just make sure we aren't evaling anything weird
         if not set(codepoint) <= set('0123456789ABCDEF') or not len(codepoint) == 4:
             raise ValueError('{} is not a valid unicode codepoint'.format(codepoint))
-        return eval('"\\u{}"'.format(codepoint))
+        return ast.literal_eval('"\\u{}"'.format(codepoint))
 
     @classmethod
     def downgrade_character(cls, c):

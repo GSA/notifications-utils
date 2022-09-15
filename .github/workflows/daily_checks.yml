@@ -1,0 +1,35 @@
+name: Run daily scans
+
+on:
+  schedule:
+    # cron format: 'minute hour dayofmonth month dayofweek'
+    # this will run at noon UTC every day (7am EST / 8am EDT)
+    - cron: '0 12 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  pip-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-project
+      - name: Install application dependencies
+        run: make bootstrap
+      - uses: trailofbits/gh-action-pip-audit@v1.0.0
+        with:
+          ignore-vulns: PYSEC-2022-237
+      - uses: trailofbits/gh-action-pip-audit@v1.0.0
+        with:
+          inputs: requirements_for_test.txt
+
+  static-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-project
+      - name: Install bandit
+        run: pip install bandit
+      - name: Run scan
+        run: bandit -r notifications_utils/ --confidence-level medium

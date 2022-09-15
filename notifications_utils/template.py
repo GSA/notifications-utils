@@ -5,7 +5,7 @@ from functools import lru_cache
 from html import unescape
 from os import path
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup
 
 from notifications_utils import (
@@ -50,12 +50,14 @@ from notifications_utils.sanitise_text import SanitiseSMS
 from notifications_utils.take import Take
 from notifications_utils.template_change import TemplateChange
 
-template_env = Environment(loader=FileSystemLoader(
-    path.join(
-        path.dirname(path.abspath(__file__)),
-        'jinja_templates',
-    )
-))
+template_env = Environment(
+    autoescape=select_autoescape(),
+    loader=FileSystemLoader(
+        path.join(
+            path.dirname(path.abspath(__file__)),
+            'jinja_templates',
+        )
+    ))
 
 
 class Template(ABC):
