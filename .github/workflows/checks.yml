@@ -1,0 +1,41 @@
+name: Run checks
+
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-project
+      - name: Install application dependencies
+        run: make bootstrap
+      - name: Run style checks
+        run: flake8 .
+      - name: Check imports alphabetized
+        run: isort --check-only ./notifications_utils ./tests
+      - name: Run tests
+        run: pytest -n4 --maxfail=10
+
+  pip-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-project
+      - uses: trailofbits/gh-action-pip-audit@v1.0.0
+        with:
+          inputs: requirements.txt requirements_for_test.txt
+          ignore-vulns: PYSEC-2022-237
+
+  static-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-project
+      - name: Install bandit
+        run: pip install bandit
+      - name: Run scan
+        run: bandit -r app/ --confidence-level medium
