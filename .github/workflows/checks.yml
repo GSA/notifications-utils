@@ -28,8 +28,8 @@ jobs:
       - name: Install application dependencies
         run: make bootstrap
       - uses: trailofbits/gh-action-pip-audit@v1.0.0
-        # with:
-        #   ignore-vulns: PYSEC-2022-237
+        with:
+          ignore-vulns: PYSEC-2022-237
       - uses: trailofbits/gh-action-pip-audit@v1.0.0
         with:
           inputs: requirements_for_test.txt
