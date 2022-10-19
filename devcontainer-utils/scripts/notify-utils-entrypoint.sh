@@ -25,13 +25,13 @@ echo -e "alias lt='exa -al -T -L 2'" >> ~/.zshrc
 
 cd /workspace
 
-# Warm up git index prior to display status in prompt else it will
-# be quite slow on every invocation of starship.
-git status
-
 # make generate-version-file
 # pip3 install -r requirements.txt
 pip3 install -r requirements_for_test.txt
 
 # Install virtualenv to support running the isolated make freeze-requirements from within the devcontainer
 pip3 install virtualenv
+
+# Warm up git index prior to display status in prompt else it will
+# be quite slow on every invocation of starship.
+git status
