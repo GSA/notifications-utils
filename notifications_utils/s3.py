@@ -1,8 +1,13 @@
+import os
 import urllib
 
 import botocore
-from boto3 import resource
+from boto3 import Session
 from flask import current_app
+
+default_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
+default_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+default_region = os.environ.get('AWS_REGION')
 
 
 def s3upload(
@@ -13,8 +18,11 @@ def s3upload(
     content_type='binary/octet-stream',
     tags=None,
     metadata=None,
+    access_key=default_access_key_id,
+    secret_key=default_secret_access_key,
 ):
-    _s3 = resource('s3')
+    session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
+    _s3 = session.resource('s3')
 
     key = _s3.Object(bucket_name, file_location)
 
@@ -44,9 +52,16 @@ class S3ObjectNotFound(botocore.exceptions.ClientError):
     pass
 
 
-def s3download(bucket_name, filename):
+def s3download(
+    bucket_name,
+    filename,
+    region=default_region,
+    access_key=default_access_key_id,
+    secret_key=default_secret_access_key,
+):
     try:
-        s3 = resource('s3')
+        session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
+        s3 = session.resource('s3')
         key = s3.Object(bucket_name, filename)
         return key.get()['Body']
     except botocore.exceptions.ClientError as error:
