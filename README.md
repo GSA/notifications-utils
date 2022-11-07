@@ -20,7 +20,7 @@ make test
 
 ## License && public domain
 
-Work in [commit `543be77`](https://github.com/GSA/notifications-admin/commit/543be77776b64fddb6ba70fbb015ecd81a372478) is licensed by the UK government until the MIT license. Work after that commit is in the worldwide public domain. See [LICENSE.md](./LICENSE.md) for more information.
+Work in [commit `a86d365`](https://github.com/GSA/notifications-utils/commit/a86d365009da4aaefc27b38a1b444b72aee1efdd) is licensed by the UK government under the MIT license. Work after that commit is in the worldwide public domain. See [LICENSE.md](./LICENSE.md) for more information.
 
 ## Contributing
 
