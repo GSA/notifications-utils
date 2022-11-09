@@ -1,5 +1,5 @@
 """
-Python API client for GOV.UK Notify
+Shared python code for Notify applications
 """
 import ast
 import re
@@ -15,10 +15,10 @@ with open('notifications_utils/version.py', 'rb') as f:
 setup(
     name='notifications-utils',
     version=version,
-    url='https://github.com/alphagov/notifications-utils',
-    license='MIT',
-    author='Government Digital Service',
-    description='Shared python code for GOV.UK Notify.',
+    url='https://github.com/GSA/notifications-utils',
+    license_files=('LICENSE.md',),
+    author='General Services Administration',
+    description='Shared python code for Notify applications',
     long_description=__doc__,
     packages=find_packages(),
     include_package_data=True,
