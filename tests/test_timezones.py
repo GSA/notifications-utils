@@ -3,8 +3,8 @@ from datetime import datetime
 import pytest
 
 from notifications_utils.timezones import (
-    convert_bst_to_utc,
-    convert_utc_to_bst,
+    convert_local_timezone_to_utc,
+    convert_utc_to_local_timezone,
     utc_string_to_aware_gmt_datetime,
 )
 
@@ -48,12 +48,12 @@ def test_utc_string_to_aware_gmt_datetime_handles_summer_and_winter(
     (datetime(2017, 5, 12, 14), datetime(2017, 5, 12, 15, 0))
 ])
 def test_get_utc_in_bst_returns_expected_date(date, expected_date):
-    ret_date = convert_utc_to_bst(date)
+    ret_date = convert_utc_to_local_timezone(date)
     assert ret_date == expected_date
 
 
-def test_convert_bst_to_utc():
+def test_convert_local_timezone_to_utc():
     bst = "2017-05-12 13:15"
     bst_datetime = datetime.strptime(bst, "%Y-%m-%d %H:%M")
-    utc = convert_bst_to_utc(bst_datetime)
+    utc = convert_local_timezone_to_utc(bst_datetime)
     assert utc == datetime(2017, 5, 12, 12, 15)
