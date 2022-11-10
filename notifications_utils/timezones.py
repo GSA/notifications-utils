@@ -1,48 +1,45 @@
-from datetime import datetime
+import os
 
-import pytz
 from dateutil import parser
+import pytz
 
-# Making a gradual switch in order to try things out downstream without immediately breaking everything
-london = pytz.timezone("Europe/London")
-eastern = pytz.timezone("America/New_York")
+
+local_timezone = pytz.timezone(os.getenv("TIMEZONE", "America/New_York"))
 
 
 def utc_string_to_aware_gmt_datetime(date):
     """
     Date can either be a string, naïve UTC datetime or an aware UTC datetime
-    Returns an aware London datetime, essentially the time you'd see on your clock
+    Returns an aware local datetime, essentially the time you'd see on your clock
     """
-    if not isinstance(date, datetime):
-        date = parser.parse(date)
-
+    date = parser.parse(date)
     forced_utc = date.replace(tzinfo=pytz.utc)
-    return forced_utc.astimezone(london)
+    return forced_utc.astimezone(local_timezone)
 
 
-def convert_utc_to_bst(utc_dt):
+def convert_utc_to_est(utc_dt):
     """
-    Takes a naïve UTC datetime and returns a naïve London datetime
+    Takes a naïve UTC datetime and returns a naïve local datetime
     """
-    return pytz.utc.localize(utc_dt).astimezone(london).replace(tzinfo=None)
+    return pytz.utc.localize(utc_dt).astimezone(local_timezone).replace(tzinfo=None)
 
 
-def convert_bst_to_utc(date):
+def convert_est_to_utc(date):
     """
-    Takes a naïve London datetime and returns a naïve UTC datetime
+    Takes a naïve UTC datetime and returns a naïve local datetime
     """
-    return london.localize(date).astimezone(pytz.UTC).replace(tzinfo=None)
+    return local_timezone.localize(date).astimezone(pytz.UTC).replace(tzinfo=None)
 
 
-def convert_utc_to_et(utc_dt):
+def convert_utc_to_local_timezone(utc_dt, timezone=local_timezone):
     """
-    Takes a naïve UTC datetime and returns a naïve Eastern datetime
+    Takes a naïve UTC datetime and timezone and returns a naïve datetime in that timezone
     """
-    return pytz.utc.localize(utc_dt).astimezone(eastern).replace(tzinfo=None)
+    return pytz.utc.localize(utc_dt).astimezone(timezone).replace(tzinfo=None)
 
 
-def convert_et_to_utc(date):
+def convert_local_timezone_to_utc(date, timezone=local_timezone):
     """
-    Takes a naïve Eastern datetime and returns a naïve UTC datetime
+    Takes a naïve datetime and timezone and returns a naïve UTC datetime
     """
-    return eastern.localize(date).astimezone(pytz.UTC).replace(tzinfo=None)
+    return timezone.localize(date).astimezone(pytz.UTC).replace(tzinfo=None)
