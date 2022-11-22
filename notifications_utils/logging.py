@@ -3,7 +3,6 @@ import logging.handlers
 import re
 import sys
 from itertools import product
-from pathlib import Path
 
 from flask import g, request
 from flask.ctx import has_app_context, has_request_context
@@ -16,16 +15,14 @@ TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 logger = logging.getLogger(__name__)
 
 
-def init_app(app, statsd_client=None):
+def init_app(app):
     app.config.setdefault('NOTIFY_LOG_LEVEL', 'INFO')
     app.config.setdefault('NOTIFY_APP_NAME', 'none')
-    app.config.setdefault('NOTIFY_LOG_PATH', './log/application.log')
 
     logging.getLogger().addHandler(logging.NullHandler())
 
     del app.logger.handlers[:]
 
-    ensure_log_path_exists(app.config['NOTIFY_LOG_PATH'])
     handlers = get_handlers(app)
     loglevel = logging.getLevelName(app.config['NOTIFY_LOG_LEVEL'])
     loggers = [app.logger, logging.getLogger('utils')]
@@ -37,17 +34,6 @@ def init_app(app, statsd_client=None):
     app.logger.info("Logging configured")
 
 
-def ensure_log_path_exists(path):
-    """
-    This function assumes you're passing a path to a file and attempts to create
-    the path leading to that file.
-    """
-    try:
-        Path(path).parent.mkdir(mode=755, parents=True)
-    except FileExistsError:
-        pass
-
-
 def get_handlers(app):
     handlers = []
     standard_formatter = CustomLogFormatter(LOG_FORMAT, TIME_FORMAT)
@@ -55,12 +41,7 @@ def get_handlers(app):
 
     stream_handler = logging.StreamHandler(sys.stdout)
     if not app.debug:
-        # machine readable json to both file and stdout
-        file_handler = logging.handlers.WatchedFileHandler(
-            filename='{}.json'.format(app.config['NOTIFY_LOG_PATH'])
-        )
         handlers.append(configure_handler(stream_handler, app, json_formatter))
-        handlers.append(configure_handler(file_handler, app, json_formatter))
     else:
         # turn off 200 OK static logs in development
         def is_200_static_log(log):
