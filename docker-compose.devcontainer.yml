@@ -11,7 +11,3 @@ services:
       - .:/workspace:cached
     command: sleep infinity
     restart: always
-networks:
-  default:
-    name: notify-network
-    external: true
