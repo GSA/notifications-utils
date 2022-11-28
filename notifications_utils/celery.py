@@ -77,16 +77,14 @@ def make_task(app):
 
 class NotifyCelery(Celery):
     def init_app(self, app):
-        super().__init__(
-            task_cls=make_task(app),
-        )
+        self.task_cls = make_task(app)
 
         # Make sure this is present upfront to avoid errors later on.
         if not app.statsd_client:
             raise RuntimeError("statsd_client is missing")
 
         # Configure Celery app with options from the main app config.
-        self.conf.update(app.config['CELERY'])
+        self.config_from_object(app.config['CELERY'])
 
     def send_task(self, name, args=None, kwargs=None, **other_kwargs):
         other_kwargs['headers'] = other_kwargs.get('headers') or {}
