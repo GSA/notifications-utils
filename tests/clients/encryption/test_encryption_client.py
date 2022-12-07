@@ -16,28 +16,35 @@ def encryption_client(app):
     return client
 
 
-def test_should_encrypt_content(encryption_client):
-    encrypted = encryption_client.encrypt("this".encode())
+def test_should_encrypt_strings(encryption_client):
+    encrypted = encryption_client.encrypt("this")
     assert encrypted != "this"
 
 
+def test_should_encrypt_dicts(encryption_client):
+    to_encrypt = {"hello": "world"}
+    encrypted = encryption_client.encrypt(to_encrypt)
+    assert encrypted != to_encrypt
+    assert encryption_client.decrypt(encrypted) == to_encrypt
+
+
 def test_encryption_is_nondeterministic(encryption_client):
-    first_run = encryption_client.encrypt("this".encode())
-    second_run = encryption_client.encrypt("this".encode())
+    first_run = encryption_client.encrypt("this")
+    second_run = encryption_client.encrypt("this")
     assert first_run != second_run
 
 
 def test_should_decrypt_content(encryption_client):
-    encrypted = encryption_client.encrypt("this".encode())
-    assert encryption_client.decrypt(encrypted) == b"this"
+    encrypted = encryption_client.encrypt("this")
+    assert encryption_client.decrypt(encrypted) == "this"
 
 
 def test_should_decrypt_previous_value(encryption_client):
     # encrypted was created in a previous run.
     # This will need to be replaced if the SECRET_KEY or DANGEROUS_SALT in the fixture ever change,
     # or any details about the key derivation within encryption_client.py
-    encrypted = b'gAAAAABjkNhyDVLPwRXu94SSCK3bZW5syG6ovPcdIKICkgdsBnAz1F1QqYPd_kaiJdcllXENwn_wN3GV7EgfQtQpEbm52qTrLQ=='
-    assert encryption_client.decrypt(encrypted).decode() == "this"
+    encrypted = b'gAAAAABjkQjAc7IJbMc6sUpHkI0BxKWwgH4i5fMQIPJ2lV1NPSNXPa_vIsUdTjCbwba5SzrlCpYs2LXTPWxKttCeWYTcQ7EjTQ=='
+    assert encryption_client.decrypt(encrypted) == "this"
 
 
 def test_should_sign_content(encryption_client):
