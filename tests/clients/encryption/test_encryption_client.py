@@ -1,4 +1,5 @@
 import pytest
+from cryptography.fernet import InvalidToken
 from itsdangerous import BadSignature
 
 from notifications_utils.clients.encryption.encryption_client import Encryption
@@ -37,6 +38,21 @@ def test_encryption_is_nondeterministic(encryption_client):
 def test_should_decrypt_content(encryption_client):
     encrypted = encryption_client.encrypt("this")
     assert encryption_client.decrypt(encrypted) == "this"
+
+
+def test_should_decrypt_content_with_custom_salt(encryption_client):
+    salt = "different_salt"
+    encrypted = encryption_client.encrypt("this", salt=salt)
+    assert encryption_client.decrypt(encrypted, salt=salt) == "this"
+
+
+def test_should_verify_decryption(encryption_client):
+    encrypted = encryption_client.encrypt("this")
+    try:
+        encryption_client.decrypt(encrypted, salt="different-salt")
+        raise AssertionError
+    except InvalidToken:
+        pass
 
 
 def test_should_decrypt_previous_value(encryption_client):
