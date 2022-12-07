@@ -1,3 +1,8 @@
+from base64 import urlsafe_b64encode
+
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from itsdangerous import URLSafeSerializer
 
 
@@ -6,8 +11,24 @@ class Encryption:
         self.serializer = URLSafeSerializer(app.config.get('SECRET_KEY'))
         self.salt = app.config.get('DANGEROUS_SALT')
 
-    def encrypt(self, thing_to_encrypt):
-        return self.serializer.dumps(thing_to_encrypt, salt=self.salt)
+        password = app.config.get('SECRET_KEY').encode()
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=self.salt.encode(),
+            iterations=480_000
+        )
+        key = urlsafe_b64encode(kdf.derive(password))
+        self.encryptor = Fernet(key)
 
-    def decrypt(self, thing_to_decrypt):
-        return self.serializer.loads(thing_to_decrypt, salt=self.salt)
+    def encrypt(self, bytes_to_encrypt):
+        return self.encryptor.encrypt(bytes_to_encrypt)
+
+    def decrypt(self, bytes_to_decrypt):
+        return self.encryptor.decrypt(bytes_to_decrypt)
+
+    def sign(self, thing_to_sign, salt=None):
+        return self.serializer.dumps(thing_to_sign, salt=(salt or self.salt))
+
+    def verify_signature(self, thing_to_verify, salt=None):
+        return self.serializer.loads(thing_to_verify, salt=(salt or self.salt))
