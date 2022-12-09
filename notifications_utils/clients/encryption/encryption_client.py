@@ -67,6 +67,7 @@ class Encryption:
             return self._shared_encryptor
 
     def _salt_long_enough(self, salt_bytes):
-        # For the salt to be secure, at least for the PBKDF2HMAC derivation function, it must be 16 bytes or longer and randomly generated.
+        # For the salt to be secure, at least for the PBKDF2HMAC derivation function,
+        # it must be 16 bytes or longer and randomly generated.
         # https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/#cryptography.hazmat.primitives.kdf.pbkdf2.PBKDF2HMAC:~:text=Secure%20values%201%20are%20128%2Dbits%20(16%20bytes)%20or%20longer%20and%20randomly%20generated.
         return len(salt_bytes) >= 16
