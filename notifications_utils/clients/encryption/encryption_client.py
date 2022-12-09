@@ -11,23 +11,20 @@ class EncryptionError(Exception):
     pass
 
 
+class SaltLengthError(Exception):
+    pass
+
+
 class Encryption:
     def init_app(self, app):
         self._serializer = URLSafeSerializer(app.config.get('SECRET_KEY'))
         self._salt = app.config.get('DANGEROUS_SALT')
-        salt_bytes = self._salt.encode()
-        if not self._salt_long_enough(salt_bytes):
-            raise EncryptionError("DANGEROUS_SALT must be at least 16 bytes")
         self._password = app.config.get('SECRET_KEY').encode()
 
-        kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt_bytes,
-            iterations=480_000
-        )
-        key = urlsafe_b64encode(kdf.derive(self._password))
-        self._shared_encryptor = Fernet(key)
+        try:
+            self._shared_encryptor = Fernet(self._derive_key(self._salt))
+        except SaltLengthError as reason:
+            raise EncryptionError("DANGEROUS_SALT must be at least 16 bytes") from reason
 
     # thing_to_encrypt must be serializable as JSON
     # returns a UTF-8 string
@@ -52,22 +49,24 @@ class Encryption:
 
     def _encryptor(self, salt=None):
         if salt:
-            salt_bytes = salt.encode()
-            if not self._salt_long_enough(salt_bytes):
-                raise EncryptionError("Custom salt value must be at least 16 bytes")
-            kdf = PBKDF2HMAC(
-                algorithm=hashes.SHA256(),
-                length=32,
-                salt=salt_bytes,
-                iterations=480_000
-            )
-            key = urlsafe_b64encode(kdf.derive(self._password))
-            return Fernet(key)
+            try:
+                return Fernet(self._derive_key(salt))
+            except SaltLengthError as reason:
+                raise EncryptionError("Custom salt value must be at least 16 bytes") from reason
         else:
             return self._shared_encryptor
 
-    def _salt_long_enough(self, salt_bytes):
-        # For the salt to be secure, at least for the PBKDF2HMAC derivation function,
-        # it must be 16 bytes or longer and randomly generated.
-        # https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/#cryptography.hazmat.primitives.kdf.pbkdf2.PBKDF2HMAC:~:text=Secure%20values%201%20are%20128%2Dbits%20(16%20bytes)%20or%20longer%20and%20randomly%20generated.
-        return len(salt_bytes) >= 16
+    def _derive_key(self, salt):
+        salt_bytes = salt.encode()
+        if len(salt_bytes) < 16:
+            # For the salt to be secure, at least for the PBKDF2HMAC derivation function,
+            # it must be 16 bytes or longer and randomly generated.
+            # https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/#cryptography.hazmat.primitives.kdf.pbkdf2.PBKDF2HMAC:~:text=Secure%20values%201%20are%20128%2Dbits%20(16%20bytes)%20or%20longer%20and%20randomly%20generated.
+            raise SaltLengthError
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt_bytes,
+            iterations=480_000
+        )
+        return urlsafe_b64encode(kdf.derive(self._password))
