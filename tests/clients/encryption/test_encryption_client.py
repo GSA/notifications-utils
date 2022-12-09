@@ -20,6 +20,7 @@ def encryption_client(app):
 def test_should_encrypt_strings(encryption_client):
     encrypted = encryption_client.encrypt("this")
     assert encrypted != "this"
+    assert isinstance(encrypted, str)
 
 
 def test_should_encrypt_dicts(encryption_client):
@@ -55,12 +56,14 @@ def test_should_verify_decryption(encryption_client):
         pass
 
 
-def test_should_decrypt_previous_value(encryption_client):
+def test_should_decrypt_previous_values(encryption_client):
     # encrypted was created in a previous run.
     # This will need to be replaced if the SECRET_KEY or DANGEROUS_SALT in the fixture ever change,
     # or any details about the key derivation within encryption_client.py
-    encrypted = b'gAAAAABjkQjAc7IJbMc6sUpHkI0BxKWwgH4i5fMQIPJ2lV1NPSNXPa_vIsUdTjCbwba5SzrlCpYs2LXTPWxKttCeWYTcQ7EjTQ=='
-    assert encryption_client.decrypt(encrypted) == "this"
+    encrypted_bytes = b'gAAAAABjkQjAc7IJbMc6sUpHkI0BxKWwgH4i5fMQIPJ2lV1NPSNXPa_vIsUdTjCbwba5SzrlCpYs2LXTPWxKttCeWYTcQ7EjTQ=='  # noqa
+    assert encryption_client.decrypt(encrypted_bytes) == "this"
+    encrypted_str = 'gAAAAABjk2d_N7ojFjrREFpU2ImgNT17nebSjAVIuJRBQoll2KbPJ2s5jFX3gPRwusRnsgmag-QpdEFKZsFrE3v-f42tWjVfyA=='  # noqa
+    assert encryption_client.decrypt(encrypted_str) == "this"
 
 
 def test_should_sign_content(encryption_client):

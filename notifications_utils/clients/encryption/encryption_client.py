@@ -22,11 +22,14 @@ class Encryption:
         key = urlsafe_b64encode(kdf.derive(self._password))
         self._shared_encryptor = Fernet(key)
 
+    # thing_to_encrypt must be serializable as JSON
+    # returns a UTF-8 string
     def encrypt(self, thing_to_encrypt, salt=None):
-        return self._encryptor(salt).encrypt(dumps(thing_to_encrypt).encode())
+        return self._encryptor(salt).encrypt(dumps(thing_to_encrypt).encode()).decode()
 
+    # thing_to_decrypt can be a UTF-8 string or bytes, and must be deserializable as JSON after decryption
     def decrypt(self, thing_to_decrypt, salt=None):
-        return loads(self._encryptor(salt).decrypt(thing_to_decrypt).decode())
+        return loads(self._encryptor(salt).decrypt(thing_to_decrypt))
 
     def sign(self, thing_to_sign, salt=None):
         return self._serializer.dumps(thing_to_sign, salt=(salt or self._salt))
