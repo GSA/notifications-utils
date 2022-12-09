@@ -1,8 +1,9 @@
 import pytest
-from cryptography.fernet import InvalidToken
-from itsdangerous import BadSignature
 
-from notifications_utils.clients.encryption.encryption_client import Encryption
+from notifications_utils.clients.encryption.encryption_client import (
+    Encryption,
+    EncryptionError,
+)
 
 
 @pytest.fixture()
@@ -52,7 +53,7 @@ def test_should_verify_decryption(encryption_client):
     try:
         encryption_client.decrypt(encrypted, salt="different-salt")
         raise AssertionError
-    except InvalidToken:
+    except EncryptionError:
         pass
 
 
@@ -81,7 +82,7 @@ def test_should_verify_signature(encryption_client):
     try:
         encryption_client.verify_signature(signed, salt="different-salt")
         raise AssertionError
-    except BadSignature:
+    except EncryptionError:
         pass
 
 
