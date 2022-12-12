@@ -26,13 +26,21 @@ class Encryption:
         except SaltLengthError as reason:
             raise EncryptionError("DANGEROUS_SALT must be at least 16 bytes") from reason
 
-    # thing_to_encrypt must be serializable as JSON
-    # returns a UTF-8 string
     def encrypt(self, thing_to_encrypt, salt=None):
-        return self._encryptor(salt).encrypt(dumps(thing_to_encrypt).encode()).decode()
+        """Encrypt a string or object
 
-    # thing_to_decrypt can be a UTF-8 string or bytes, and must be deserializable as JSON after decryption
+        thing_to_encrypt must be serializable as JSON
+        Returns a UTF-8 string
+        """
+        serialized_bytes = dumps(thing_to_encrypt).encode("utf-8")
+        encrypted_bytes = self._encryptor(salt).encrypt(serialized_bytes)
+        return encrypted_bytes.decode("utf-8")
+
     def decrypt(self, thing_to_decrypt, salt=None):
+        """Decrypt a UTF-8 string or bytes.
+
+        Once decrypted, thing_to_decrypt must be deserializable from JSON.
+        """
         try:
             return loads(self._encryptor(salt).decrypt(thing_to_decrypt))
         except InvalidToken as reason:
@@ -48,20 +56,24 @@ class Encryption:
             raise EncryptionError from reason
 
     def _encryptor(self, salt=None):
-        if salt:
+        if salt is None:
+            return self._shared_encryptor
+        else:
             try:
                 return Fernet(self._derive_key(salt))
             except SaltLengthError as reason:
                 raise EncryptionError("Custom salt value must be at least 16 bytes") from reason
-        else:
-            return self._shared_encryptor
 
     def _derive_key(self, salt):
+        """Derive a key suitable for use within Fernet from the SECRET_KEY and salt
+
+        * For the salt to be secure, it must be 16 bytes or longer and randomly generated.
+        * 480_000 was chosen for the iterations because it is what Django recommends as of July 2022
+        * For more information, see https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/#pbkdf2
+        * and https://cryptography.io/en/latest/fernet/#using-passwords-with-fernet
+        """
         salt_bytes = salt.encode()
         if len(salt_bytes) < 16:
-            # For the salt to be secure, at least for the PBKDF2HMAC derivation function,
-            # it must be 16 bytes or longer and randomly generated.
-            # https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/#cryptography.hazmat.primitives.kdf.pbkdf2.PBKDF2HMAC:~:text=Secure%20values%201%20are%20128%2Dbits%20(16%20bytes)%20or%20longer%20and%20randomly%20generated.
             raise SaltLengthError
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),

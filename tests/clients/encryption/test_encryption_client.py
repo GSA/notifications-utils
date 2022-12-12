@@ -67,27 +67,17 @@ def test_should_verify_decryption(encryption_client):
         encryption_client.decrypt(encrypted, salt="different-salt-value")
 
 
-def test_should_decrypt_previous_values(encryption_client):
-    # encrypted was created in a previous run.
-    # This will need to be replaced if the SECRET_KEY or DANGEROUS_SALT in the fixture ever change,
-    # or any details about the key derivation within encryption_client.py
-    encrypted_bytes = b'gAAAAABjkQjAc7IJbMc6sUpHkI0BxKWwgH4i5fMQIPJ2lV1NPSNXPa_vIsUdTjCbwba5SzrlCpYs2LXTPWxKttCeWYTcQ7EjTQ=='  # noqa
-    assert encryption_client.decrypt(encrypted_bytes) == "this"
-    encrypted_str = 'gAAAAABjk2d_N7ojFjrREFpU2ImgNT17nebSjAVIuJRBQoll2KbPJ2s5jFX3gPRwusRnsgmag-QpdEFKZsFrE3v-f42tWjVfyA=='  # noqa
-    assert encryption_client.decrypt(encrypted_str) == "this"
-
-
-def test_should_sign_content(encryption_client):
+def test_should_sign_and_serialize_string(encryption_client):
     signed = encryption_client.sign("this")
     assert signed != "this"
 
 
-def test_should_verify_content(encryption_client):
+def test_should_verify_signature_and_deserialize_string(encryption_client):
     signed = encryption_client.sign("this")
     assert encryption_client.verify_signature(signed) == "this"
 
 
-def test_should_verify_signature(encryption_client):
+def test_should_raise_encryption_error_on_bad_salt(encryption_client):
     signed = encryption_client.sign("this")
     with pytest.raises(EncryptionError):
         encryption_client.verify_signature(signed, salt="different-salt-value")
