@@ -30,7 +30,7 @@ from notifications_utils.template import Template
 
 from . import EMAIL_REGEX_PATTERN, hostname_part, tld_part
 
-uk_prefix = '44'
+us_prefix = '1'
 
 first_column_headings = {
     'email': ['email address'],
@@ -501,7 +501,7 @@ class InvalidAddressError(InvalidEmailError):
     pass
 
 
-def normalise_phone_number(number):
+def normalize_phone_number(number):
 
     for character in ALL_WHITESPACE + '()-+':
         number = number.replace(character, '')
@@ -511,21 +511,22 @@ def normalise_phone_number(number):
     except ValueError:
         raise InvalidPhoneError('Must not contain letters or symbols')
 
-    return number.lstrip('0')
+    return number
 
 
-def is_uk_phone_number(number):
+def has_international_country_code(number):
+    return re.match(r"\+\s*[2-9]", number)
+
+
+def is_us_phone_number(number):
+    if has_international_country_code(number):
+        return False
+
+    number = normalize_phone_number(number)
 
     if (
-        (number.startswith('0') and not number.startswith('00'))
-    ):
-        return True
-
-    number = normalise_phone_number(number)
-
-    if (
-        number.startswith(uk_prefix) or
-        (number.startswith('7') and len(number) < 11)
+        number.startswith(us_prefix) or
+        len(number) == 10
     ):
         return True
 
@@ -534,7 +535,6 @@ def is_uk_phone_number(number):
 
 international_phone_info = namedtuple('PhoneNumber', [
     'international',
-    'crown_dependency',
     'country_prefix',
     'billable_units',
 ])
@@ -544,24 +544,12 @@ def get_international_phone_info(number):
 
     number = validate_phone_number(number, international=True)
     prefix = get_international_prefix(number)
-    crown_dependency = _is_a_crown_dependency_number(number)
 
     return international_phone_info(
-        international=(prefix != uk_prefix or crown_dependency),
-        crown_dependency=crown_dependency,
+        international=(prefix != us_prefix),
         country_prefix=prefix,
         billable_units=get_billable_units_for_prefix(prefix)
     )
-
-
-CROWN_DEPENDENCY_RANGES = ['7781', '7839', '7911', '7509', '7797', '7937', '7700', '7829', '7624', '7524', '7924']
-
-
-def _is_a_crown_dependency_number(number):
-    num_in_crown_dependency_range = number[2:6] in CROWN_DEPENDENCY_RANGES
-    num_in_tv_range = number[2:9] == '7700900'
-
-    return num_in_crown_dependency_range and not num_in_tv_range
 
 
 def get_international_prefix(number):
@@ -572,20 +560,21 @@ def get_international_prefix(number):
 
 
 def get_billable_units_for_prefix(prefix):
-    return INTERNATIONAL_BILLING_RATES[prefix]['billable_units']
+    """Return the billable units for prefix. Hard-coded to 1 for now"""
+    return 1
+    # return INTERNATIONAL_BILLING_RATES[prefix]['billable_units']
 
 
 def use_numeric_sender(number):
-    prefix = get_international_prefix(normalise_phone_number(number))
-    return INTERNATIONAL_BILLING_RATES[prefix]['attributes']['alpha'] == 'NO'
+    prefix = get_international_prefix(normalize_phone_number(number))
+    return INTERNATIONAL_BILLING_RATES[(prefix or us_prefix)]['attributes']['alpha'] == 'NO'
 
 
-def validate_uk_phone_number(number):
+def validate_us_phone_number(number):
+    if has_international_country_code(number):
+        raise InvalidPhoneError('Non-US country code')
 
-    number = normalise_phone_number(number).lstrip(uk_prefix).lstrip('0')
-
-    if not number.startswith('7'):
-        raise InvalidPhoneError('Not a UK mobile number')
+    number = normalize_phone_number(number).lstrip(us_prefix)
 
     if len(number) > 10:
         raise InvalidPhoneError('Too many digits')
@@ -593,15 +582,15 @@ def validate_uk_phone_number(number):
     if len(number) < 10:
         raise InvalidPhoneError('Not enough digits')
 
-    return '{}{}'.format(uk_prefix, number)
+    return '{}{}'.format(us_prefix, number)
 
 
 def validate_phone_number(number, international=False):
 
-    if (not international) or is_uk_phone_number(number):
-        return validate_uk_phone_number(number)
+    if (not international) or is_us_phone_number(number):
+        return validate_us_phone_number(number)
 
-    number = normalise_phone_number(number)
+    number = normalize_phone_number(number)
 
     if len(number) < 8:
         raise InvalidPhoneError('Not enough digits')
