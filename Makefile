@@ -26,8 +26,8 @@ fix-imports:
 .PHONY: audit
 audit:
 	pip install --upgrade pip-audit
-	pip-audit -r requirements.txt -l --ignore-vuln PYSEC-2022-237
-	-pip-audit -r requirements_for_test.txt -l
+	pip-audit -r requirements.txt --ignore-vuln PYSEC-2022-237
+	-pip-audit -r requirements_for_test.txt
 
 .PHONY: freeze-requirements
 freeze-requirements: ## Pin all requirements including sub dependencies into requirements.txt
