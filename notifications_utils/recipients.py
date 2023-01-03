@@ -10,15 +10,14 @@ from itertools import islice
 import phonenumbers
 from flask import current_app
 from orderedset import OrderedSet
+from phonenumbers.phonenumberutil import NumberParseException
 
 from notifications_utils.formatters import (
-    ALL_WHITESPACE,
     strip_all_whitespace,
     strip_and_remove_obscure_whitespace,
 )
 from notifications_utils.insensitive_dict import InsensitiveDict
 from notifications_utils.international_billing_rates import (
-    COUNTRY_PREFIXES,
     INTERNATIONAL_BILLING_RATES,
 )
 from notifications_utils.postal_address import (
@@ -30,7 +29,8 @@ from notifications_utils.template import Template
 
 from . import EMAIL_REGEX_PATTERN, hostname_part, tld_part
 
-us_prefix = '1'
+us_country_code = 1
+us_prefix = str(us_country_code)
 
 first_column_headings = {
     'email': ['email address'],
@@ -501,36 +501,18 @@ class InvalidAddressError(InvalidEmailError):
     pass
 
 
-def normalize_phone_number(number):
-
-    for character in ALL_WHITESPACE + '()-+':
-        number = number.replace(character, '')
-
-    try:
-        list(map(int, number))
-    except ValueError:
-        raise InvalidPhoneError('Must not contain letters or symbols')
-
-    return number
-
-
-def has_international_country_code(number):
-    return re.match(r"\+\s*[2-9]", number)
+def normalize_phone_number(phonenumber):
+    if isinstance(phonenumber, str):
+        phonenumber = phonenumbers.parse(phonenumber, "US")
+    return phonenumbers.format_number(phonenumber, phonenumbers.PhoneNumberFormat.E164)
 
 
 def is_us_phone_number(number):
-    if has_international_country_code(number):
+    try:
+        parsed = phonenumbers.parse(number, "US")
+        return parsed.country_code == us_country_code
+    except NumberParseException:
         return False
-
-    number = normalize_phone_number(number)
-
-    if (
-        number.startswith(us_prefix) or
-        len(number) == 10
-    ):
-        return True
-
-    return False
 
 
 international_phone_info = namedtuple('PhoneNumber', [
@@ -541,7 +523,6 @@ international_phone_info = namedtuple('PhoneNumber', [
 
 
 def get_international_phone_info(number):
-
     number = validate_phone_number(number, international=True)
     prefix = get_international_prefix(number)
 
@@ -553,10 +534,8 @@ def get_international_phone_info(number):
 
 
 def get_international_prefix(number):
-    return next(
-        (prefix for prefix in COUNTRY_PREFIXES if number.startswith(prefix)),
-        None
-    )
+    parsed = phonenumbers.parse(number, "US")
+    return str(parsed.country_code)
 
 
 def get_billable_units_for_prefix(prefix):
@@ -566,42 +545,44 @@ def get_billable_units_for_prefix(prefix):
 
 
 def use_numeric_sender(number):
-    prefix = get_international_prefix(normalize_phone_number(number))
+    prefix = get_international_prefix(number)
     return INTERNATIONAL_BILLING_RATES[(prefix or us_prefix)]['attributes']['alpha'] == 'NO'
 
 
 def validate_us_phone_number(number):
-    if has_international_country_code(number):
-        raise InvalidPhoneError('Non-US country code')
-
-    number = normalize_phone_number(number).lstrip(us_prefix)
-
-    if len(number) > 10:
-        raise InvalidPhoneError('Too many digits')
-
-    if len(number) < 10:
-        raise InvalidPhoneError('Not enough digits')
-
-    return '{}{}'.format(us_prefix, number)
+    try:
+        parsed = phonenumbers.parse(number, "US")
+        if parsed.country_code != us_country_code:
+            raise InvalidPhoneError('Non-US county code')
+        if phonenumbers.is_valid_number(parsed):
+            return normalize_phone_number(parsed)
+        if len(str(parsed.national_number)) > 10:
+            raise InvalidPhoneError('Too many digits')
+        if len(str(parsed.national_number)) < 10:
+            raise InvalidPhoneError('Not enough digits')
+        if phonenumbers.is_possible_number(parsed):
+            raise InvalidPhoneError('Phone number range is not in use')
+        raise InvalidPhoneError('Phone number is not possible')
+    except NumberParseException as exc:
+        raise InvalidPhoneError(exc._msg) from exc
 
 
 def validate_phone_number(number, international=False):
-
     if (not international) or is_us_phone_number(number):
         return validate_us_phone_number(number)
 
-    number = normalize_phone_number(number)
-
-    if len(number) < 8:
-        raise InvalidPhoneError('Not enough digits')
-
-    if len(number) > 15:
-        raise InvalidPhoneError('Too many digits')
-
-    if get_international_prefix(number) is None:
-        raise InvalidPhoneError('Not a valid country prefix')
-
-    return number
+    try:
+        parsed = phonenumbers.parse(number, None)
+        number = f"{parsed.country_code}{parsed.national_number}"
+        if len(number) < 8:
+            raise InvalidPhoneError('Not enough digits')
+        if len(number) > 15:
+            raise InvalidPhoneError('Too many digits')
+        return normalize_phone_number(parsed)
+    except NumberParseException as exc:
+        if exc._msg == 'Could not interpret numbers after plus-sign.':
+            raise InvalidPhoneError('Not a valid country prefix') from exc
+        raise InvalidPhoneError(exc._msg) from exc
 
 
 validate_and_format_phone_number = validate_phone_number
@@ -691,7 +672,7 @@ def format_phone_number_human_readable(phone_number):
     international_phone_info = get_international_phone_info(phone_number)
 
     return phonenumbers.format_number(
-        phonenumbers.parse('+' + phone_number, None),
+        phonenumbers.parse(phone_number, None),
         (
             phonenumbers.PhoneNumberFormat.INTERNATIONAL
             if international_phone_info.international
