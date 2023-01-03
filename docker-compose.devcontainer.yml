@@ -10,4 +10,3 @@ services:
     volumes:
       - .:/workspace:cached
     command: sleep infinity
-    restart: always
