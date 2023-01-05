@@ -563,7 +563,7 @@ def validate_us_phone_number(number):
     try:
         parsed = phonenumbers.parse(number, "US")
         if not is_us_phone_number(number):
-            raise InvalidPhoneError('Non-US country code')
+            raise InvalidPhoneError('Not a US number')
         if phonenumbers.is_valid_number(parsed):
             return normalize_phone_number(parsed)
         if len(str(parsed.national_number)) > 10:
