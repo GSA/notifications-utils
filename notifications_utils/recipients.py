@@ -553,7 +553,7 @@ def validate_us_phone_number(number):
     try:
         parsed = phonenumbers.parse(number, "US")
         if parsed.country_code != us_country_code:
-            raise InvalidPhoneError('Non-US county code')
+            raise InvalidPhoneError('Non-US country code')
         if phonenumbers.is_valid_number(parsed):
             return normalize_phone_number(parsed)
         if len(str(parsed.national_number)) > 10:
