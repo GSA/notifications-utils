@@ -29,8 +29,7 @@ from notifications_utils.template import Template
 
 from . import EMAIL_REGEX_PATTERN, hostname_part, tld_part
 
-us_country_code = 1
-us_prefix = str(us_country_code)
+us_prefix = '1'
 
 first_column_headings = {
     'email': ['email address'],
@@ -509,8 +508,7 @@ def normalize_phone_number(phonenumber):
 
 def is_us_phone_number(number):
     try:
-        parsed = phonenumbers.parse(number, "US")
-        return parsed.country_code == us_country_code
+        return _get_country_code(number) == us_prefix
     except NumberParseException:
         return False
 
@@ -524,7 +522,7 @@ international_phone_info = namedtuple('PhoneNumber', [
 
 def get_international_phone_info(number):
     number = validate_phone_number(number, international=True)
-    prefix = get_international_prefix(number)
+    prefix = _get_country_code(number)
 
     return international_phone_info(
         international=(prefix != us_prefix),
@@ -533,9 +531,21 @@ def get_international_phone_info(number):
     )
 
 
-def get_international_prefix(number):
+# NANP_COUNTRY_AREA_CODES are the list of area codes in the North American Numbering Plan
+# that have their own entry in international_billing_rates.yml.
+# Source: https://en.wikipedia.org/wiki/List_of_North_American_Numbering_Plan_area_codes
+_NANP_COUNTRY_AREA_CODES = ["684", "242", "246", "264", "268", "284", "345", "441",
+                            "473", "649", "876", "664", "721", "758", "767", "784", "868", "869"]
+
+
+def _get_country_code(number):
     parsed = phonenumbers.parse(number, "US")
-    return str(parsed.country_code)
+    country_code = str(parsed.country_code)
+    if country_code == us_prefix:
+        area_code = str(parsed.national_number)[:3]
+        if area_code in _NANP_COUNTRY_AREA_CODES:
+            return f"{country_code}{area_code}"
+    return country_code
 
 
 def get_billable_units_for_prefix(prefix):
@@ -545,14 +555,14 @@ def get_billable_units_for_prefix(prefix):
 
 
 def use_numeric_sender(number):
-    prefix = get_international_prefix(number)
+    prefix = _get_country_code(number)
     return INTERNATIONAL_BILLING_RATES[(prefix or us_prefix)]['attributes']['alpha'] == 'NO'
 
 
 def validate_us_phone_number(number):
     try:
         parsed = phonenumbers.parse(number, "US")
-        if parsed.country_code != us_country_code:
+        if not is_us_phone_number(number):
             raise InvalidPhoneError('Non-US country code')
         if phonenumbers.is_valid_number(parsed):
             return normalize_phone_number(parsed)

@@ -168,8 +168,8 @@ def test_detect_us_phone_numbers(phone_number):
         billable_units=1,
     )),
     ('+1 664-491-3434', international_phone_info(
-        international=False,
-        country_prefix='1',  # Montserrat
+        international=True,
+        country_prefix='1664',  # Montserrat
         billable_units=1,
     )),
     ('+71234567890', international_phone_info(
@@ -316,7 +316,7 @@ def test_validates_against_guestlist_of_email_addresses(email_address):
     ('+447900900123', '+44 7900 900123'),  # UK
     ('+20-12-1234-1234', '+20 121 234 1234'),  # Egypt
     ('+201212341234', '+20 121 234 1234'),  # Egypt
-    ('+1 664 491-3434', '(664) 491-3434'),  # Montserrat
+    ('+1 664 491-3434', '+1 664-491-3434'),  # Montserrat
     ('+7 499 1231212', '+7 499 123-12-12'),  # Moscow (Russia)
     ('1-202-555-0104', '(202) 555-0104'),  # Washington DC (USA)
     ('+23051234567', '+230 5123 4567'),  # Mauritius
