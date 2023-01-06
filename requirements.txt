@@ -62,7 +62,7 @@ mistune==0.8.4
     # via notifications-utils
 orderedset==2.0.3
     # via notifications-utils
-phonenumbers==8.13.2
+phonenumbers==8.13.3
     # via notifications-utils
 pycparser==2.21
     # via cffi
