@@ -29,7 +29,7 @@ setup(
         'mistune<2.0.0',  # v2 is totally incompatible with unclear benefit
         'requests>=2.25.0',
         'python-json-logger>=2.0.1',
-        'Flask>=1.1.1',
+        'Flask>=2.2.2',
         'orderedset>=2.0.3',
         'Jinja2>=2.11.3',
         'statsd>=3.3.0',

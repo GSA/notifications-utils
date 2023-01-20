@@ -54,24 +54,29 @@ class NotifyRequest(Request):
 
 
 class ResponseHeaderMiddleware(object):
-    def __init__(self, app, trace_id_header, span_id_header):
-        self.app = app
-        self.trace_id_header = trace_id_header
-        self.span_id_header = span_id_header
+    def __init__(self, wsgi_app, flask_app, trace_id_header, span_id_header):
+        self._wsgi_app = wsgi_app
+        self._flask_app = flask_app
+        self._trace_id_header = trace_id_header
+        self._span_id_header = span_id_header
 
     def __call__(self, environ, start_response):
+        req = NotifyRequest(environ)
+
         def rewrite_response_headers(status, headers, exc_info=None):
             lower_existing_header_names = frozenset(name.lower() for name, value in headers)
 
-            if self.trace_id_header not in lower_existing_header_names:
-                headers.append((self.trace_id_header, str(request.trace_id)))
+            if self._trace_id_header.lower() not in lower_existing_header_names:
+                with self._flask_app.app_context():
+                    headers.append((self._trace_id_header, str(req.trace_id)))
 
-            if self.span_id_header not in lower_existing_header_names:
-                headers.append((self.span_id_header, str(request.span_id)))
+            if self._span_id_header.lower() not in lower_existing_header_names:
+                with self._flask_app.app_context():
+                    headers.append((self._span_id_header, str(req.span_id)))
 
             return start_response(status, headers, exc_info)
 
-        return self.app(environ, rewrite_response_headers)
+        return self._wsgi_app(environ, rewrite_response_headers)
 
 
 def init_app(app):
@@ -82,6 +87,7 @@ def init_app(app):
     app.request_class = NotifyRequest
     app.wsgi_app = ResponseHeaderMiddleware(
         app.wsgi_app,
+        app,
         app.config['NOTIFY_TRACE_ID_HEADER'],
         app.config['NOTIFY_SPAN_ID_HEADER'],
     )
