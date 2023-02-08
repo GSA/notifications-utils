@@ -25,7 +25,7 @@ setup(
     install_requires=[
         'bleach>=4.1.0',
         'cachetools>=4.1.1',
-        'cryptography>=38.0.4',
+        'cryptography>=39.0.1',
         'mistune<2.0.0',  # v2 is totally incompatible with unclear benefit
         'requests>=2.25.0',
         'python-json-logger>=2.0.1',
