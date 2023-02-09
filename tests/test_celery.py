@@ -5,6 +5,7 @@ from flask import g
 from freezegun import freeze_time
 
 from notifications_utils.celery import NotifyCelery
+from notifications_utils.request_helper import TRACE_ID_HEADER
 
 
 @pytest.fixture
@@ -195,7 +196,7 @@ def test_send_task_injects_id_from_request(
     celery_app,
 ):
     super_apply = mocker.patch('celery.Celery.send_task')
-    request_id_header = celery_app.config['NOTIFY_TRACE_ID_HEADER']
+    request_id_header = TRACE_ID_HEADER
     request_headers = {request_id_header: '1234'}
 
     with celery_app.test_request_context(headers=request_headers):
