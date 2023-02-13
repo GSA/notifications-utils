@@ -68,7 +68,8 @@ class Encryption:
         """Derive a key suitable for use within Fernet from the SECRET_KEY and salt
 
         * For the salt to be secure, it must be 16 bytes or longer and randomly generated.
-        * 480_000 was chosen for the iterations because it is what Django recommends as of July 2022
+        * 600_000 was chosen for the iterations because it is what OWASP recommends as
+        *  of [February 2023](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#pbkdf2)
         * For more information, see https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/#pbkdf2
         * and https://cryptography.io/en/latest/fernet/#using-passwords-with-fernet
         """
@@ -79,6 +80,6 @@ class Encryption:
             algorithm=hashes.SHA256(),
             length=32,
             salt=salt_bytes,
-            iterations=480_000
+            iterations=600_000
         )
         return urlsafe_b64encode(kdf.derive(self._password))
