@@ -40,7 +40,7 @@ govuk-bank-holidays==0.11
     # via notifications-utils
 idna==3.4
     # via requests
-importlib-metadata==5.1.0
+importlib-metadata==6.0.0
     # via flask
 itsdangerous==2.1.2
     # via
@@ -96,7 +96,7 @@ smartypants==2.0.1
     # via notifications-utils
 statsd==4.0.1
     # via notifications-utils
-typing-extensions==4.4.0
+typing-extensions==4.5.0
     # via pypdf2
 urllib3==1.26.13
     # via
@@ -104,7 +104,7 @@ urllib3==1.26.13
     #   requests
 webencodings==0.5.1
     # via bleach
-werkzeug==2.2.2
+werkzeug==2.2.3
     # via flask
-zipp==3.11.0
+zipp==3.13.0
     # via importlib-metadata
