@@ -40,7 +40,7 @@ govuk-bank-holidays==0.11
     # via notifications-utils
 idna==3.4
     # via requests
-importlib-metadata==6.0.0
+importlib-metadata==6.1.0
     # via flask
 itsdangerous==2.1.2
     # via
@@ -78,7 +78,7 @@ pytz==2022.6
     # via notifications-utils
 pyyaml==6.0
     # via notifications-utils
-redis==4.4.0
+redis==4.5.3
     # via flask-redis
 requests==2.28.1
     # via
@@ -106,5 +106,5 @@ webencodings==0.5.1
     # via bleach
 werkzeug==2.2.3
     # via flask
-zipp==3.13.0
+zipp==3.15.0
     # via importlib-metadata
