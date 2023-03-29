@@ -26,7 +26,7 @@ fix-imports:
 .PHONY: audit
 audit:
 	pip install --upgrade pip-audit
-	pip-audit -r requirements.txt --ignore-vuln GHSA-8fww-64cx-x8p5
+	pip-audit -r requirements.txt
 	-pip-audit -r requirements_for_test.txt
 
 .PHONY: freeze-requirements
