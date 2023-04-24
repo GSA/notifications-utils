@@ -40,13 +40,12 @@ def request_id_task(celery_task):
     celery_task.pop_request()
 
 
-def test_success_should_log_and_call_statsd(
+def test_success_should_log(
     mocker,
     celery_app,
     async_task
 ):
     logger_mock = mocker.patch.object(celery_app.logger, 'info')
-    statsd_mock = celery_app.statsd_client.timing
 
     with freeze_time() as frozen:
         async_task()
@@ -56,7 +55,6 @@ def test_success_should_log_and_call_statsd(
             retval=None, task_id=1234, args=[], kwargs={}
         )
 
-    statsd_mock.assert_called_once_with(f'celery.test-queue.{async_task.name}.success', 5.0)
     logger_mock.assert_called_once_with(f'Celery task {async_task.name} (queue: test-queue) took 5.0000')
 
 
@@ -66,7 +64,6 @@ def test_success_queue_when_applied_synchronously(
     celery_task
 ):
     logger_mock = mocker.patch.object(celery_app.logger, 'info')
-    statsd_mock = celery_app.statsd_client.timing
 
     with freeze_time() as frozen:
         celery_task()
@@ -76,23 +73,19 @@ def test_success_queue_when_applied_synchronously(
             retval=None, task_id=1234, args=[], kwargs={}
         )
 
-    statsd_mock.assert_called_once_with(f'celery.none.{celery_task.name}.success', 5.0)
     logger_mock.assert_called_once_with(f'Celery task {celery_task.name} (queue: none) took 5.0000')
 
 
-def test_failure_should_log_and_call_statsd(
+def test_failure_should_log(
     mocker,
     celery_app,
     async_task
 ):
     logger_mock = mocker.patch.object(celery_app.logger, 'error')
-    statsd_mock = celery_app.statsd_client.incr
 
     async_task.on_failure(
         exc=Exception, task_id=1234, args=[], kwargs={}, einfo=None
     )
-
-    statsd_mock.assert_called_once_with(f'celery.test-queue.{async_task.name}.failure')
 
     logger_mock.assert_called_once_with(
         f'Celery task {async_task.name} (queue: test-queue) failed', exc_info=True
@@ -105,13 +98,10 @@ def test_failure_queue_when_applied_synchronously(
     celery_task
 ):
     logger_mock = mocker.patch.object(celery_app.logger, 'error')
-    statsd_mock = celery_app.statsd_client.incr
 
     celery_task.on_failure(
         exc=Exception, task_id=1234, args=[], kwargs={}, einfo=None
     )
-
-    statsd_mock.assert_called_once_with(f'celery.none.{celery_task.name}.failure')
 
     logger_mock.assert_called_once_with(
         f'Celery task {celery_task.name} (queue: none) failed', exc_info=True
