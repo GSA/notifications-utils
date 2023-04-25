@@ -23,7 +23,12 @@ def init_app(app):
 
     handlers = get_handlers(app)
     loglevel = logging.getLevelName(app.config['NOTIFY_LOG_LEVEL'])
-    loggers = [app.logger, logging.getLogger('utils'), logging.getLogger('werkzeug')]
+    loggers = [
+        app.logger,
+        logging.getLogger('utils'),
+        logging.getLogger('notifications_python_client'),
+        logging.getLogger('werkzeug'),
+    ]
     for logger_instance, handler in product(loggers, handlers):
         logger_instance.addHandler(handler)
         logger_instance.setLevel(loglevel)
