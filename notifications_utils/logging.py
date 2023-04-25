@@ -1,15 +1,15 @@
 import logging
 import logging.handlers
-import re
 import sys
 from itertools import product
 
 from flask import g, request
 from flask.ctx import has_app_context, has_request_context
+from flask.logging import default_handler
 from pythonjsonlogger.jsonlogger import JsonFormatter as BaseJSONFormatter
 
 LOG_FORMAT = '%(asctime)s %(app_name)s %(name)s %(levelname)s ' \
-             '%(request_id)s "%(message)s" [in %(pathname)s:%(lineno)d]'
+             '%(request_id)s %(service_id)s "%(message)s" [in %(pathname)s:%(lineno)d]'
 TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 logger = logging.getLogger(__name__)
@@ -19,24 +19,24 @@ def init_app(app):
     app.config.setdefault('NOTIFY_LOG_LEVEL', 'INFO')
     app.config.setdefault('NOTIFY_APP_NAME', 'none')
 
-    logging.getLogger().addHandler(logging.NullHandler())
-
-    del app.logger.handlers[:]
+    app.logger.removeHandler(default_handler)
 
     handlers = get_handlers(app)
     loglevel = logging.getLevelName(app.config['NOTIFY_LOG_LEVEL'])
-    loggers = [app.logger, logging.getLogger('utils')]
+    loggers = [app.logger, logging.getLogger('utils'), logging.getLogger('werkzeug')]
     for logger_instance, handler in product(loggers, handlers):
         logger_instance.addHandler(handler)
         logger_instance.setLevel(loglevel)
-    logging.getLogger('boto3').setLevel(logging.WARNING)
-    logging.getLogger('s3transfer').setLevel(logging.WARNING)
+    warning_loggers = [logging.getLogger('boto3'), logging.getLogger('s3transfer')]
+    for logger_instance, handler in product(warning_loggers, handlers):
+        logger_instance.addHandler(handler)
+        logger_instance.setLevel(logging.WARNING)
     app.logger.info("Logging configured")
 
 
 def get_handlers(app):
     handlers = []
-    standard_formatter = CustomLogFormatter(LOG_FORMAT, TIME_FORMAT)
+    standard_formatter = logging.Formatter(LOG_FORMAT, TIME_FORMAT)
     json_formatter = JSONFormatter(LOG_FORMAT, TIME_FORMAT)
 
     stream_handler = logging.StreamHandler(sys.stdout)
@@ -79,12 +79,13 @@ class AppNameFilter(logging.Filter):
 class RequestIdFilter(logging.Filter):
     @property
     def request_id(self):
+        default = 'no-request-id'
         if has_request_context() and hasattr(request, 'request_id'):
-            return request.request_id
+            return request.request_id or default
         elif has_app_context() and 'request_id' in g:
-            return g.request_id
+            return g.request_id or default
         else:
-            return 'no-request-id'
+            return default
 
     def filter(self, record):
         record.request_id = self.request_id
@@ -95,34 +96,16 @@ class RequestIdFilter(logging.Filter):
 class ServiceIdFilter(logging.Filter):
     @property
     def service_id(self):
+        default = 'no-service-id'
         if has_app_context() and 'service_id' in g:
-            return g.service_id
+            return g.service_id or default
         else:
-            return 'no-service-id'
+            return default
 
     def filter(self, record):
         record.service_id = self.service_id
 
         return record
-
-
-class CustomLogFormatter(logging.Formatter):
-    """Accepts a format string for the message and formats it with the extra fields"""
-
-    FORMAT_STRING_FIELDS_PATTERN = re.compile(r'\((.+?)\)', re.IGNORECASE)
-
-    def add_fields(self, record):
-        for field in self.FORMAT_STRING_FIELDS_PATTERN.findall(self._fmt):
-            record.__dict__[field] = record.__dict__.get(field)
-        return record
-
-    def format(self, record):
-        record = self.add_fields(record)
-        try:
-            record.msg = str(record.msg).format(**record.__dict__)
-        except (KeyError, IndexError) as e:
-            logger.exception("failed to format log message: {} not found".format(e))
-        return super(CustomLogFormatter, self).format(record)
 
 
 class JSONFormatter(BaseJSONFormatter):
