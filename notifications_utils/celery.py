@@ -42,13 +42,6 @@ def make_task(app):
                     )
                 )
 
-                app.statsd_client.timing(
-                    "celery.{queue_name}.{task_name}.success".format(
-                        task_name=self.name,
-                        queue_name=self.queue_name
-                    ), elapsed_time
-                )
-
         def on_failure(self, exc, task_id, args, kwargs, einfo):
             # enables request id tracing for these logs
             with self.app_context():
@@ -56,13 +49,6 @@ def make_task(app):
                     "Celery task {task_name} (queue: {queue_name}) failed".format(
                         task_name=self.name,
                         queue_name=self.queue_name,
-                    )
-                )
-
-                app.statsd_client.incr(
-                    "celery.{queue_name}.{task_name}.failure".format(
-                        task_name=self.name,
-                        queue_name=self.queue_name
                     )
                 )
 
@@ -78,10 +64,6 @@ def make_task(app):
 class NotifyCelery(Celery):
     def init_app(self, app):
         self.task_cls = make_task(app)
-
-        # Make sure this is present upfront to avoid errors later on.
-        if not app.statsd_client:
-            raise RuntimeError("statsd_client is missing")
 
         # Configure Celery app with options from the main app config.
         self.config_from_object(app.config['CELERY'])

@@ -92,8 +92,6 @@ six==1.16.0
     #   python-dateutil
 smartypants==2.0.1
     # via notifications-utils
-statsd==4.0.1
-    # via notifications-utils
 typing-extensions==4.5.0
     # via pypdf2
 urllib3==1.26.15
