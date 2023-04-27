@@ -7,6 +7,10 @@ def daily_limit_cache_key(service_id):
     return "{}-{}-{}".format(str(service_id), datetime.utcnow().strftime("%Y-%m-%d"), "count")
 
 
+def total_limit_cache_key(service_id):
+    return "{}-{}-{}".format(str(service_id), datetime.utcnow().strftime("%Y-%m-%d"), "total-count")
+
+
 def daily_total_cache_key():
     return "{}-{}".format(datetime.utcnow().strftime("%Y-%m-%d"), "total")
 
