@@ -246,8 +246,8 @@ def test_letter_cannot_be_cancelled_if_before_1730_and_letter_created_after_1730
 @pytest.mark.parametrize(
     "notification_created_at",
     [
-        datetime(2018, 7, 7, 17, 30),
-        datetime(2018, 7, 7, 18, 0),
+        datetime(2018, 7, 7, 18, 30),
+        datetime(2018, 7, 7, 19, 0),
     ],
 )
 def test_letter_can_be_cancelled_if_after_1730_and_letter_created_at_1730_today_or_later(notification_created_at):
