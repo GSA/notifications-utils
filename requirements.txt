@@ -56,7 +56,7 @@ markupsafe==2.1.2
     # via
     #   jinja2
     #   werkzeug
-mistune==0.8.4
+mistune==3.0.1
     # via sanitized-package
 numpy==1.24.2
     # via shapely
