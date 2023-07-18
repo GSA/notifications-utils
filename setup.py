@@ -37,7 +37,6 @@ setup(
         'phonenumbers>=8.13.3',
         'pytz>=2020.4',
         'smartypants>=2.0.1',
-        'pypdf2>=2.0.0',
         'itsdangerous>=1.1.0',
         'govuk-bank-holidays>=0.10',
         'geojson>=2.5.0',
