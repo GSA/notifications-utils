@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.in
 #
+-e file:///home/dependabot/dependabot-updater/tmp/dependabot_20230802-7-vthhdp
+    # via -r requirements.in
 async-timeout==4.0.2
     # via redis
 bleach==6.0.0
@@ -26,7 +28,7 @@ charset-normalizer==3.1.0
     # via requests
 click==8.1.3
     # via flask
-cryptography==41.0.0
+cryptography==41.0.3
     # via sanitized-package
 flask==2.3.2
     # via
