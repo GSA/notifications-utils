@@ -24,7 +24,7 @@ avg-complexity:
 
 .PHONY: too-complex
 too-complex:
-	echo "*** Shows code that got a rating of D or F in radon ***"
+	echo "*** Shows code that got a rating of C, D or F in radon ***"
 	pipenv run radon cc ./notifications_utils -a -nc
 
 
