@@ -76,6 +76,7 @@ pytz==2023.3
     # via sanitized-package
 pyyaml==6.0
     # via sanitized-package
+radon==6.0.1
 redis==4.5.4
     # via flask-redis
 requests==2.31.0
