@@ -96,6 +96,7 @@ urllib3==1.26.15
     # via
     #   botocore
     #   requests
+vulture==2.7
 webencodings==0.5.1
     # via bleach
 werkzeug==2.3.3

@@ -29,7 +29,7 @@ def make_task(app):
                 g.request_id = self.request_id
                 yield
 
-        def on_success(self, retval, task_id, args, kwargs):
+        def on_success(self, retval, task_id, args, kwargs):  # noqa
             # enables request id tracing for these logs
             with self.app_context():
                 elapsed_time = time.monotonic() - self.start
@@ -42,7 +42,7 @@ def make_task(app):
                     )
                 )
 
-        def on_failure(self, exc, task_id, args, kwargs, einfo):
+        def on_failure(self, exc, task_id, args, kwargs, einfo):  # noqa
             # enables request id tracing for these logs
             with self.app_context():
                 app.logger.exception(
