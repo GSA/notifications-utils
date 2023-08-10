@@ -2,8 +2,8 @@ import os
 import urllib
 
 import botocore
-from botocore.config import Config
 from boto3 import Session
+from botocore.config import Config
 from flask import current_app
 
 AWS_CLIENT_CONFIG = Config(
