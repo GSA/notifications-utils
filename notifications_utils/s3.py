@@ -35,7 +35,7 @@ def s3upload(
     session = Session(
         aws_access_key_id=access_key,
         aws_secret_access_key=secret_key,
-        region_name=region
+        region_name=region,
         config=AWS_CLIENT_CONFIG
     )
     _s3 = session.resource('s3')
