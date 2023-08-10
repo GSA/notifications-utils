@@ -35,10 +35,9 @@ def s3upload(
     session = Session(
         aws_access_key_id=access_key,
         aws_secret_access_key=secret_key,
-        region_name=region,
-        config=AWS_CLIENT_CONFIG
+        region_name=region
     )
-    _s3 = session.resource('s3')
+    _s3 = session.resource('s3', config=AWS_CLIENT_CONFIG)
 
     key = _s3.Object(bucket_name, file_location)
 
@@ -79,10 +78,9 @@ def s3download(
         session = Session(
             aws_access_key_id=access_key,
             aws_secret_access_key=secret_key,
-            region_name=region,
-            config=AWS_CLIENT_CONFIG
+            region_name=region
         )
-        s3 = session.resource('s3')
+        s3 = session.resource('s3', config=AWS_CLIENT_CONFIG)
         key = s3.Object(bucket_name, filename)
         return key.get()['Body']
     except botocore.exceptions.ClientError as error:
