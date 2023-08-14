@@ -3,7 +3,18 @@ import urllib
 
 import botocore
 from boto3 import Session
+from botocore.config import Config
 from flask import current_app
+
+AWS_CLIENT_CONFIG = Config(
+    # This config is required to enable S3 to connect to FIPS-enabled
+    # endpoints.  See https://aws.amazon.com/compliance/fips/ for more
+    # information.
+    s3={
+        'addressing_style': 'virtual',
+    },
+    use_fips_endpoint=True
+)
 
 default_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
 default_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -21,8 +32,12 @@ def s3upload(
     access_key=default_access_key_id,
     secret_key=default_secret_access_key,
 ):
-    session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
-    _s3 = session.resource('s3')
+    session = Session(
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_key,
+        region_name=region
+    )
+    _s3 = session.resource('s3', config=AWS_CLIENT_CONFIG)
 
     key = _s3.Object(bucket_name, file_location)
 
@@ -60,8 +75,12 @@ def s3download(
     secret_key=default_secret_access_key,
 ):
     try:
-        session = Session(aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
-        s3 = session.resource('s3')
+        session = Session(
+            aws_access_key_id=access_key,
+            aws_secret_access_key=secret_key,
+            region_name=region
+        )
+        s3 = session.resource('s3', config=AWS_CLIENT_CONFIG)
         key = s3.Object(bucket_name, filename)
         return key.get()['Body']
     except botocore.exceptions.ClientError as error:
