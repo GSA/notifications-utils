@@ -17,6 +17,8 @@ jobs:
         run: flake8 .
       - name: Check imports alphabetized
         run: isort --check-only ./notifications_utils ./tests
+      - name: Check for dead code
+        run: make dead-code
       - name: Run tests
         run: pytest -n4 --maxfail=10
 

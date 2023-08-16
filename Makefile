@@ -9,6 +9,10 @@ help:
 bootstrap: ## Build project
 	pip install -r requirements_for_test.txt
 
+.PHONY: dead-code
+dead-code:
+	vulture ./notifications_utils --min-confidence=100
+
 .PHONY: test
 test: ## Run tests
 	flake8 .
