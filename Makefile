@@ -16,6 +16,18 @@ test: ## Run tests
 	pytest -n4
 	python setup.py sdist
 
+
+.PHONY: avg-complexity
+avg-complexity:
+	echo "*** Shows average complexity in radon of all code ***"
+	pipenv run radon cc ./notifications_utils -a -na
+
+.PHONY: too-complex
+too-complex:
+	echo "*** Shows code that got a rating of C, D or F in radon ***"
+	pipenv run radon cc ./notifications_utils -a -nc
+
+
 clean:
 	rm -rf cache venv
 
