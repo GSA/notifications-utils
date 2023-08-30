@@ -10,15 +10,15 @@ bleach==6.0.0
     # via sanitized-package
 blinker==1.6.2
     # via flask
-boto3==1.26.101
+boto3==1.28.24
     # via sanitized-package
-botocore==1.29.101
+botocore==1.31.24
     # via
     #   boto3
     #   s3transfer
 cachetools==5.3.0
     # via sanitized-package
-certifi==2022.12.7
+certifi==2023.7.22
     # via requests
 cffi==1.15.1
     # via cryptography
@@ -26,7 +26,7 @@ charset-normalizer==3.1.0
     # via requests
 click==8.1.3
     # via flask
-cryptography==40.0.1
+cryptography==41.0.3
     # via sanitized-package
 flask==2.3.2
     # via
@@ -66,8 +66,6 @@ phonenumbers==8.13.8
     # via sanitized-package
 pycparser==2.21
     # via cffi
-pypdf2==3.0.1
-    # via sanitized-package
 python-dateutil==2.8.2
     # via botocore
 python-json-logger==2.0.7
@@ -76,13 +74,14 @@ pytz==2023.3
     # via sanitized-package
 pyyaml==6.0
     # via sanitized-package
+radon==6.0.1
 redis==4.5.4
     # via flask-redis
-requests==2.28.2
+requests==2.31.0
     # via
     #   govuk-bank-holidays
     #   sanitized-package
-s3transfer==0.6.0
+s3transfer==0.6.1
     # via boto3
 shapely==2.0.1
     # via sanitized-package
@@ -96,6 +95,7 @@ urllib3==1.26.15
     # via
     #   botocore
     #   requests
+vulture==2.7
 webencodings==0.5.1
     # via bleach
 werkzeug==2.3.3

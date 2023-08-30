@@ -333,6 +333,7 @@ class RecipientCSV():
                     return None
                 else:
                     return Cell.missing_field_error
+
             try:
                 if self.template_type == 'email':
                     validate_email_address(value)
@@ -611,13 +612,7 @@ def try_validate_and_format_phone_number(number, international=None, log_msg=Non
         return number
 
 
-def validate_email_address(email_address):  # noqa (C901 too complex)
-    # almost exactly the same as by https://github.com/wtforms/wtforms/blob/master/wtforms/validators.py,
-    # with minor tweaks for SES compatibility - to avoid complications we are a lot stricter with the local part
-    # than neccessary - we don't allow any double quotes or semicolons to prevent SES Technical Failures
-    email_address = strip_and_remove_obscure_whitespace(email_address)
-    match = re.match(EMAIL_REGEX_PATTERN, email_address)
-
+def _do_simple_email_checks(match, email_address):
     # not an email
     if not match:
         raise InvalidEmailError
@@ -628,6 +623,16 @@ def validate_email_address(email_address):  # noqa (C901 too complex)
     # don't allow consecutive periods in either part
     if '..' in email_address:
         raise InvalidEmailError
+
+
+def validate_email_address(email_address):  # noqa (C901 too complex)
+    # almost exactly the same as by https://github.com/wtforms/wtforms/blob/master/wtforms/validators.py,
+    # with minor tweaks for SES compatibility - to avoid complications we are a lot stricter with the local part
+    # than neccessary - we don't allow any double quotes or semicolons to prevent SES Technical Failures
+    email_address = strip_and_remove_obscure_whitespace(email_address)
+    match = re.match(EMAIL_REGEX_PATTERN, email_address)
+
+    _do_simple_email_checks(match, email_address)
 
     hostname = match.group(1)
 
