@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.in
 #
+-e file:///home/dependabot/dependabot-updater/tmp/20230921-6-b0xii5/dependabot_20230921-6-yiizen
+    # via -r requirements.in
 async-timeout==4.0.2
     # via redis
 bleach==6.0.0
@@ -26,7 +28,7 @@ charset-normalizer==3.1.0
     # via requests
 click==8.1.3
     # via flask
-cryptography==41.0.3
+cryptography==41.0.4
     # via sanitized-package
 flask==2.3.2
     # via
@@ -74,7 +76,6 @@ pytz==2023.3
     # via sanitized-package
 pyyaml==6.0
     # via sanitized-package
-radon==6.0.1
 redis==4.5.4
     # via flask-redis
 requests==2.31.0
@@ -95,7 +96,6 @@ urllib3==1.26.15
     # via
     #   botocore
     #   requests
-vulture==2.7
 webencodings==0.5.1
     # via bleach
 werkzeug==2.3.3
