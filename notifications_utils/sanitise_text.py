@@ -1,5 +1,6 @@
 import ast
 import unicodedata
+
 from regex import regex
 
 
