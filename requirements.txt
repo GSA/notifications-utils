@@ -92,7 +92,7 @@ six==1.16.0
     #   python-dateutil
 smartypants==2.0.1
     # via sanitized-package
-urllib3==1.26.15
+urllib3==1.26.17
     # via
     #   botocore
     #   requests
