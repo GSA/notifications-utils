@@ -81,6 +81,7 @@ requests==2.31.0
     # via
     #   govuk-bank-holidays
     #   sanitized-package
+regex==2023.8.8
 s3transfer==0.6.1
     # via boto3
 shapely==2.0.1
