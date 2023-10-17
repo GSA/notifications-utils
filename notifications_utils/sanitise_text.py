@@ -36,7 +36,9 @@ class SanitiseText:
 
         This follows the same rules as `cls.encode`, but returns just the characters that encode would replace with `?`
         """
-        return set(c for c in content if c not in cls.ALLOWED_CHARACTERS and cls.downgrade_character(c) is None)
+        return set(
+            c for c in content if c not in cls.ALLOWED_CHARACTERS
+            and not cls.is_hangul(c) and cls.downgrade_character(c) is None)
 
     @staticmethod
     def get_unicode_char_from_codepoint(codepoint):
