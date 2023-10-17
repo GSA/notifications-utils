@@ -4,22 +4,20 @@
 #
 #    pip-compile requirements.in
 #
--e file:///Users/kkehl/Projects/notifications-utils
-    # via -r requirements.in
 async-timeout==4.0.2
     # via redis
 bleach==6.0.0
-    # via notifications-utils
+    # via sanitized-package
 blinker==1.6.2
     # via flask
 boto3==1.28.24
-    # via notifications-utils
+    # via sanitized-package
 botocore==1.31.24
     # via
     #   boto3
     #   s3transfer
 cachetools==5.3.0
-    # via notifications-utils
+    # via sanitized-package
 certifi==2023.7.22
     # via requests
 cffi==1.15.1
@@ -29,29 +27,27 @@ charset-normalizer==3.1.0
 click==8.1.3
     # via flask
 cryptography==41.0.4
-    # via notifications-utils
+    # via sanitized-package
 flask==2.3.2
     # via
     #   flask-redis
-    #   notifications-utils
+    #   sanitized-package
 flask-redis==0.4.0
-    # via notifications-utils
+    # via sanitized-package
 geojson==3.0.1
-    # via notifications-utils
+    # via sanitized-package
 govuk-bank-holidays==0.13
-    # via notifications-utils
+    # via sanitized-package
 idna==3.4
     # via requests
-importlib-metadata==6.8.0
-    # via flask
 itsdangerous==2.1.2
     # via
     #   flask
-    #   notifications-utils
+    #   sanitized-package
 jinja2==3.1.2
     # via
     #   flask
-    #   notifications-utils
+    #   sanitized-package
 jmespath==1.0.1
     # via
     #   boto3
@@ -61,46 +57,47 @@ markupsafe==2.1.2
     #   jinja2
     #   werkzeug
 mistune==0.8.4
-    # via notifications-utils
+    # via sanitized-package
 numpy==1.24.2
     # via shapely
 orderedset==2.0.3
-    # via notifications-utils
+    # via sanitized-package
 phonenumbers==8.13.8
-    # via notifications-utils
+    # via sanitized-package
 pycparser==2.21
     # via cffi
 python-dateutil==2.8.2
     # via botocore
 python-json-logger==2.0.7
-    # via notifications-utils
+    # via sanitized-package
 pytz==2023.3
-    # via notifications-utils
+    # via sanitized-package
 pyyaml==6.0
-    # via notifications-utils
+    # via sanitized-package
+radon==6.0.1
 redis==4.5.4
     # via flask-redis
+regex==2023.10.3
 requests==2.31.0
     # via
     #   govuk-bank-holidays
-    #   notifications-utils
+    #   sanitized-package
 s3transfer==0.6.1
     # via boto3
 shapely==2.0.1
-    # via notifications-utils
+    # via sanitized-package
 six==1.16.0
     # via
     #   bleach
     #   python-dateutil
 smartypants==2.0.1
-    # via notifications-utils
-urllib3==1.26.17
+    # via sanitized-package
+urllib3==1.26.15
     # via
     #   botocore
     #   requests
+vulture==2.7
 webencodings==0.5.1
     # via bleach
 werkzeug==2.3.3
     # via flask
-zipp==3.17.0
-    # via importlib-metadata
