@@ -1,6 +1,8 @@
 import ast
 import unicodedata
 
+import regex as regex
+
 
 class SanitiseText:
     ALLOWED_CHARACTERS = set()
@@ -72,12 +74,20 @@ class SanitiseText:
             return cls.REPLACEMENT_CHARACTERS.get(c)
 
     @classmethod
+    def is_hangul(cls, value):
+        if regex.search(r'\p{IsHangul}', value):
+            return True
+        return False
+
+    @classmethod
     def encode_char(cls, c):
         """
         Given a single unicode character, return a compatible character from the allowed set.
         """
         # char is a good character already - return that native character.
         if c in cls.ALLOWED_CHARACTERS:
+            return c
+        elif cls.is_hangul(c):
             return c
         else:
             c = cls.downgrade_character(c)
