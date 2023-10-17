@@ -1,7 +1,6 @@
 import ast
 import unicodedata
-
-import regex as regex
+from regex import regex
 
 
 class SanitiseText:
