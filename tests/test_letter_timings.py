@@ -155,7 +155,9 @@ def test_get_estimated_delivery_date_for_letter(
 ):
     # remove the day string from the upload_time, which is purely informational
 
-    format_dt = lambda x: x.astimezone(pytz.timezone("America/New_York")).strftime("%A %Y-%m-%d %H:%M")  # noqa
+    format_dt = lambda x: x.astimezone(  # noqa E731
+        pytz.timezone("America/New_York")
+    ).strftime("%A %Y-%m-%d %H:%M")
 
     upload_time = upload_time.split(" ", 1)[1]
 
@@ -175,7 +177,9 @@ def test_get_estimated_delivery_date_for_letter(
 
 
 @pytest.mark.parametrize("status", ["sending", "pending"])
-def test_letter_cannot_be_cancelled_if_letter_status_is_not_created_or_pending_virus_check(status):
+def test_letter_cannot_be_cancelled_if_letter_status_is_not_created_or_pending_virus_check(
+    status,
+):
     notification_created_at = datetime.utcnow()
 
     assert not letter_can_be_cancelled(status, notification_created_at)
@@ -190,7 +194,9 @@ def test_letter_cannot_be_cancelled_if_letter_status_is_not_created_or_pending_v
     ],
 )
 @pytest.mark.skip(reason="Letters not part of release")
-def test_letter_can_be_cancelled_if_before_1730_and_letter_created_before_1730(notification_created_at):
+def test_letter_can_be_cancelled_if_before_1730_and_letter_created_before_1730(
+    notification_created_at,
+):
     notification_status = "pending-virus-check"
 
     assert letter_can_be_cancelled(notification_status, notification_created_at)
@@ -205,7 +211,9 @@ def test_letter_can_be_cancelled_if_before_1730_and_letter_created_before_1730(n
     ],
 )
 @pytest.mark.skip(reason="Letters not part of release")
-def test_letter_cannot_be_cancelled_if_1730_exactly_and_letter_created_at_or_before_1730(notification_created_at):
+def test_letter_cannot_be_cancelled_if_1730_exactly_and_letter_created_at_or_before_1730(
+    notification_created_at,
+):
     notification_status = "pending-virus-check"
 
     assert not letter_can_be_cancelled(notification_status, notification_created_at)
@@ -220,7 +228,9 @@ def test_letter_cannot_be_cancelled_if_1730_exactly_and_letter_created_at_or_bef
     ],
 )
 @pytest.mark.skip(reason="Letters not part of release")
-def test_letter_cannot_be_cancelled_if_after_1730_and_letter_created_before_1730(notification_created_at):
+def test_letter_cannot_be_cancelled_if_after_1730_and_letter_created_before_1730(
+    notification_created_at,
+):
     notification_status = "created"
 
     assert not letter_can_be_cancelled(notification_status, notification_created_at)
@@ -250,7 +260,9 @@ def test_letter_cannot_be_cancelled_if_before_1730_and_letter_created_after_1730
         datetime(2018, 7, 7, 19, 0),
     ],
 )
-def test_letter_can_be_cancelled_if_after_1730_and_letter_created_at_1730_today_or_later(notification_created_at):
+def test_letter_can_be_cancelled_if_after_1730_and_letter_created_at_1730_today_or_later(
+    notification_created_at,
+):
     notification_status = "created"
 
     assert letter_can_be_cancelled(notification_status, notification_created_at)

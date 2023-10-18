@@ -29,4 +29,7 @@ def test_utc_string_to_aware_gmt_datetime_handles_summer_and_winter(
     naive_time,
     expected_aware_hour,
 ):
-    assert utc_string_to_aware_gmt_datetime(naive_time).strftime("%H:%M") == expected_aware_hour
+    assert (
+        utc_string_to_aware_gmt_datetime(naive_time).strftime("%H:%M")
+        == expected_aware_hour
+    )

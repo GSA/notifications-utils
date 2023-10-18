@@ -10,8 +10,8 @@ from notifications_utils.clients.encryption.encryption_client import (
 def encryption_client(app):
     client = Encryption()
 
-    app.config['SECRET_KEY'] = 'test-notify-secret-key'
-    app.config['DANGEROUS_SALT'] = 'test-notify-salt'
+    app.config["SECRET_KEY"] = "test-notify-secret-key"
+    app.config["DANGEROUS_SALT"] = "test-notify-salt"
 
     client.init_app(app)
 
@@ -20,15 +20,15 @@ def encryption_client(app):
 
 def test_should_ensure_shared_salt_security(app):
     client = Encryption()
-    app.config['SECRET_KEY'] = 'test-notify-secret-key'
-    app.config['DANGEROUS_SALT'] = 'too-short'
+    app.config["SECRET_KEY"] = "test-notify-secret-key"
+    app.config["DANGEROUS_SALT"] = "too-short"
     with pytest.raises(EncryptionError):
         client.init_app(app)
 
 
 def test_should_ensure_custom_salt_security(encryption_client):
     with pytest.raises(EncryptionError):
-        encryption_client.encrypt("this", salt='too-short')
+        encryption_client.encrypt("this", salt="too-short")
 
 
 def test_should_encrypt_strings(encryption_client):
