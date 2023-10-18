@@ -91,6 +91,7 @@ def test_encode_string(content, expected):
     ('Ŵêlsh chârâctêrs ârê cômpâtîblê wîth SanitiseSMS', SanitiseSMS, set()),
     ('Lots of GSM chars that arent ascii compatible:\n\r€', SanitiseSMS, set()),
     ('Lots of GSM chars that arent ascii compatible:\n\r€', SanitiseASCII, {'\n', '\r', '€'}),
+    ('Αυτό είναι ένα τεστ', SanitiseSMS, set())
 ])
 def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
     assert cls.get_non_compatible_characters(content) == expected
