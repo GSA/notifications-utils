@@ -38,7 +38,7 @@ class SanitiseText:
         """
         return set(
             c for c in content if c not in cls.ALLOWED_CHARACTERS
-            and not cls.is_hangul(c) and cls.downgrade_character(c) is None)
+            and not cls.is_extended_language(c) and cls.downgrade_character(c) is None)
 
     @staticmethod
     def get_unicode_char_from_codepoint(codepoint):
@@ -76,10 +76,99 @@ class SanitiseText:
             return cls.REPLACEMENT_CHARACTERS.get(c)
 
     @classmethod
-    def is_hangul(cls, value):
+    def is_japanese(cls, value):
+        return_val = False
+        if regex.search(r'\p{IsHan}', value):
+            return_val = True
+        elif regex.search(r'\p{IsHiragana}', value):
+            return_val = True
+        elif regex.search(r'\p{IsKatakana}', value):
+            return_val = True
+        return return_val
+
+    @classmethod
+    def is_extended_language(cls, value):
+        """
+        Some languages are commented out because otherwise the cyclomatic complexity of the method is too high.
+        We will refactor when we get a list of languages we want to support.
+        """
+        return_val = False
         if regex.search(r'\p{IsHangul}', value):
-            return True
-        return False
+            return_val = True
+        elif regex.search(r'\p{IsCyrillic}', value):
+            return_val = True
+        elif regex.search(r'\p{IsArabic}', value):
+            return_val = True
+        elif regex.search(r'\p{IsArmenian}', value):
+            return_val = True
+        elif regex.search(r'\p{IsBengali}', value):
+            return_val = True
+        # elif regex.search(r'\p{IsBuhid}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsCanadian_Aboriginal}', value):
+        #    return_val = True
+        elif regex.search(r'\p{IsCherokee}', value):
+            return_val = True
+        # elif regex.search(r'\p{IsDevanagari}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsEthiopic}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsGeorgian}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsGreek}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsGujarati}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsGurkmukhi}', value):
+        #    return_val = True
+        elif cls.is_japanese(value):
+            return_val = True
+        # elif regex.search(r'\p{IsHanunoo}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsHebrew}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsLimbu}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsKannada}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsKhmer}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsLao}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsMayalayam}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsMongolian}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsMyanmar}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsOgham}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsOriya}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsSinhala}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsSyriac}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsTagalog}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsTagbanwa}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsTaiLe}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsTamil}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsTelugu}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsThaana}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsThai}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsTibetan}', value):
+        #    return_val = True
+        # elif regex.search(r'\p{IsYi}', value):
+        #    return_val = True
+
+        return return_val
 
     @classmethod
     def encode_char(cls, c):
@@ -89,7 +178,7 @@ class SanitiseText:
         # char is a good character already - return that native character.
         if c in cls.ALLOWED_CHARACTERS:
             return c
-        elif cls.is_hangul(c):
+        elif cls.is_extended_language(c):
             return c
         else:
             c = cls.downgrade_character(c)
