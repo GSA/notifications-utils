@@ -77,98 +77,81 @@ class SanitiseText:
 
     @classmethod
     def is_japanese(cls, value):
-        return_val = False
-        if regex.search(r'\p{IsHan}', value):
-            return_val = True
-        elif regex.search(r'\p{IsHiragana}', value):
-            return_val = True
-        elif regex.search(r'\p{IsKatakana}', value):
-            return_val = True
-        return return_val
+        if regex.search(r'([\p{IsHan}\p{IsHiragana}\p{IsKatakana}]+)', value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_one(cls, value):
+        if regex.search(r'\p{IsHangul}', value):  # Korean
+            return True
+        elif regex.search(r'\p{IsCyrillic}', value):
+            return True
+        elif regex.search(r'\p{IsArabic}', value):
+            return True
+        elif regex.search(r'\p{IsArmenian}', value):
+            return True
+        elif regex.search(r'\p{IsBengali}', value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_two(cls, value):
+        if regex.search(r'\p{IsBuhid}', value):
+            return True
+        if regex.search(r'\p{IsCanadian_Aboriginal}', value):
+            return True
+        if regex.search(r'\p{IsCherokee}', value):
+            return True
+        if regex.search(r'\p{IsDevanagari}', value):
+            return True
+        if regex.search(r'\p{IsEthiopic}', value):
+            return True
+        if regex.search(r'\p{IsGeorgian}', value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_three(cls, value):
+
+        if regex.search(r'\p{IsGreek}', value):
+            return True
+        if regex.search(r'\p{IsGujarati}', value):
+            return True
+        if regex.search(r'\p{IsHanunoo}', value):
+            return True
+        if regex.search(r'\p{IsHebrew}', value):
+            return True
+        if regex.search(r'\p{IsLimbu}', value):
+            return True
+        if regex.search(r'\p{IsKannada}', value):
+            return True
+        return False
 
     @classmethod
     def is_extended_language(cls, value):
         """
-        Some languages are commented out because otherwise the cyclomatic complexity of the method is too high.
-        We will refactor when we get a list of languages we want to support.
+        Languages are combined in groups to handle cyclomatic complexity warnings
         """
-        return_val = False
-        if regex.search(r'\p{IsHangul}', value):
-            return_val = True
-        elif regex.search(r'\p{IsCyrillic}', value):
-            return_val = True
-        elif regex.search(r'\p{IsArabic}', value):
-            return_val = True
-        elif regex.search(r'\p{IsArmenian}', value):
-            return_val = True
-        elif regex.search(r'\p{IsBengali}', value):
-            return_val = True
-        # elif regex.search(r'\p{IsBuhid}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsCanadian_Aboriginal}', value):
-        #    return_val = True
-        elif regex.search(r'\p{IsCherokee}', value):
-            return_val = True
-        # elif regex.search(r'\p{IsDevanagari}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsEthiopic}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsGeorgian}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsGreek}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsGujarati}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsGurkmukhi}', value):
-        #    return_val = True
-        elif cls.is_japanese(value):
-            return_val = True
-        # elif regex.search(r'\p{IsHanunoo}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsHebrew}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsLimbu}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsKannada}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsKhmer}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsLao}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsMayalayam}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsMongolian}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsMyanmar}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsOgham}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsOriya}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsSinhala}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsSyriac}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsTagalog}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsTagbanwa}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsTaiLe}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsTamil}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsTelugu}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsThaana}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsThai}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsTibetan}', value):
-        #    return_val = True
-        # elif regex.search(r'\p{IsYi}', value):
-        #    return_val = True
+        if cls._is_extended_language_group_one(value):
+            return True
+        if cls._is_extended_language_group_two(value):
+            return True
+        if cls._is_extended_language_group_three(value):
+            return True
+        if cls.is_japanese(value):
+            return True
 
-        return return_val
+        if regex.search(r'([\p{IsKhmer}\p{IsLao}\p{IsMongolian}\p{IsMyanmar}\p{IsTibetan}\p{IsYi}]+)', value):
+            return True
+
+        if regex.search(r'([\p{IsOgham}\p{IsOriya}\p{IsSinhala}\p{IsSyriac}\p{IsTagalog}]+)', value):
+            return True
+
+        if regex.search(r'([\p{IsTagbanwa}\p{IsTaiLe}\p{IsTamil}\p{IsTelugu}\p{IsThaana}\p{IsThai}]+)', value):
+            return True
+
+        return False
 
     @classmethod
     def encode_char(cls, c):

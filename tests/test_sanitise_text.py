@@ -98,11 +98,12 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
 
 @pytest.mark.parametrize('content, expected', [
     ('이것은 테스트입니다', True),  # Korean
-    ('Αυτό είναι ένα τεστ', False),  # Greek
+    ('Αυτό είναι ένα τεστ', True),  # Greek
     ('Это проверка', True),  # Russian
-    ('นี่คือการทดสอบ', False),  # Thai
-    ('இது ஒரு சோதனை', False),  # Tamil
-    ('これはテストです', True)  # Japanese
+    ('นี่คือการทดสอบ', True),  # Thai
+    ('இது ஒரு சோதனை', True),  # Tamil
+    ('これはテストです', True),  # Japanese
+    ('Đây là một bài kiểm tra', False)  # Vietnamese
 ])
 def test_sms_supporting_additional_languages(content, expected):
     assert SanitiseSMS.is_extended_language(content) is expected
