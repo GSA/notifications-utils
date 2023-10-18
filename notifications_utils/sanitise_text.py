@@ -1,6 +1,8 @@
 import ast
 import unicodedata
 
+from regex import regex
+
 
 class SanitiseText:
     ALLOWED_CHARACTERS = set()
@@ -37,7 +39,9 @@ class SanitiseText:
         return set(
             c
             for c in content
-            if c not in cls.ALLOWED_CHARACTERS and cls.downgrade_character(c) is None
+            if c not in cls.ALLOWED_CHARACTERS
+            and not cls.is_extended_language(c)
+            and cls.downgrade_character(c) is None
         )
 
     @staticmethod
@@ -76,12 +80,99 @@ class SanitiseText:
             return cls.REPLACEMENT_CHARACTERS.get(c)
 
     @classmethod
+    def is_japanese(cls, value):
+        if regex.search(r"([\p{IsHan}\p{IsHiragana}\p{IsKatakana}]+)", value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_one(cls, value):
+        if regex.search(r"\p{IsHangul}", value):  # Korean
+            return True
+        elif regex.search(r"\p{IsCyrillic}", value):
+            return True
+        elif regex.search(r"\p{IsArabic}", value):
+            return True
+        elif regex.search(r"\p{IsArmenian}", value):
+            return True
+        elif regex.search(r"\p{IsBengali}", value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_two(cls, value):
+        if regex.search(r"\p{IsBuhid}", value):
+            return True
+        if regex.search(r"\p{IsCanadian_Aboriginal}", value):
+            return True
+        if regex.search(r"\p{IsCherokee}", value):
+            return True
+        if regex.search(r"\p{IsDevanagari}", value):
+            return True
+        if regex.search(r"\p{IsEthiopic}", value):
+            return True
+        if regex.search(r"\p{IsGeorgian}", value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_three(cls, value):
+        if regex.search(r"\p{IsGreek}", value):
+            return True
+        if regex.search(r"\p{IsGujarati}", value):
+            return True
+        if regex.search(r"\p{IsHanunoo}", value):
+            return True
+        if regex.search(r"\p{IsHebrew}", value):
+            return True
+        if regex.search(r"\p{IsLimbu}", value):
+            return True
+        if regex.search(r"\p{IsKannada}", value):
+            return True
+        return False
+
+    @classmethod
+    def is_extended_language(cls, value):
+        """
+        Languages are combined in groups to handle cyclomatic complexity warnings
+        """
+        if cls._is_extended_language_group_one(value):
+            return True
+        if cls._is_extended_language_group_two(value):
+            return True
+        if cls._is_extended_language_group_three(value):
+            return True
+        if cls.is_japanese(value):
+            return True
+
+        if regex.search(
+            r"([\p{IsKhmer}\p{IsLao}\p{IsMongolian}\p{IsMyanmar}\p{IsTibetan}\p{IsYi}]+)",
+            value,
+        ):
+            return True
+
+        if regex.search(
+            r"([\p{IsOgham}\p{IsOriya}\p{IsSinhala}\p{IsSyriac}\p{IsTagalog}]+)", value
+        ):
+            return True
+
+        if regex.search(
+            r"([\p{IsTagbanwa}\p{IsTaiLe}\p{IsTamil}\p{IsTelugu}\p{IsThaana}\p{IsThai}]+)",
+            value,
+        ):
+            return True
+
+        return False
+
+    @classmethod
     def encode_char(cls, c):
         """
         Given a single unicode character, return a compatible character from the allowed set.
         """
         # char is a good character already - return that native character.
         if c in cls.ALLOWED_CHARACTERS:
+            return c
+        elif cls.is_extended_language(c):
             return c
         else:
             c = cls.downgrade_character(c)
