@@ -4,6 +4,10 @@ Shared Python code for US Notify applications. Standardizes how to do logging, r
 
 ## Setting up
 
+You must install [`poetry`](https://python-poetry.org/docs/#installation) to work on this library.
+
+If you're using Homebrew, you can `brew install poetry` to get up and running quickly.
+
 ### Python version
 
 This repo is written in Python 3.
