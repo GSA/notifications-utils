@@ -34,7 +34,7 @@ jobs:
       - name: Install bandit
         run: pip install bandit
       - name: Run scan
-        run: bandit -r app/ -f txt -o /tmp/bandit-output.txt --confidence-level medium
+        run: bandit -r notifications_utils/ -f txt -o /tmp/bandit-output.txt --confidence-level medium
       - name: Upload bandit artifact
         uses: actions/upload-artifact@v3
         with:

@@ -31,10 +31,6 @@ too-complex:
 	echo "*** Shows code that got a rating of C, D or F in radon ***"
 	poetry run radon cc ./notifications_utils -a -nc
 
-.PHONY: dead-code
-dead-code:
-	poetry run vulture ./app --min-confidence=100
-
 .PHONY: clean
 clean:
 	rm -rf cache target venv .coverage build tests/.cache
