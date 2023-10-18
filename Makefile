@@ -7,7 +7,7 @@ help:
 
 .PHONY: bootstrap
 bootstrap: ## Build project
-	pip install -r requirements_for_test.txt
+	poetry install
 
 .PHONY: dead-code
 dead-code:
@@ -15,45 +15,49 @@ dead-code:
 
 .PHONY: test
 test: ## Run tests
-	flake8 .
-	isort --check-only ./notifications_utils ./tests
-	pytest -n4
-	python setup.py sdist
-
+	poetry run black .
+	poetry run flake8 .
+	poetry run isort --check-only ./notifications_utils ./tests
+	poetry run pytest -n4 --maxfail=10
+	poetry run python setup.py sdist
 
 .PHONY: avg-complexity
 avg-complexity:
 	echo "*** Shows average complexity in radon of all code ***"
-	pipenv run radon cc ./notifications_utils -a -na
+	poetry run radon cc ./notifications_utils -a -na
 
 .PHONY: too-complex
 too-complex:
 	echo "*** Shows code that got a rating of C, D or F in radon ***"
-	pipenv run radon cc ./notifications_utils -a -nc
+	poetry run radon cc ./notifications_utils -a -nc
 
+.PHONY: dead-code
+dead-code:
+	poetry run vulture ./app --min-confidence=100
 
+.PHONY: clean
 clean:
-	rm -rf cache venv
+	rm -rf cache target venv .coverage build tests/.cache
 
 .PHONY: fix-imports
 fix-imports:
-	isort ./notifications_utils ./tests
+	poetry run isort ./notifications_utils ./tests
 
 .PHONY: audit
 audit:
-	pip install --upgrade pip-audit
-	pip-audit -r requirements.txt
-	-pip-audit -r requirements_for_test.txt
+	poetry requirements > requirements.txt
+	poetry requirements --dev > requirements_for_test.txt
+	poetry run pip-audit -r requirements.txt
+	-poetry run pip-audit -r requirements_for_test.txt
 
 .PHONY: freeze-requirements
 freeze-requirements: ## Pin all requirements including sub dependencies into requirements.txt
-	pip install --upgrade pip-tools
-	pip-compile requirements.in
+	poetry lock
+	poetry requirements
 
 .PHONY: static-scan
 static-scan:
-	pip install --upgrade bandit
-	bandit -r notifications_utils/
+	poetry run bandit -r app/
 
 .PHONY: reset-version
 reset-version:
