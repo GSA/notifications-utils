@@ -21,6 +21,16 @@ test: ## Run tests
 	poetry run pytest -n4 --maxfail=10
 	poetry run python setup.py sdist
 
+.PHONY: test-with-coverage
+test-with-coverage: ## Run tests with coverage
+	poetry run black .
+	poetry run flake8 .
+	poetry run isort --check-only ./notifications_utils ./tests
+	poetry run coverage run -m pytest -n4 --maxfail=10
+	poetry run coverage report -m --fail-under=95
+	poetry run coverage html -d .coverage_cache
+	poetry run python setup.py sdist
+
 .PHONY: avg-complexity
 avg-complexity:
 	echo "*** Shows average complexity in radon of all code ***"
