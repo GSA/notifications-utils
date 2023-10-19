@@ -3,6 +3,11 @@
 This is only used for recording changes for major version bumps.
 More minor changes may optionally be recorded here too.
 
+## 56.1.0
+
+  - Add support for some non-western languages in sanitise_text.py
+
+
 ## 56.0.0
 
 * Breaking: upgrade PyPDF2 to version 2.0.0. You will need to:
