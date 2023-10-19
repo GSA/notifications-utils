@@ -6,6 +6,7 @@ More minor changes may optionally be recorded here too.
 ## 56.1.0
 
   - Add support for some non-western languages in sanitise_text.py
+  - Fix versioning issue with pytz
 
 
 ## 56.0.0
