@@ -1,4 +1,14 @@
-from notifications_utils.clients.redis import rate_limit_cache_key
+from freezegun import freeze_time
+
+from notifications_utils.clients.redis import (
+    daily_total_cache_key,
+    rate_limit_cache_key,
+)
+
+
+def test_daily_total_cache_key():
+    with freeze_time("2016-01-01 12:00:00.000000"):
+        assert daily_total_cache_key() == "2016-01-01-total"
 
 
 def test_rate_limit_cache_key(sample_service):

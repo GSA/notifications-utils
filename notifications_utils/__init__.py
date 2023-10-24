@@ -2,7 +2,7 @@ import re
 
 SMS_CHAR_COUNT_LIMIT = 918  # 153 * 6, no network issues but check with providers before upping this further
 LETTER_MAX_PAGE_COUNT = 10
-DAILY_MESSAGE_LIMIT = 10000
+DAILY_MESSAGE_LIMIT = 5000
 
 # regexes for use in recipients.validate_email_address.
 # Valid characters taken from https://en.wikipedia.org/wiki/Email_address#Local-part
