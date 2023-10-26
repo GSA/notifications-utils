@@ -4,7 +4,9 @@ from .request_cache import RequestCache  # noqa: F401 (unused import)
 
 
 def total_limit_cache_key(service_id):
-    return "{}-{}-{}".format(str(service_id), datetime.utcnow().strftime("%Y-%m-%d"), "total-count")
+    return "{}-{}-{}".format(
+        str(service_id), datetime.utcnow().strftime("%Y-%m-%d"), "total-count"
+    )
 
 
 def daily_total_cache_key():

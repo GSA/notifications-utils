@@ -14,22 +14,22 @@ jobs:
       - name: Install application dependencies
         run: make bootstrap
       - name: Run style checks
-        run: flake8 .
+        run: poetry run flake8 .
       - name: Check imports alphabetized
-        run: isort --check-only ./notifications_utils ./tests
+        run: poetry run isort --check-only ./notifications_utils ./tests
       - name: Check for dead code
         run: make dead-code
       - name: Run tests
-        run: pytest -n4 --maxfail=10
+        run: poetry run pytest -n4 --maxfail=10
 
   pip-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-project
-      - name: Install application dependencies
-        run: make bootstrap
-      - uses: pypa/gh-action-pip-audit@v1.0.4
+      - name: Create requirements.txt
+        run: poetry export --without-hashes --format=requirements.txt > requirements.txt
+      - uses: pypa/gh-action-pip-audit@v1.0.6
         with:
           inputs: requirements.txt
 
@@ -41,4 +41,4 @@ jobs:
       - name: Install bandit
         run: pip install bandit
       - name: Run scan
-        run: bandit -r notifications_utils/ --confidence-level medium
+        run: poetry run bandit -r notifications_utils/ --confidence-level medium

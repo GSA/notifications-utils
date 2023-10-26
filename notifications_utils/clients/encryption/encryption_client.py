@@ -17,14 +17,16 @@ class SaltLengthError(Exception):
 
 class Encryption:
     def init_app(self, app):
-        self._serializer = URLSafeSerializer(app.config.get('SECRET_KEY'))
-        self._salt = app.config.get('DANGEROUS_SALT')
-        self._password = app.config.get('SECRET_KEY').encode()
+        self._serializer = URLSafeSerializer(app.config.get("SECRET_KEY"))
+        self._salt = app.config.get("DANGEROUS_SALT")
+        self._password = app.config.get("SECRET_KEY").encode()
 
         try:
             self._shared_encryptor = Fernet(self._derive_key(self._salt))
         except SaltLengthError as reason:
-            raise EncryptionError("DANGEROUS_SALT must be at least 16 bytes") from reason
+            raise EncryptionError(
+                "DANGEROUS_SALT must be at least 16 bytes"
+            ) from reason
 
     def encrypt(self, thing_to_encrypt, salt=None):
         """Encrypt a string or object
@@ -62,7 +64,9 @@ class Encryption:
             try:
                 return Fernet(self._derive_key(salt))
             except SaltLengthError as reason:
-                raise EncryptionError("Custom salt value must be at least 16 bytes") from reason
+                raise EncryptionError(
+                    "Custom salt value must be at least 16 bytes"
+                ) from reason
 
     def _derive_key(self, salt):
         """Derive a key suitable for use within Fernet from the SECRET_KEY and salt
@@ -77,9 +81,6 @@ class Encryption:
         if len(salt_bytes) < 16:
             raise SaltLengthError
         kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt_bytes,
-            iterations=600_000
+            algorithm=hashes.SHA256(), length=32, salt=salt_bytes, iterations=600_000
         )
         return urlsafe_b64encode(kdf.derive(self._password))

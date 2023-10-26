@@ -1,31 +1,33 @@
 import ast
 import unicodedata
 
+from regex import regex
+
 
 class SanitiseText:
     ALLOWED_CHARACTERS = set()
 
     REPLACEMENT_CHARACTERS = {
-        '–': '-',  # EN DASH (U+2013)
-        '—': '-',  # EM DASH (U+2014)
-        '…': '...',  # HORIZONTAL ELLIPSIS (U+2026)
-        '‘': '\'',  # LEFT SINGLE QUOTATION MARK (U+2018)
-        '’': '\'',  # RIGHT SINGLE QUOTATION MARK (U+2019)
-        '“': '"',  # LEFT DOUBLE QUOTATION MARK (U+201C)
-        '”': '"',  # RIGHT DOUBLE QUOTATION MARK (U+201D)
-        '\u180E': '',  # Mongolian vowel separator
-        '\u200B': '',  # zero width space
-        '\u200C': '',  # zero width non-joiner
-        '\u200D': '',  # zero width joiner
-        '\u2060': '',  # word joiner
-        '\uFEFF': '',  # zero width non-breaking space
-        '\u00A0': ' ',  # NON BREAKING WHITE SPACE (U+200B)
-        '\t': ' ',  # TAB
+        "–": "-",  # EN DASH (U+2013)
+        "—": "-",  # EM DASH (U+2014)
+        "…": "...",  # HORIZONTAL ELLIPSIS (U+2026)
+        "‘": "'",  # LEFT SINGLE QUOTATION MARK (U+2018)
+        "’": "'",  # RIGHT SINGLE QUOTATION MARK (U+2019)
+        "“": '"',  # LEFT DOUBLE QUOTATION MARK (U+201C)
+        "”": '"',  # RIGHT DOUBLE QUOTATION MARK (U+201D)
+        "\u180E": "",  # Mongolian vowel separator
+        "\u200B": "",  # zero width space
+        "\u200C": "",  # zero width non-joiner
+        "\u200D": "",  # zero width joiner
+        "\u2060": "",  # word joiner
+        "\uFEFF": "",  # zero width non-breaking space
+        "\u00A0": " ",  # NON BREAKING WHITE SPACE (U+200B)
+        "\t": " ",  # TAB
     }
 
     @classmethod
     def encode(cls, content):
-        return ''.join(cls.encode_char(char) for char in content)
+        return "".join(cls.encode_char(char) for char in content)
 
     @classmethod
     def get_non_compatible_characters(cls, content):
@@ -34,7 +36,13 @@ class SanitiseText:
 
         This follows the same rules as `cls.encode`, but returns just the characters that encode would replace with `?`
         """
-        return set(c for c in content if c not in cls.ALLOWED_CHARACTERS and cls.downgrade_character(c) is None)
+        return set(
+            c
+            for c in content
+            if c not in cls.ALLOWED_CHARACTERS
+            and not cls.is_extended_language(c)
+            and cls.downgrade_character(c) is None
+        )
 
     @staticmethod
     def get_unicode_char_from_codepoint(codepoint):
@@ -44,8 +52,8 @@ class SanitiseText:
         unicodedata.decomposition returns strings containing codepoints, so we need to eval them ourselves
         """
         # lets just make sure we aren't evaling anything weird
-        if not set(codepoint) <= set('0123456789ABCDEF') or not len(codepoint) == 4:
-            raise ValueError('{} is not a valid unicode codepoint'.format(codepoint))
+        if not set(codepoint) <= set("0123456789ABCDEF") or not len(codepoint) == 4:
+            raise ValueError("{} is not a valid unicode codepoint".format(codepoint))
         return ast.literal_eval('"\\u{}"'.format(codepoint))
 
     @classmethod
@@ -57,7 +65,7 @@ class SanitiseText:
         Will return None if character is either already valid or has no known downgrade
         """
         decomposed = unicodedata.decomposition(c)
-        if decomposed != '' and '<' not in decomposed:
+        if decomposed != "" and "<" not in decomposed:
             # decomposition lists the unicode code points a character is made up of, if it's made up of multiple
             # points. For example the á character returns '0061 0301', as in, the character a, followed by a combining
             # acute accent. The decomposition might, however, also contain a decomposition mapping in angle brackets.
@@ -72,6 +80,91 @@ class SanitiseText:
             return cls.REPLACEMENT_CHARACTERS.get(c)
 
     @classmethod
+    def is_japanese(cls, value):
+        if regex.search(r"([\p{IsHan}\p{IsHiragana}\p{IsKatakana}]+)", value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_one(cls, value):
+        if regex.search(r"\p{IsHangul}", value):  # Korean
+            return True
+        elif regex.search(r"\p{IsCyrillic}", value):
+            return True
+        elif regex.search(r"\p{IsArabic}", value):
+            return True
+        elif regex.search(r"\p{IsArmenian}", value):
+            return True
+        elif regex.search(r"\p{IsBengali}", value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_two(cls, value):
+        if regex.search(r"\p{IsBuhid}", value):
+            return True
+        if regex.search(r"\p{IsCanadian_Aboriginal}", value):
+            return True
+        if regex.search(r"\p{IsCherokee}", value):
+            return True
+        if regex.search(r"\p{IsDevanagari}", value):
+            return True
+        if regex.search(r"\p{IsEthiopic}", value):
+            return True
+        if regex.search(r"\p{IsGeorgian}", value):
+            return True
+        return False
+
+    @classmethod
+    def _is_extended_language_group_three(cls, value):
+        if regex.search(r"\p{IsGreek}", value):
+            return True
+        if regex.search(r"\p{IsGujarati}", value):
+            return True
+        if regex.search(r"\p{IsHanunoo}", value):
+            return True
+        if regex.search(r"\p{IsHebrew}", value):
+            return True
+        if regex.search(r"\p{IsLimbu}", value):
+            return True
+        if regex.search(r"\p{IsKannada}", value):
+            return True
+        return False
+
+    @classmethod
+    def is_extended_language(cls, value):
+        """
+        Languages are combined in groups to handle cyclomatic complexity warnings
+        """
+        if cls._is_extended_language_group_one(value):
+            return True
+        if cls._is_extended_language_group_two(value):
+            return True
+        if cls._is_extended_language_group_three(value):
+            return True
+        if cls.is_japanese(value):
+            return True
+
+        if regex.search(
+            r"([\p{IsKhmer}\p{IsLao}\p{IsMongolian}\p{IsMyanmar}\p{IsTibetan}\p{IsYi}]+)",
+            value,
+        ):
+            return True
+
+        if regex.search(
+            r"([\p{IsOgham}\p{IsOriya}\p{IsSinhala}\p{IsSyriac}\p{IsTagalog}]+)", value
+        ):
+            return True
+
+        if regex.search(
+            r"([\p{IsTagbanwa}\p{IsTaiLe}\p{IsTamil}\p{IsTelugu}\p{IsThaana}\p{IsThai}]+)",
+            value,
+        ):
+            return True
+
+        return False
+
+    @classmethod
     def encode_char(cls, c):
         """
         Given a single unicode character, return a compatible character from the allowed set.
@@ -79,9 +172,11 @@ class SanitiseText:
         # char is a good character already - return that native character.
         if c in cls.ALLOWED_CHARACTERS:
             return c
+        elif cls.is_extended_language(c):
+            return c
         else:
             c = cls.downgrade_character(c)
-            return c if c is not None else '?'
+            return c if c is not None else "?"
 
 
 class SanitiseSMS(SanitiseText):
@@ -102,19 +197,27 @@ class SanitiseSMS(SanitiseText):
 
     * any remaining unicode characters (eg chinese/cyrillic/glyphs/emoji) are replaced with ?
     """
+
     WELSH_DIACRITICS = set(
-        'àèìòùẁỳ' 'ÀÈÌÒÙẀỲ'  # grave
-        'áéíóúẃý' 'ÁÉÍÓÚẂÝ'  # acute
-        'äëïöüẅÿ' 'ÄËÏÖÜẄŸ'  # diaeresis
-        'âêîôûŵŷ' 'ÂÊÎÔÛŴŶ'  # carets
+        "àèìòùẁỳ"
+        "ÀÈÌÒÙẀỲ"  # grave
+        "áéíóúẃý"
+        "ÁÉÍÓÚẂÝ"  # acute
+        "äëïöüẅÿ"
+        "ÄËÏÖÜẄŸ"  # diaeresis
+        "âêîôûŵŷ"
+        "ÂÊÎÔÛŴŶ"  # carets
     )
 
-    EXTENDED_GSM_CHARACTERS = set('^{}\\[~]|€')
+    EXTENDED_GSM_CHARACTERS = set("^{}\\[~]|€")
 
-    GSM_CHARACTERS = set(
-        '@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞ\x1bÆæßÉ !"#¤%&\'()*+,-./0123456789:;<=>?' +
-        '¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà'
-    ) | EXTENDED_GSM_CHARACTERS
+    GSM_CHARACTERS = (
+        set(
+            "@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞ\x1bÆæßÉ !\"#¤%&'()*+,-./0123456789:;<=>?"
+            + "¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà"
+        )
+        | EXTENDED_GSM_CHARACTERS
+    )
 
     ALLOWED_CHARACTERS = GSM_CHARACTERS | WELSH_DIACRITICS
     # some welsh characters are in GSM and some aren't - we need to distinguish between these for counting fragments
@@ -126,7 +229,8 @@ class SanitiseASCII(SanitiseText):
     As SMS above, but the allowed characters are printable ascii, from character range 32 to 126 inclusive.
     [chr(x) for x in range(32, 127)]
     """
+
     ALLOWED_CHARACTERS = set(
-        ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
-        '[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'
+        " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        + "[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
     )
