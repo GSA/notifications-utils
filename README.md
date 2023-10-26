@@ -1,6 +1,6 @@
 # notifications-utils
 
-Shared Python code for US Notify applications. Standardizes how to do logging, rendering message templates, parsing spreadsheets, talking to external services and more.
+Shared Python code for Notify.gov applications. Standardizes how to do logging, rendering message templates, parsing spreadsheets, talking to external services and more.
 
 ## Setting up
 
