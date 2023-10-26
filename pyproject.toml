@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "notifications-utils"
-version = "56.1.0"
+version = "57.0.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
@@ -47,7 +47,7 @@ smartypants = "==2.0.1"
 urllib3 = "^1.26.18"
 vulture = "^2.10"
 webencodings = "==0.5.1"
-werkzeug = "==3.0.1"
+werkzeug = "==2.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
