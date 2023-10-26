@@ -1,4 +1,4 @@
---requirement requirements.txt
+-requirement requirements.txt
 
 celery==5.2.7
 beautifulsoup4==4.11.1
