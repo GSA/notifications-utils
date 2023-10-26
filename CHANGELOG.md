@@ -3,6 +3,10 @@
 This is only used for recording changes for major version bumps.
 More minor changes may optionally be recorded here too.
 
+## 57.0.0
+
+   experimental for rollback
+
 ## 56.0.0
 
 * Breaking: upgrade PyPDF2 to version 2.0.0. You will need to:
