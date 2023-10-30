@@ -62,8 +62,7 @@ py-lock: ## Syncs dependencies and updates lock file without performing recursiv
 
 .PHONY: freeze-requirements
 freeze-requirements: ## Pin all requirements including sub dependencies into requirements.txt
-	poetry lock --no-update
-	poetry requirements
+	poetry export --without-hashes --format=requirements.txt > requirements.txt
 
 .PHONY: static-scan
 static-scan:
