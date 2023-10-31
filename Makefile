@@ -7,7 +7,7 @@ help:
 
 .PHONY: bootstrap
 bootstrap: ## Build project
-	poetry install
+	poetry install --sync
 
 .PHONY: dead-code
 dead-code:
@@ -59,6 +59,7 @@ audit:
 .PHONY: py-lock
 py-lock: ## Syncs dependencies and updates lock file without performing recursive internal updates
 	poetry lock --no-update
+	poetry install --sync
 
 .PHONY: freeze-requirements
 freeze-requirements: ## Pin all requirements including sub dependencies into requirements.txt
@@ -75,12 +76,12 @@ reset-version:
 
 .PHONY: version-major
 version-major: reset-version ## Update the major version number
-	./scripts/bump_version.py major
+	poetry run python scripts/bump_version.py major
 
 .PHONY: version-minor
 version-minor: reset-version ## Update the minor version number
-	./scripts/bump_version.py minor
+	poetry run python scripts/bump_version.py minor
 
 .PHONY: version-patch
 version-patch: reset-version ## Update the patch version number
-	./scripts/bump_version.py patch
+	poetry run python scripts/bump_version.py patch
