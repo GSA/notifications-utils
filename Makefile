@@ -56,10 +56,13 @@ audit:
 	poetry run pip-audit -r requirements.txt
 	-poetry run pip-audit -r requirements_for_test.txt
 
+.PHONY: py-lock
+py-lock: ## Syncs dependencies and updates lock file without performing recursive internal updates
+	poetry lock --no-update
+
 .PHONY: freeze-requirements
 freeze-requirements: ## Pin all requirements including sub dependencies into requirements.txt
-	poetry lock
-	poetry requirements
+	poetry export --without-hashes --format=requirements.txt > requirements.txt
 
 .PHONY: static-scan
 static-scan:

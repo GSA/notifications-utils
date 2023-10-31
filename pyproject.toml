@@ -5,6 +5,7 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
+
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
 async-timeout = "^4.0.2"
@@ -51,7 +52,7 @@ werkzeug = "^3.0.1"
 [tool.poetry.group.dev.dependencies]
 bandit = "*"
 beautifulsoup4 = "^4.11.1"
-black = "^23.10.0"
+black = "^23.10.1"
 celery = "^5.2.7"
 freezegun = "^1.2.2"
 flake8 = "^6.1.0"
