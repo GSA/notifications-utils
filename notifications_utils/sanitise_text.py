@@ -40,7 +40,7 @@ class SanitiseText:
             c
             for c in content
             if c not in cls.ALLOWED_CHARACTERS
-            and not cls.is_extended_language(c)
+            and cls.is_extended_language(c) is False
             and cls.downgrade_character(c) is None
         )
 
