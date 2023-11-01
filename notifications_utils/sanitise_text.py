@@ -86,6 +86,14 @@ class SanitiseText:
         return False
 
     @classmethod
+    def is_chinese(cls, value):
+        # This range supports all "CJK Unified Ideoglyphs"
+        # It may be missing some rare/historic characters that are not in common use
+        if regex.search(r"[\u4e00-\u9fff]+", value):
+            return True
+        return False
+
+    @classmethod
     def _is_extended_language_group_one(cls, value):
         if regex.search(r"\p{IsHangul}", value):  # Korean
             return True
@@ -132,19 +140,7 @@ class SanitiseText:
         return False
 
     @classmethod
-    def is_extended_language(cls, value):
-        """
-        Languages are combined in groups to handle cyclomatic complexity warnings
-        """
-        if cls._is_extended_language_group_one(value):
-            return True
-        if cls._is_extended_language_group_two(value):
-            return True
-        if cls._is_extended_language_group_three(value):
-            return True
-        if cls.is_japanese(value):
-            return True
-
+    def _is_extended_language_group_four(cls, value):
         if regex.search(
             r"([\p{IsKhmer}\p{IsLao}\p{IsMongolian}\p{IsMyanmar}\p{IsTibetan}\p{IsYi}]+)",
             value,
@@ -160,6 +156,32 @@ class SanitiseText:
             r"([\p{IsTagbanwa}\p{IsTaiLe}\p{IsTamil}\p{IsTelugu}\p{IsThaana}\p{IsThai}]+)",
             value,
         ):
+            return True
+
+        # Vietnamese
+        if regex.search(
+            r"\b\S*[AĂÂÁẮẤÀẰẦẢẲẨÃẴẪẠẶẬĐEÊÉẾÈỀẺỂẼỄẸỆIÍÌỈĨỊOÔƠÓỐỚÒỒỜỎỔỞÕỖỠỌỘỢUƯÚỨÙỪỦỬŨỮỤỰYÝỲỶỸỴAĂÂÁẮẤÀẰẦẢẲẨÃẴẪẠẶẬĐEÊÉẾÈỀẺỂẼỄẸỆIÍÌỈĨỊOÔƠÓỐỚÒỒỜỎỔỞÕỖỠỌỘỢUƯÚỨÙỪỦỬŨỮỤỰYÝỲỶỸỴAĂÂÁẮẤÀẰẦẢẲẨÃẴẪẠẶẬĐEÊÉẾÈỀẺỂẼỄẸỆIÍÌỈĨỊOÔƠÓỐỚÒỒỜỎỔỞÕỖỠỌỘỢUƯÚỨÙỪỦỬŨỮỤỰYÝỲỶỸỴAĂÂÁẮẤÀẰẦẢẲẨÃẴẪẠẶẬĐEÊÉẾÈỀẺỂẼỄẸỆIÍÌỈĨỊOÔƠÓỐỚÒỒỜỎỔỞÕỖỠỌỘỢUƯÚỨÙỪỦỬŨỮỤỰYÝỲỶỸỴAĂÂÁẮẤÀẰẦẢẲẨÃẴẪẠẶẬĐEÊÉẾÈỀẺỂẼỄẸỆIÍÌỈĨỊOÔƠÓỐỚÒỒỜỎỔỞÕỖỠỌỘỢUƯÚỨÙỪỦỬŨỮỤỰYÝỲỶỸỴAĂÂÁẮẤÀẰẦẢẲẨÃẴẪẠẶẬĐEÊÉẾÈỀẺỂẼỄẸỆIÍÌỈĨỊOÔƠÓỐỚÒỒỜỎỔỞÕỖỠỌỘỢUƯÚỨÙỪỦỬŨỮỤỰYÝỲỶỸỴA-Z]+\S*\b",  # noqa
+            value,
+        ):
+            return True
+        return False
+
+    @classmethod
+    def is_extended_language(cls, value):
+        """
+        Languages are combined in groups to handle cyclomatic complexity warnings
+        """
+        if cls._is_extended_language_group_one(value):
+            return True
+        if cls._is_extended_language_group_two(value):
+            return True
+        if cls._is_extended_language_group_three(value):
+            return True
+        if cls.is_japanese(value):
+            return True
+        if cls._is_extended_language_group_four(value):
+            return True
+        if cls.is_chinese(value):
             return True
 
         return False

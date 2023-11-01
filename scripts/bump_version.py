@@ -69,7 +69,7 @@ print("   Update requirements files in other apps with:")
 print("")
 print(
     f"   "
-    f"notifications-utils @ git+https://github.com/alphagov/notifications-utils.git"
+    f"notifications-utils @ git+https://github.com/GSA/notifications-utils.git"
     f"@{new_major}.{new_minor}.{new_patch}"
 )
 print("")

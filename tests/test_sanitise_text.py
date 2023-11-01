@@ -60,7 +60,7 @@ params, ids = zip(
     (("â", "â", "a"), "non-gsm Welsh char (a with hat)"),
     (("Ŷ", "Ŷ", "Y"), "non-gsm Welsh char (capital y with hat)"),
     (("ë", "ë", "e"), "non-gsm Welsh char (e with dots)"),
-    (("Ò", "Ò", "O"), "non-gsm Welsh char (capital O with grave accent)"),
+    # (("Ò", "Ò", "O"), "non-gsm Welsh char (capital O with grave accent)"),  # conflicts with Vietnamese
     (("í", "í", "i"), "non-gsm Welsh char (i with accent)"),
 )
 
@@ -140,7 +140,9 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
         ("นี่คือการทดสอบ", True),  # Thai
         ("இது ஒரு சோதனை", True),  # Tamil
         ("これはテストです", True),  # Japanese
-        ("Đây là một bài kiểm tra", False),  # Vietnamese
+        ("Đây là một bài kiểm tra", True),  # Vietnamese
+        ("𐤓𐤓𐤓𐤈𐤆", False),  # Phoenician
+        ("这是一次测试", True),  # Mandarin (Simplified)
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
@@ -156,7 +158,9 @@ def test_sms_supporting_additional_languages(content, expected):
         ("นี่คือการทดสอบ", set()),  # Thai
         ("இது ஒரு சோதனை", set()),  # Tamil
         ("これはテストです", set()),  # Japanese
-        ("Đây là một bài kiểm tra", set("Đ")),  # Vietnamese
+        ("Đây là một bài kiểm tra", set()),  # Vietnamese
+        ("𐤓𐤓𐤓𐤈𐤆", {"𐤆", "𐤈", "𐤓"}),  # Phoenician
+        ("这是一次测试", set()),  # Mandarin (Simplified)
     ],
 )
 def test_get_non_compatible_characters(content, expected):
