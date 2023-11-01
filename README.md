@@ -53,7 +53,7 @@ Run one of the following `Makefile` commands, depending on the need:
 - `make version-patch`
 
 The output will tell you how to update the dependency reference for the other
-repos the rely on this one.
+repos that rely on this one.
 
 ## License && public domain
 
