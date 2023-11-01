@@ -22,7 +22,7 @@ make bootstrap
 make test
 ```
 
-## To sync your poetry.lock file after manual pyproject.toml edits
+## To sync your poetry.lock file and dependencies after manual pyproject.toml edits
 
 ```
 # run the make command
@@ -43,6 +43,17 @@ This will tell Poetry to do the following:
 - Look for the latest compatible version of the dependency/dependencies
 - Install the version(s) it finds
 - Update and sync the poetry.lock file
+
+## To update the version of this library
+
+Run one of the following `Makefile` commands, depending on the need:
+
+- `make version-major`
+- `make version-minor`
+- `make version-patch`
+
+The output will tell you how to update the dependency reference for the other
+repos that rely on this one.
 
 ## License && public domain
 
