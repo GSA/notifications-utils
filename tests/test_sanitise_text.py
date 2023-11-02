@@ -10,8 +10,10 @@ params, ids = zip(
     (("a", "a"), "ascii char (a)"),
     # ascii control char (not in GSM)
     (("\t", " "), "ascii control char not in gsm (tab)"),
+    # TODO we support lots of languages now not in the GSM charset so maybe make this 'downgrading' go away
+    # TODO for now comment out this line because it directly conflicts with support for Turkish
     # these are not in GSM charset so are downgraded
-    (("ç", "c"), "decomposed unicode char (C with cedilla)"),
+    # (("ç", "c"), "decomposed unicode char (C with cedilla)"),
     # these unicode chars should change to something completely different for compatibility
     (("–", "-"), "compatibility transform unicode char (EN DASH (U+2013)"),
     (("—", "-"), "compatibility transform unicode char (EM DASH (U+2014)"),
@@ -60,7 +62,7 @@ params, ids = zip(
     (("â", "â", "a"), "non-gsm Welsh char (a with hat)"),
     (("Ŷ", "Ŷ", "Y"), "non-gsm Welsh char (capital y with hat)"),
     (("ë", "ë", "e"), "non-gsm Welsh char (e with dots)"),
-    (("Ò", "Ò", "O"), "non-gsm Welsh char (capital O with grave accent)"),
+    # (("Ò", "Ò", "O"), "non-gsm Welsh char (capital O with grave accent)"),  # conflicts with Vietnamese
     (("í", "í", "i"), "non-gsm Welsh char (i with accent)"),
 )
 
@@ -140,8 +142,30 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
         ("นี่คือการทดสอบ", True),  # Thai
         ("இது ஒரு சோதனை", True),  # Tamil
         ("これはテストです", True),  # Japanese
-        ("Đây là một bài kiểm tra", False),  # Vietnamese
+        ("Đây là một bài kiểm tra", True),  # Vietnamese
+        ("𐤓𐤓𐤓𐤈𐤆", False),  # Phoenician
+        ("这是一次测试", True),  # Mandarin (Simplified)
+        ("Bunda Türkçe karakterler var", True),  # Turkish
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
     assert SanitiseSMS.is_extended_language(content) is expected
+
+
+@pytest.mark.parametrize(
+    "content, expected",
+    [
+        ("이것은 테스트입니다", set()),  # Korean
+        ("Αυτό είναι ένα τεστ", set()),  # Greek
+        ("Это проверка", set()),  # Russian
+        ("นี่คือการทดสอบ", set()),  # Thai
+        ("இது ஒரு சோதனை", set()),  # Tamil
+        ("これはテストです", set()),  # Japanese
+        ("Đây là một bài kiểm tra", set()),  # Vietnamese
+        ("𐤓𐤓𐤓𐤈𐤆", {"𐤆", "𐤈", "𐤓"}),  # Phoenician
+        ("这是一次测试", set()),  # Mandarin (Simplified)
+        ("Bunda Türkçe karakterler var", set()),  # Turkish
+    ],
+)
+def test_get_non_compatible_characters(content, expected):
+    assert SanitiseSMS.get_non_compatible_characters(content) == expected
