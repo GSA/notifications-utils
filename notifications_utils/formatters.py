@@ -143,7 +143,7 @@ def create_sanitised_html_for_url(link, *, classes="", style=""):
     class_attribute = f'class="{classes}" ' if classes else ""
     style_attribute = f'style="{style}" ' if style else ""
 
-    return '<a {}{}href="{}">{}</a>'.format(
+    return '<button><a {}{}href="{}">{}</a></button>'.format(
         class_attribute,
         style_attribute,
         urllib.parse.quote(urllib.parse.unquote(link), safe=":/?#=&;"),
