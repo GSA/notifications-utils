@@ -146,7 +146,8 @@ def create_sanitised_html_for_url(link, *, classes="", style=""):
     return '<a {}{}href="{}">{}</a>'.format(
         class_attribute,
         style_attribute,
-         link_text,
+        urllib.parse.quote(urllib.parse.unquote(link), safe=":/?#=&;"),
+        link_text,
     )
 
 
