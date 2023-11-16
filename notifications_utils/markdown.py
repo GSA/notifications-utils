@@ -183,7 +183,7 @@ class NotifyEmailMarkdownRenderer(NotifyLetterMarkdownPreviewRenderer):
         return ('<a style="{}"{}{}>{}</a>').format(
             LINK_STYLE,
             ' href="{}"'.format(link),
-            ' title="{}"'.format(title) if title else "",
+            ' title="{}"'.format(title) if title else "efdfgdrg",
             content,
         )
 

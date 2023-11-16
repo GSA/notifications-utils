@@ -135,7 +135,7 @@ def create_sanitised_html_for_url(link, *, classes="", style=""):
     input: `http://foo.com/"bar"?x=1#2`
     output: `<a style=... href="http://foo.com/%22bar%22?x=1#2">http://foo.com/"bar"?x=1#2</a>`
     """
-    link_text = link
+    link_text = "hello world"
 
     if not link.lower().startswith("http"):
         link = f"http://{link}"
@@ -143,11 +143,10 @@ def create_sanitised_html_for_url(link, *, classes="", style=""):
     class_attribute = f'class="{classes}" ' if classes else ""
     style_attribute = f'style="{style}" ' if style else ""
 
-    return '<button type="button" class="usa-button"><a {}{}href="{}">{}</a></button>'.format(
+    return '<a {}{}href="{}">{}</a>'.format(
         class_attribute,
         style_attribute,
-        urllib.parse.quote(urllib.parse.unquote(link), safe=":/?#=&;"),
-        link_text,
+         link_text,
     )
 
 
