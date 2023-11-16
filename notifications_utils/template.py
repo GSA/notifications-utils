@@ -604,7 +604,6 @@ class HTMLEmailTemplate(BaseEmailTemplate):
                 )
             )
             .then(unlink_govuk_escaped)
-            .then(strip_unsupported_characters)
             .then(add_trailing_newline)
             .then(notify_email_preheader_markdown)
             .then(do_nice_typography)
@@ -615,7 +614,6 @@ class HTMLEmailTemplate(BaseEmailTemplate):
         return self.jinja_template.render(
             {
                 "subject": self.subject,
-                "body": self.html_body,
                 "preheader": self.preheader,
                 "govuk_banner": self.govuk_banner,
                 "complete_html": self.complete_html,
