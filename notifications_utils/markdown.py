@@ -7,7 +7,7 @@ from orderedset import OrderedSet
 from notifications_utils import MAGIC_SEQUENCE, magic_sequence_regex
 from notifications_utils.formatters import create_sanitised_html_for_url
 
-LINK_STYLE = "word-wrap: break-word; color: #FFFFFF;"
+LINK_STYLE = "word-wrap: break-word; color: #1D70B8;"
 
 mistune._block_quote_leading_pattern = re.compile(r"^ *\^ ?", flags=re.M)
 mistune.BlockGrammar.block_quote = re.compile(r"^( *\^[^\n]+(\n[^\n]+)*\n*)+")
@@ -180,12 +180,7 @@ class NotifyEmailMarkdownRenderer(NotifyLetterMarkdownPreviewRenderer):
         ).format(text)
 
     def link(self, link, title, content):
-        return ('<a style="{}"{}{}><button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-        'background-color: #005ea2; -webkit-appearance: none; '
-        '-moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; '
-        'cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-        '{}</button></a>').format(
+        return ('<a style="{}"{}{}>{}</a>').format(
             LINK_STYLE,
             ' href="{}"'.format(link),
             ' title="{}"'.format(title) if title else "",
