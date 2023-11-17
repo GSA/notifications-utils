@@ -103,7 +103,7 @@ class Template(ABC):
                 redact_missing_personalisation=self.redact_missing_personalisation,
                 markdown_lists=True,
             )
-        ) 
+        ).strip()
 
     @property
     def values(self):
@@ -609,7 +609,7 @@ class HTMLEmailTemplate(BaseEmailTemplate):
             .then(notify_email_preheader_markdown)
             .then(do_nice_typography)
             .split()
-        )[: self.PREHEADER_LENGTH_IN_CHARACTERS]
+        )[: self.PREHEADER_LENGTH_IN_CHARACTERS].strip()
 
     def __str__(self):
         return self.jinja_template.render(
