@@ -180,12 +180,12 @@ class NotifyEmailMarkdownRenderer(NotifyLetterMarkdownPreviewRenderer):
         ).format(text)
 
     def link(self, link, title, content):
-        return ('<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+        return ('<a style="{}"{}{}><button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
         'background-color: #005ea2; -webkit-appearance: none; '
         '-moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; '
         'cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; '
         'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-        '<a style="{}"{}{}>{}</a></button>').format(
+        '{}</button></a>').format(
             LINK_STYLE,
             ' href="{}"'.format(link),
             ' title="{}"'.format(title) if title else "",
