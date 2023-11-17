@@ -165,7 +165,7 @@ class NotifyEmailMarkdownRenderer(NotifyLetterMarkdownPreviewRenderer):
     def paragraph(self, text):
         if text.strip():
             return (
-                '<p class="testing" style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">{}</p>'
+                '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">{}</p>'
             ).format(text)
         return ""
 
