@@ -445,7 +445,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com">http://example.com</a></button>',
+            '<a href="http://example.com">Join Service</a></button>',
         ),
         (
             "https://example.com",
@@ -454,7 +454,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="https://example.com">https://example.com</a></button>',
+            '<a href="https://example.com">Join Service</a></button>',
         ),
         (
             "example.com",
@@ -463,7 +463,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com">example.com</a></button>',
+            '<a href="http://example.com">Join Service</a></button>',
         ),
         (
             "www.foo.bar.example.com",
@@ -472,7 +472,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://www.foo.bar.example.com">www.foo.bar.example.com</a></button>',
+            '<a href="http://www.foo.bar.example.com">Join Service</a></button>',
         ),
         (
             "example.com/",
@@ -481,7 +481,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/">example.com/</a></button>',
+            '<a href="http://example.com/">Join Service</a></button>',
         ),
         (
             "www.foo.bar.example.com/",
@@ -490,7 +490,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://www.foo.bar.example.com/">www.foo.bar.example.com/</a></button>',
+            '<a href="http://www.foo.bar.example.com/">Join Service</a></button>',
         ),
         (
             "example.com/foo",
@@ -499,7 +499,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/foo">example.com/foo</a></button>',
+            '<a href="http://example.com/foo">Join Service</a></button>',
         ),
         (
             "example.com?foo",
@@ -508,7 +508,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com?foo">example.com?foo</a></button>',
+            '<a href="http://example.com?foo">Join Service</a></button>',
         ),
         (
             "example.com#foo",
@@ -517,7 +517,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com#foo">example.com#foo</a></button>',
+            '<a href="http://example.com#foo">Join Service</a></button>',
         ),
         (
             "Go to gov.uk/example.",
@@ -527,7 +527,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">gov.uk/example</a></button>.',
+            '<a href="http://gov.uk/example">Join Service</a></button>.',
         ),
         (
             "Go to gov.uk/example:",
@@ -537,7 +537,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">gov.uk/example</a></button>:',
+            '<a href="http://gov.uk/example">Join Service</a></button>:',
         ),
         (
             "Go to gov.uk/example;",
@@ -547,7 +547,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example;">gov.uk/example;</a></button>',
+            '<a href="http://gov.uk/example;">Join Service</a></button>',
         ),
         (
             "(gov.uk/example)",
@@ -556,7 +556,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">gov.uk/example</a></button>)',
+            '<a href="http://gov.uk/example">Join Service</a></button>)',
         ),
         (
             "(gov.uk/example)...",
@@ -566,7 +566,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">gov.uk/example</a></button>)...',
+            '<a href="http://gov.uk/example">Join Service</a></button>)...',
         ),
         (
             "(gov.uk/example.)",
@@ -576,7 +576,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">gov.uk/example</a></button>.)',
+            '<a href="http://gov.uk/example">Join Service</a></button>.)',
         ),
         (
             "(see example.com/foo_(bar))",
@@ -586,7 +586,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/foo_%28bar%29">example.com/foo_(bar)</a></button>)',
+            '<a href="http://example.com/foo_%28bar%29">Join Service</a></button>)',
         ),
         (
             "example.com/foo(((((((bar",
@@ -595,7 +595,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar">example.com/foo(((((((bar</a></button>',
+            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar"Join Service</a></button>',
         ),
         (
             "government website (gov.uk). Other websites…",
@@ -605,7 +605,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk">gov.uk</a></button>). Other websites…',
+            '<a href="http://gov.uk">Join Service</a></button>). Other websites…',
         ),
         (
             "[gov.uk/example]",
@@ -615,7 +615,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">gov.uk/example</a></button>]',
+            '<a href="http://gov.uk/example">Join Service</a></button>]',
         ),
         (
             "gov.uk/foo, gov.uk/bar",
@@ -624,13 +624,13 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/foo">gov.uk/foo</a></button>, '
+            '<a href="http://gov.uk/foo">Join Service</a></button>, '
             '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/bar">gov.uk/bar</a></button>',
+            '<a href="http://gov.uk/bar">Join Service</a></button>',
         ),
         (
             "<p>gov.uk/foo</p>",
@@ -640,7 +640,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/foo">gov.uk/foo</a></button></p>',
+            '<a href="http://gov.uk/foo">Join Service</a></button></p>',
         ),
         (
             "gov.uk?foo&amp;",
@@ -649,7 +649,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk?foo&amp;">gov.uk?foo&amp;</a></button>',
+            '<a href="http://gov.uk?foo&amp;">Join Service</a></button>',
         ),
         (
             "a .service.gov.uk domain",
@@ -662,7 +662,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://foo.com/%22bar%22?x=1#2">http://foo.com/"bar"?x=1#2</a></button>',
+            '<a href="http://foo.com/%22bar%22?x=1#2">Join Service</a></button>',
         ),
         (
             "firstname.lastname@example.com",
