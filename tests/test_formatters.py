@@ -440,91 +440,91 @@ def test_normalise_whitespace(value):
     (
         (
             "http://example.com",
-            '<a href="http://example.com">http://example.com</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://example.com">http://example.com</a></button>',
         ),
         (
             "https://example.com",
-            '<a href="https://example.com">https://example.com</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="https://example.com">https://example.com</a></button>',
         ),
         (
             "example.com",
-            '<a href="http://example.com">example.com</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://example.com">example.com</a></button>',
         ),
         (
             "www.foo.bar.example.com",
-            '<a href="http://www.foo.bar.example.com">www.foo.bar.example.com</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://www.foo.bar.example.com">www.foo.bar.example.com</a></button>',
         ),
         (
             "example.com/",
-            '<a href="http://example.com/">example.com/</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://example.com/">example.com/</a></button>',
         ),
         (
             "www.foo.bar.example.com/",
-            '<a href="http://www.foo.bar.example.com/">www.foo.bar.example.com/</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://www.foo.bar.example.com/">www.foo.bar.example.com/</a></button>',
         ),
         (
             "example.com/foo",
-            '<a href="http://example.com/foo">example.com/foo</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://example.com/foo">example.com/foo</a></button>',
         ),
         (
             "example.com?foo",
-            '<a href="http://example.com?foo">example.com?foo</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://example.com?foo">example.com?foo</a></button>',
         ),
         (
             "example.com#foo",
-            '<a href="http://example.com#foo">example.com#foo</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://example.com#foo">example.com#foo</a></button>',
         ),
         (
             "Go to gov.uk/example.",
-            'Go to <a href="http://gov.uk/example">gov.uk/example</a>.',
+            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/example">gov.uk/example</a></button>.',
         ),
         (
             "Go to gov.uk/example:",
-            'Go to <a href="http://gov.uk/example">gov.uk/example</a>:',
+            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/example">gov.uk/example</a></button>:',
         ),
         (
             "Go to gov.uk/example;",
-            'Go to <a href="http://gov.uk/example;">gov.uk/example;</a>',
+            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/example;">gov.uk/example;</a></button>',
         ),
         (
             "(gov.uk/example)",
-            '(<a href="http://gov.uk/example">gov.uk/example</a>)',
+            '(<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/example">gov.uk/example</a></button>)',
         ),
         (
             "(gov.uk/example)...",
-            '(<a href="http://gov.uk/example">gov.uk/example</a>)...',
+            '(<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/example">gov.uk/example</a></button>)...',
         ),
         (
             "(gov.uk/example.)",
-            '(<a href="http://gov.uk/example">gov.uk/example</a>.)',
+            '(<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/example">gov.uk/example</a></button>.)',
         ),
         (
             "(see example.com/foo_(bar))",
-            '(see <a href="http://example.com/foo_%28bar%29">example.com/foo_(bar)</a>)',
+            '(see <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://example.com/foo_%28bar%29">example.com/foo_(bar)</a></button>)',
         ),
         (
             "example.com/foo(((((((bar",
-            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar">example.com/foo(((((((bar</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://example.com/foo%28%28%28%28%28%28%28bar">example.com/foo(((((((bar</a></button>',
         ),
         (
             "government website (gov.uk). Other websites…",
-            'government website (<a href="http://gov.uk">gov.uk</a>). Other websites…',
+            'government website (<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk">gov.uk</a></button>). Other websites…',
         ),
         (
             "[gov.uk/example]",
-            '[<a href="http://gov.uk/example">gov.uk/example</a>]',
+            '[<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/example">gov.uk/example</a></button>]',
         ),
         (
             "gov.uk/foo, gov.uk/bar",
-            '<a href="http://gov.uk/foo">gov.uk/foo</a>, <a href="http://gov.uk/bar">gov.uk/bar</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/foo">gov.uk/foo</a></button>, <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/bar">gov.uk/bar</a></button>',
         ),
         (
             "<p>gov.uk/foo</p>",
-            '<p><a href="http://gov.uk/foo">gov.uk/foo</a></p>',
+            '<p><button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk/foo">gov.uk/foo</a></button></p>',
         ),
         (
             "gov.uk?foo&amp;",
-            '<a href="http://gov.uk?foo&amp;">gov.uk?foo&amp;</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://gov.uk?foo&amp;">gov.uk?foo&amp;</a></button>',
         ),
         (
             "a .service.gov.uk domain",
@@ -532,7 +532,7 @@ def test_normalise_whitespace(value):
         ),
         (
             'http://foo.com/"bar"?x=1#2',
-            '<a href="http://foo.com/%22bar%22?x=1#2">http://foo.com/"bar"?x=1#2</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; display: inline-block; font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;"><a href="http://foo.com/%22bar%22?x=1#2">http://foo.com/"bar"?x=1#2</a></button>',
         ),
         (
             "firstname.lastname@example.com",
