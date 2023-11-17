@@ -7,7 +7,7 @@ from orderedset import OrderedSet
 from notifications_utils import MAGIC_SEQUENCE, magic_sequence_regex
 from notifications_utils.formatters import create_sanitised_html_for_url
 
-LINK_STYLE = "word-wrap: break-word; color: #1D70B8;"
+LINK_STYLE = "word-wrap: break-word; color: #ffffff;"
 
 mistune._block_quote_leading_pattern = re.compile(r"^ *\^ ?", flags=re.M)
 mistune.BlockGrammar.block_quote = re.compile(r"^( *\^[^\n]+(\n[^\n]+)*\n*)+")
@@ -183,7 +183,7 @@ class NotifyEmailMarkdownRenderer(NotifyLetterMarkdownPreviewRenderer):
         return ('<a style="{}"{}{}>{}</a>').format(
             LINK_STYLE,
             ' href="{}"'.format(link),
-            ' title="{}"'.format(title) if title else "efdfgdrg",
+            ' title="{}"'.format(title) if title else "",
             content,
         )
 
