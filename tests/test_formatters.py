@@ -538,8 +538,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "Go to gov.uk/example.",
-            'Go to '
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
@@ -548,8 +547,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "Go to gov.uk/example:",
-            'Go to '
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
@@ -558,8 +556,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "Go to gov.uk/example;",
-            'Go to '
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
@@ -577,8 +574,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "(gov.uk/example)...",
-            '('
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            '(<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
@@ -587,8 +583,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "(gov.uk/example.)",
-            '('
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            '(<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
@@ -597,8 +592,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "(see example.com/foo_(bar))",
-            '(see '
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            '(see <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
@@ -625,9 +619,8 @@ def test_normalise_whitespace(value):
             '<a href="http://gov.uk">Join Service</a></button>). Other websites…',
         ),
         (
-            "[gov.uk/example]",
-            '['
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            "[gov.uk/example]", 
+            '[<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
@@ -651,8 +644,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "<p>gov.uk/foo</p>",
-            '<p>'
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            '<p><button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
@@ -700,13 +692,23 @@ def test_autolink_urls_matches_correctly(content, expected_html):
     (
         (
             {},
-            '<a href="http://example.com">http://example.com</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
+            '<a href="http://example.com">Join Service</a></button>',
         ),
         (
             {
                 "classes": "govuk-link",
             },
-            '<a class="govuk-link" href="http://example.com">http://example.com</a>',
+            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
+            '<a class="govuk-link" href="http://example.com">Join Service</a></button>',
         ),
     ),
 )
