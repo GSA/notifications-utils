@@ -29,11 +29,21 @@ from notifications_utils.template import (
     [
         (
             """https://example.com/"onclick="alert('hi')""",
-            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22onclick=%22alert%28%27hi%27%29">https://example.com/"onclick="alert('hi')</a>""",  # noqa
+            """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
+            """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
+            """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
+            """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
+            """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
+            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22onclick=%22alert%28%27hi%27%29">Join Service</a></button>""",  # noqa
         ),
         (
             """https://example.com/"style='text-decoration:blink'""",
-            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22style=%27text-decoration:blink%27">https://example.com/"style='text-decoration:blink'</a>""",  # noqa
+            """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
+            """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
+            """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
+            """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
+            """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
+            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22style=%27text-decoration:blink%27">Join Service</a></button>""",  # noqa
         ),
     ],
 )
