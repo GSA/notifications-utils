@@ -703,12 +703,7 @@ def test_autolink_urls_matches_correctly(content, expected_html):
             {
                 "classes": "govuk-link",
             },
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a class="govuk-link" href="http://example.com">Join Service</a></button>',
+            '<a class="govuk-link" href="http://example.com">Join Service</a>',
         ),
     ),
 )
