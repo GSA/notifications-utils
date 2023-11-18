@@ -713,6 +713,9 @@ def test_autolink_urls_matches_correctly(content, expected_html):
     ),
 )
 def test_autolink_urls_applies_correct_attributes(extra_kwargs, expected_html):
+    actual_html = autolink_urls("http://example.com", **extra_kwargs)
+    print("Actual HTML:", actual_html)
+    print("Expected HTML:", expected_html)
     assert autolink_urls("http://example.com", **extra_kwargs) == expected_html
 
 
