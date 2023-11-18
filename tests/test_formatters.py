@@ -293,10 +293,22 @@ def test_removing_whitespace_before_full_stops(dirty, clean):
         ),
         (
             """
-            <a href="http://example.com?q='foo'">http://example.com?q='foo'</a>
+            <button style="font-size: 1.06rem; line-height: 0.9; 
+            color: #ffffff; background-color: #005ea2; -webkit-appearance: none; 
+            -moz-appearance: none; appearance: none; border: 0; 
+            border-radius: 0.25rem; cursor: pointer; display: inline-block; 
+            font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; 
+            text-align: center; text-decoration: none; width: auto;">
+            <a href="http://example.com?q='foo'">Join Service</a><button>
         """,
             """
-            <a href="http://example.com?q='foo'">http://example.com?q='foo'</a>
+            <button style="font-size: 1.06rem; line-height: 0.9; 
+            color: #ffffff; background-color: #005ea2; -webkit-appearance: none; 
+            -moz-appearance: none; appearance: none; border: 0; 
+            border-radius: 0.25rem; cursor: pointer; display: inline-block; 
+            font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem; 
+            text-align: center; text-decoration: none; width: auto;">
+            <a href="http://example.com?q='foo'">Join Service</a><button>
         """,
         ),
     ],
