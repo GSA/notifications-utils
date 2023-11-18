@@ -51,8 +51,7 @@ def test_HTML_template_has_URLs_replaced_with_links():
         'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
         'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
         '<a style="word-wrap: break-word; color: #1D70B8;" href="https://service.example.com/accept_invite/a1b2c3d4">'
-        "Join Service"
-        "</a></button>"
+        'Join Service</a></button>"
     ) in str(
         HTMLEmailTemplate(
             {
@@ -606,7 +605,7 @@ def test_normalise_whitespace(value):
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
             'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
             'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar"Join Service</a></button>',
+            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar">Join Service</a></button>',
         ),
         (
             "government website (gov.uk). Other websites…",
@@ -713,9 +712,6 @@ def test_autolink_urls_matches_correctly(content, expected_html):
     ),
 )
 def test_autolink_urls_applies_correct_attributes(extra_kwargs, expected_html):
-    actual_html = autolink_urls("http://example.com", **extra_kwargs)
-    print("Actual HTML:", actual_html)
-    print("Expected HTML:", expected_html)
     assert autolink_urls("http://example.com", **extra_kwargs) == expected_html
 
 
