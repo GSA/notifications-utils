@@ -619,7 +619,7 @@ def test_normalise_whitespace(value):
             '<a href="http://gov.uk">Join Service</a></button>). Other websites…',
         ),
         (
-            "[gov.uk/example]", 
+            "[gov.uk/example]",
             '[<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
             'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
             'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
