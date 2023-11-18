@@ -51,7 +51,8 @@ def test_HTML_template_has_URLs_replaced_with_links():
         'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
         'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
         '<a style="word-wrap: break-word; color: #1D70B8;" href="https://service.example.com/accept_invite/a1b2c3d4">'
-        'Join Service</a></button>"
+        "Join Service"
+        "</a></button>"
     ) in str(
         HTMLEmailTemplate(
             {
