@@ -32,7 +32,7 @@ def test_makes_links_out_of_URLs(url):
     )
     link = (
         button_style.format(
-            '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a></button>',
+            '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a>',
             url, link_text
         )
     )
@@ -134,7 +134,7 @@ def test_handles_placeholders_in_urls():
             """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
             """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
             """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">Join Service</a><button>'""",  # noqa
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">Join Service</a></button>'""",  # noqa
             """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
             """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
             """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
@@ -175,7 +175,7 @@ def test_URLs_get_escaped(url, expected_html, expected_html_in_template):
                 'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com">'
                 "Join Service"
-                "</a><button>"
+                "</a></button>"
                 "</p>"
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
                 "Next paragraph"
@@ -508,7 +508,7 @@ def test_table(markdown_function):
                 'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
                 'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">'
-                'Join Service</a><button>'
+                'Join Service</a></button>'
                 "</p>"
             ),
         ],
@@ -525,7 +525,7 @@ def test_table(markdown_function):
                 '<a style="word-wrap: break-word; color: #1D70B8;" '
                 'href="https://example.com%22onclick=%22alert%28%27hi">'
                 'Join Service'
-                "</a><button>')"
+                "</a></button>')"
                 "</p>"
             ),
         ],
