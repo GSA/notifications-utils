@@ -68,7 +68,7 @@ def test_makes_links_out_of_URLs(url):
                 'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
                 'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
                 '(<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">'
-                'Join Service</a></button>)'
+                'Join Service</a>)</button>'
             ),
         ),
     ],
