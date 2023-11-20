@@ -23,20 +23,18 @@ from notifications_utils.template import HTMLEmailTemplate
 )
 def test_makes_links_out_of_URLs(url):
     BUTTON_STYLE = (
-    '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-    'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-    'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-    'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-    'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">{}</button>'
-    )
-
+        '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+        'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+        'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+        'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">{}</button>'
+    )   
     LINK_TEXT = "Join Service"
-    
     link = BUTTON_STYLE.format(
             '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a>'.format(
-            url, LINK_TEXT
-            )
+        url, LINK_TEXT
         )
+    )
     assert notify_email_markdown(url) == (
         '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
         "{}"
