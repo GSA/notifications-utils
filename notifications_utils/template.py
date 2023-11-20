@@ -248,14 +248,8 @@ class BaseSMSTemplate(Template):
     def fragment_count(self):
         content_with_placeholders = str(self)
 
-        # Extended GSM characters count as 2 characters
-        character_count = self.content_count + count_extended_gsm_chars(
-            content_with_placeholders
-        )
+        return len(content_with_placeholders.encode('utf-8'))
 
-        return get_sms_fragment_count(
-            character_count, non_gsm_characters(content_with_placeholders)
-        )
 
     def is_message_too_long(self):
         """
