@@ -22,15 +22,19 @@ from notifications_utils.template import HTMLEmailTemplate
     ],
 )
 def test_makes_links_out_of_URLs(url):
-    link = (
+    link_text = "Join Service"
+    button_style = (
         '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
         'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
         'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
         'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-        '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a></button>'
-    ).format(
-        url, "Join Service"
+        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">{}</button>'
+    )
+    link = (
+        button_style.format(
+            '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a></button>',
+            url, link_text
+        )
     )
     assert notify_email_markdown(url) == (
         '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
@@ -46,7 +50,12 @@ def test_makes_links_out_of_URLs(url):
             ("this is some text with a link http://example.com in the middle"),
             (
                 "this is some text with a link "
-                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">Join Service</a>'
+                '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+                'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+                'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+                'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+                'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
+                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">Join Service</a></button>'
                 " in the middle"
             ),
         ),
@@ -54,7 +63,12 @@ def test_makes_links_out_of_URLs(url):
             ("this link is in brackets (http://example.com)"),
             (
                 "this link is in brackets "
-                '(<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">Join Service</a>)'
+                '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+                'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+                'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+                'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+                'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
+                '(<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">Join Service</a></button>)'
             ),
         ),
     ],
@@ -91,9 +105,14 @@ def test_handles_placeholders_in_urls():
         "http://example.com/?token=<span class='placeholder'>((token))</span>&key=1"
     ) == (
         '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
+        '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+        'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+        'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+        'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'       
         '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com/?token=">'
         "Join Service"
-        "</a>"
+        "</a></button>"
         "<span class='placeholder'>((token))</span>&amp;key=1"
         "</p>"
     )
@@ -109,8 +128,18 @@ def test_handles_placeholders_in_urls():
         ),
         (
             """https://example.com"style='text-decoration:blink'""",
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">Join Service</a>'""",  # noqa
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">Join Service</a>’""",  # noqa
+            """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
+            """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
+            """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
+            """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
+            """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">Join Service</a><button>'""",  # noqa
+            """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
+            """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
+            """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
+            """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
+            """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">Join Service</a></button>’""",  # noqa
         ),
     ],
 )
@@ -138,9 +167,14 @@ def test_URLs_get_escaped(url, expected_html, expected_html_in_template):
             notify_email_markdown,
             (
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
+                '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+                'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+                'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+                'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+                'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com">'
                 "Join Service"
-                "</a>"
+                "</a><button>"
                 "</p>"
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
                 "Next paragraph"
@@ -467,7 +501,12 @@ def test_table(markdown_function):
             "http://example.com",
             (
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
-                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">http://example.com</a>'
+                '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+                'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+                'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+                'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+                'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
+                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">http://example.com</a><button>'
                 "</p>"
             ),
         ],
@@ -476,10 +515,15 @@ def test_table(markdown_function):
             """https://example.com"onclick="alert('hi')""",
             (
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
+                '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+                'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+                'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+                'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+                'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" '
                 'href="https://example.com%22onclick=%22alert%28%27hi">'
                 'https://example.com"onclick="alert(\'hi'
-                "</a>')"
+                "</a><button>')"
                 "</p>"
             ),
         ],
