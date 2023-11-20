@@ -68,7 +68,8 @@ def test_makes_links_out_of_URLs(url):
                 'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
                 'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
                 'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-                '(<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">Join Service</a></button>)'
+                '(<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">'
+                'Join Service</a></button>)'
             ),
         ),
     ],
@@ -109,7 +110,7 @@ def test_handles_placeholders_in_urls():
         'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
         'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
         'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'       
+        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'      
         '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com/?token=">'
         "Join Service"
         "</a></button>"
@@ -506,7 +507,8 @@ def test_table(markdown_function):
                 'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
                 'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
                 'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">http://example.com</a><button>'
+                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">'
+                'Join Service</a><button>'
                 "</p>"
             ),
         ],
@@ -522,7 +524,7 @@ def test_table(markdown_function):
                 'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" '
                 'href="https://example.com%22onclick=%22alert%28%27hi">'
-                'https://example.com"onclick="alert(\'hi'
+                'Join Service'
                 "</a><button>')"
                 "</p>"
             ),
