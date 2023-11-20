@@ -519,7 +519,12 @@ def test_markdown_in_templates(
 def test_makes_links_out_of_URLs(
     extra_attributes, template_class, template_type, url, url_with_entities_replaced
 ):
-    assert '<a {} href="{}">{}</a>'.format(
+    assert  '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
+            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
+            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
+            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
+            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
+            '<a {} href="{}">{}</a></button>'.format(
         extra_attributes, url_with_entities_replaced, url_with_entities_replaced
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
