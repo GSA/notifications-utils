@@ -28,11 +28,11 @@ def test_makes_links_out_of_URLs(url):
         'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
         'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
         'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">{}</button>'
-    )   
+    )
     LINK_TEXT = "Join Service"
     link = BUTTON_STYLE.format(
-            '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a>'.format(
-        url, LINK_TEXT
+        '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a>'.format(
+            url, LINK_TEXT
         )
     )
     assert notify_email_markdown(url) == (
