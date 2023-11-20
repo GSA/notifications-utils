@@ -17,6 +17,7 @@ BUTTON_STYLE = (
 
 LINK_TEXT = "Join Service"
 
+
 @pytest.mark.parametrize(
     "url",
     [
