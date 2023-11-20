@@ -23,7 +23,7 @@ from notifications_utils.template import HTMLEmailTemplate
 )
 def test_makes_links_out_of_URLs(url):
     LINK_TEXT = "Join Service"
-    link =  (
+    link = (
         '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
         'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
         'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
