@@ -32,12 +32,11 @@ LINK_TEXT = "Join Service"
     ],
 )
 def test_makes_links_out_of_URLs(url):
-    link = (
-        BUTTON_STYLE.format(
-            '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a>',
+    link = BUTTON_STYLE.format(
+            '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a>'.format(
             url, LINK_TEXT
+            )
         )
-    )
     assert notify_email_markdown(url) == (
         '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
         "{}"
