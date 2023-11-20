@@ -1594,7 +1594,7 @@ def test_sms_fragment_count_accounts_for_unicode_and_welsh_characters(
         ("这是一个非常长的长长长长的长长长长的长长长长的长长长长的长长长长长长长长长长长长的长长长长的长篇短信", 2),
     ],
 )
-def test_sms_fragment_count_accounts_for_extended_gsm_characters(
+def test_sms_fragment_count_accounts_for_non_latin_characters(
     template_class,
     msg,
     expected_sms_fragment_count,
