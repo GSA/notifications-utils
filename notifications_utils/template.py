@@ -248,8 +248,7 @@ class BaseSMSTemplate(Template):
     def fragment_count(self):
         content_with_placeholders = str(self)
 
-        return len(content_with_placeholders.encode('utf-8'))
-
+        return len(content_with_placeholders.encode("utf-8"))
 
     def is_message_too_long(self):
         """
