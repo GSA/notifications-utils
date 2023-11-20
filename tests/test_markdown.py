@@ -123,8 +123,18 @@ def test_handles_placeholders_in_urls():
     [
         (
             """https://example.com"onclick="alert('hi')""",
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22onclick=%22alert%28%27hi">Join Service</a>')""",  # noqa
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22onclick=%22alert%28%27hi">Join Service</a>‘)""",  # noqa
+            """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
+            """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
+            """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
+            """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
+            """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22onclick=%22alert%28%27hi">Join Service</a></button>')""",  # noqa
+            """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
+            """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
+            """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
+            """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
+            """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22onclick=%22alert%28%27hi">Join Service</a></button>‘)""",  # noqa
         ),
         (
             """https://example.com"style='text-decoration:blink'""",
