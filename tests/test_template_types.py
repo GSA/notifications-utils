@@ -574,7 +574,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     (
         (
             (
-                "You’ve been invited to a service. Click this link:\n"
+                "You've been invited to a service. Click this link:\n"
                 "https://service.example.com/accept_invite/a1b2c3d4\n"
                 "\n"
                 "Thanks\n"
