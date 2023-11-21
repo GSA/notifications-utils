@@ -30,7 +30,7 @@ def test_makes_links_out_of_URLs(url):
         'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
         'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
         '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a></button>'
-    ).format(url, LINK_TEXT)
+    ).format(url, url)
     assert notify_email_markdown(url) == (
         '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
         "{}"
