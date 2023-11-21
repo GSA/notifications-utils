@@ -526,6 +526,8 @@ def test_makes_links_out_of_URLs(
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
+
+
 @pytest.mark.parametrize(
     "template_class, template_type",
     (
