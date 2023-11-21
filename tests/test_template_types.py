@@ -554,20 +554,22 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     url,
     url_with_entities_replaced,
 ):
-    template_instance = template_class({"content": url, "subject": "", "template_type": template_type})
-    generated_html = str(template_instance)
-
-    # Print the generated HTML for debugging
-    print("Generated HTML:\n", generated_html)
-    assert (
+    expected_link = (
         f"<a "
         f'class="govuk-link govuk-link--no-visited-state" '
         f'href="{url}">'
         f"{url_with_entities_replaced}"
         f"</a>"
-    ) in str(
+    )
+    
+    actual_result = str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
+    
+    print(f"Expected Link: {expected_link}")
+    print(f"Actual Result: {actual_result}")
+    
+    assert expected_link in actual_result
 
 
 @pytest.mark.parametrize(
