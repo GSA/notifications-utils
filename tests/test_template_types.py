@@ -29,6 +29,7 @@ from notifications_utils.template import (
     SubjectMixin,
     Template,
 )
+LINK_TEXT = "Join Service"
 
 
 @pytest.mark.parametrize(
@@ -491,7 +492,6 @@ def test_markdown_in_templates(
     ],
 )
 @pytest.mark.parametrize(
-    LINK_TEXT = "Join Service"
     "url, url_with_entities_replaced",
     [
         ("http://example.com", LINK_TEXT),
