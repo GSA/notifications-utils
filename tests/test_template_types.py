@@ -520,12 +520,7 @@ def test_makes_links_out_of_URLs(
     extra_attributes, template_class, template_type, url, url_with_entities_replaced
 ):
     assert (
-        '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-        'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-        'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-        'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-        '<a {} href="{}">{}</a></button>'
+        '<a {} href="{}">{}</a>'
     ).format(
         extra_attributes, url, "Join Service"
     ) in str(
@@ -560,16 +555,11 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     url_with_entities_replaced,
 ):
     assert (
-        f'<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-        'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-        'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-        'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
         f"<a "
         f'class="govuk-link govuk-link--no-visited-state" '
         f'href="http://{url}">'
         f"Join Service"
-        f"</a></button>"
+        f"</a>"
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
@@ -586,29 +576,19 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
                 "Thanks\n"
             ),
             (
-                '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-                'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-                'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-                'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-                'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;"'
                 ' href="https://service.example.com/accept_invite/a1b2c3d4">'
                 "Join Serivce"
-                "</a></button>"
+                "</a>"
             ),
         ),
         (
             ("https://service.example.com/accept_invite/?a=b&c=d&"),
             (
-                '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-                'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-                'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-                'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-                'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;"'
                 ' href="https://service.example.com/accept_invite/?a=b&amp;c=d&amp;">'
                 "Join Service"
-                "</a></button>"
+                "</a>"
             ),
         ),
     ),

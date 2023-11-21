@@ -29,21 +29,11 @@ from notifications_utils.template import (
     [
         (
             """https://example.com/"onclick="alert('hi')""",
-            """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
-            """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
-            """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
-            """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
-            """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
-            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22onclick=%22alert%28%27hi%27%29">Join Service</a></button>""",  # noqa
+            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22onclick=%22alert%28%27hi%27%29">Join Service</a>""",  # noqa
         ),
         (
             """https://example.com/"style='text-decoration:blink'""",
-            """<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; """
-            """background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; """
-            """appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; """
-            """display: inline-block; font-weight: 700; margin-right: 0.5rem; """
-            """padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">"""
-            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22style=%27text-decoration:blink%27">Join Service</a></button>""",  # noqa
+            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22style=%27text-decoration:blink%27">Join Service</a>""",  # noqa
         ),
     ],
 )
@@ -55,14 +45,9 @@ def test_URLs_get_escaped_in_sms(url, expected_html):
 
 def test_HTML_template_has_URLs_replaced_with_links():
     assert (
-        '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-        'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-        'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-        'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
         '<a style="word-wrap: break-word; color: #1D70B8;" href="https://service.example.com/accept_invite/a1b2c3d4">'
         "Join Service"
-        "</a></button>"
+        "</a>"
     ) in str(
         HTMLEmailTemplate(
             {
@@ -303,22 +288,10 @@ def test_removing_whitespace_before_full_stops(dirty, clean):
         ),
         (
             """
-            <button style="font-size: 1.06rem; line-height: 0.9;
-            color: #ffffff; background-color: #005ea2; -webkit-appearance: none;
-            -moz-appearance: none; appearance: none; border: 0;
-            border-radius: 0.25rem; cursor: pointer; display: inline-block;
-            font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem;
-            text-align: center; text-decoration: none; width: auto;">
-            <a href="http://example.com?q='foo'">Join Service</a><button>
+            <a href="http://example.com?q='foo'">Join Service</a>
         """,
             """
-            <button style="font-size: 1.06rem; line-height: 0.9;
-            color: #ffffff; background-color: #005ea2; -webkit-appearance: none;
-            -moz-appearance: none; appearance: none; border: 0;
-            border-radius: 0.25rem; cursor: pointer; display: inline-block;
-            font-weight: 700; margin-right: 0.5rem; padding: 0.75rem 1.25rem;
-            text-align: center; text-decoration: none; width: auto;">
-            <a href="http://example.com?q='foo'">Join Service</a><button>
+            <a href="http://example.com?q='foo'">Join Service</a>
         """,
         ),
     ],
@@ -467,208 +440,102 @@ def test_normalise_whitespace(value):
     (
         (
             "http://example.com",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com">Join Service</a></button>',
+            '<a href="http://example.com">Join Service</a>',
         ),
         (
             "https://example.com",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="https://example.com">Join Service</a></button>',
+            '<a href="https://example.com">Join Service</a>',
         ),
         (
             "example.com",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com">Join Service</a></button>',
+            '<a href="http://example.com">Join Service</a>',
         ),
         (
             "www.foo.bar.example.com",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://www.foo.bar.example.com">Join Service</a></button>',
+            '<a href="http://www.foo.bar.example.com">Join Service</a>',
         ),
         (
             "example.com/",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/">Join Service</a></button>',
+            '<a href="http://example.com/">Join Service</a>',
         ),
         (
             "www.foo.bar.example.com/",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://www.foo.bar.example.com/">Join Service</a></button>',
+            '<a href="http://www.foo.bar.example.com/">Join Service</a>',
         ),
         (
             "example.com/foo",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/foo">Join Service</a></button>',
+            '<a href="http://example.com/foo">Join Service</a>',
         ),
         (
             "example.com?foo",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com?foo">Join Service</a></button>',
+            '<a href="http://example.com?foo">Join Service</a>',
         ),
         (
             "example.com#foo",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com#foo">Join Service</a></button>',
+            '<a href="http://example.com#foo">Join Service</a>',
         ),
         (
             "Go to gov.uk/example.",
-            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">Join Service</a></button>.',
+            'Go to  '
+            '<a href="http://gov.uk/example">Join Service</a>.',
         ),
         (
             "Go to gov.uk/example:",
-            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">Join Service</a></button>:',
+            'Go to '
+            '<a href="http://gov.uk/example">Join Service</a>:',
         ),
         (
             "Go to gov.uk/example;",
-            'Go to <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example;">Join Service</a></button>',
+            'Go to '
+            '<a href="http://gov.uk/example;">Join Service</a>',
         ),
         (
             "(gov.uk/example)",
-            '(<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">Join Service</a></button>)',
+            '('
+            '<a href="http://gov.uk/example">Join Service</a>)',
         ),
         (
             "(gov.uk/example)...",
-            '(<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">Join Service</a></button>)...',
+            '('
+            '<a href="http://gov.uk/example">Join Service</a>)...',
         ),
         (
             "(gov.uk/example.)",
-            '(<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">Join Service</a></button>.)',
+            '('
+            '<a href="http://gov.uk/example">Join Service</a>.)',
         ),
         (
             "(see example.com/foo_(bar))",
-            '(see <button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/foo_%28bar%29">Join Service</a></button>)',
+            '(see '
+            '<a href="http://example.com/foo_%28bar%29">Join Service</a>)',
         ),
         (
             "example.com/foo(((((((bar",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar">Join Service</a></button>',
+            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar">Join Service</a>',
         ),
         (
             "government website (gov.uk). Other websites…",
             'government website ('
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk">Join Service</a></button>). Other websites…',
+            '<a href="http://gov.uk">Join Service</a>). Other websites…',
         ),
         (
             "[gov.uk/example]",
-            '[<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/example">Join Service</a></button>]',
+            '['
+            '<a href="http://gov.uk/example">Join Service</a>]',
         ),
         (
             "gov.uk/foo, gov.uk/bar",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/foo">Join Service</a></button>, '
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/bar">Join Service</a></button>',
+            '<a href="http://gov.uk/foo">Join Service</a>, '
+            '<a href="http://gov.uk/bar">Join Service</a>',
         ),
         (
             "<p>gov.uk/foo</p>",
-            '<p><button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk/foo">Join Service</a></button></p>',
+            '<p>'
+            '<a href="http://gov.uk/foo">Join Service</a></p>',
         ),
         (
             "gov.uk?foo&amp;",
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://gov.uk?foo&amp;">Join Service</a></button>',
+            '<a href="http://gov.uk?foo&amp;">Join Service</a>',
         ),
         (
             "a .service.gov.uk domain",
@@ -676,12 +543,7 @@ def test_normalise_whitespace(value):
         ),
         (
             'http://foo.com/"bar"?x=1#2',
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://foo.com/%22bar%22?x=1#2">Join Service</a></button>',
+            '<a href="http://foo.com/%22bar%22?x=1#2">Join Service</a>',
         ),
         (
             "firstname.lastname@example.com",
@@ -702,23 +564,13 @@ def test_autolink_urls_matches_correctly(content, expected_html):
     (
         (
             {},
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a href="http://example.com">Join Service</a></button>',
+            '<a href="http://example.com">Join Service</a>',
         ),
         (
             {
                 "classes": "govuk-link",
             },
-            '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-            'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-            'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-            'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-            'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-            '<a class="govuk-link" href="http://example.com">Join Service</a></button>',
+            '<a class="govuk-link" href="http://example.com">Join Service</a>',
         ),
     ),
 )
