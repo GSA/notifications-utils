@@ -524,7 +524,7 @@ def test_makes_links_out_of_URLs(
     ).format(
         extra_attributes, url, url_with_entities_replaced
     ) in str(
-        template_class({"content": url, "subject": "", "template_type": "email"})
+        template_class({"content": url, "subject": "", "template_type": template_type})
     )
 
 
