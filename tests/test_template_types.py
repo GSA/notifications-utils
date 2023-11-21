@@ -557,7 +557,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     assert (
         f"<a "
         f'class="govuk-link govuk-link--no-visited-state" '
-        f'href="http://{url}">'
+        f'href="{url}">'
         f"{url_with_entities_replaced}"
         f"</a>"
     ) in str(
