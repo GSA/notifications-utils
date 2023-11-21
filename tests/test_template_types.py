@@ -561,14 +561,11 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
         f"{url_with_entities_replaced}"
         f"</a>"
     )
-    
     actual_result = str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
-    
     print(f"Expected Link: {expected_link}")
     print(f"Actual Result: {actual_result}")
-    
     assert expected_link in actual_result
 
 
