@@ -493,25 +493,25 @@ def test_markdown_in_templates(
 @pytest.mark.parametrize(
     "url, url_with_entities_replaced",
     [
-        ("http://example.com", "Join Service"),
-        ("http://www.gov.uk/", "Join Service"),
-        ("https://www.gov.uk/", "Join Service"),
-        ("http://service.gov.uk", "Join Service"),
+        ("http://example.com", "http://example.com"),
+        ("http://www.gov.uk/", "http://www.gov.uk/"),
+        ("https://www.gov.uk/", "https://www.gov.uk/"),
+        ("http://service.gov.uk", "http://service.gov.uk"),
         (
             "http://service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
-            "Join Service",
+            "http://service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
         ),
-        pytest.param("example.com", "Join Service", marks=pytest.mark.xfail),
-        pytest.param("www.example.com", "Join Service", marks=pytest.mark.xfail),
+        pytest.param("example.com", "example.com", marks=pytest.mark.xfail),
+        pytest.param("www.example.com", "www.example.com", marks=pytest.mark.xfail),
         pytest.param(
             "http://service.gov.uk/blah.ext?q=one two three",
-            "Join Service",
+            "http://service.gov.uk/blah.ext?q=one two three",
             marks=pytest.mark.xfail,
         ),
-        pytest.param("ftp://example.com", "Join Service", marks=pytest.mark.xfail),
+        pytest.param("ftp://example.com", "ftp://example.com", marks=pytest.mark.xfail),
         pytest.param(
             "mailto:test@example.com",
-            "Join Service",
+            "mailto:test@example.com",
             marks=pytest.mark.xfail,
         ),
     ],
@@ -519,15 +519,8 @@ def test_markdown_in_templates(
 def test_makes_links_out_of_URLs(
     extra_attributes, template_class, template_type, url, url_with_entities_replaced
 ):
-    assert (
-        '<button style="font-size: 1.06rem; line-height: 0.9; color: #ffffff; '
-        'background-color: #005ea2; -webkit-appearance: none; -moz-appearance: none; '
-        'appearance: none; border: 0; border-radius: 0.25rem; cursor: pointer; '
-        'display: inline-block; font-weight: 700; margin-right: 0.5rem; '
-        'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
-        '<a {} href="{}">{}</a></button>'.format(
-            extra_attributes, url_with_entities_replaced, url_with_entities_replaced
-        )
+    assert '<a {} href="{}">{}</a>'.format(
+        extra_attributes, url_with_entities_replaced, url_with_entities_replaced
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
