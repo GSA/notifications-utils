@@ -526,8 +526,6 @@ def test_makes_links_out_of_URLs(
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
-
-
 @pytest.mark.parametrize(
     "template_class, template_type",
     (
@@ -554,19 +552,15 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     url,
     url_with_entities_replaced,
 ):
-    expected_link = (
+    assert (
         f"<a "
         f'class="govuk-link govuk-link--no-visited-state" '
         f'href="http://{url}">'
         f"{url_with_entities_replaced}"
         f"</a>"
-    )
-    actual_result = str(
+    ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
-    print(f"Expected Link: {expected_link}")
-    print(f"Actual Result: {actual_result}")
-    assert expected_link in actual_result
 
 
 @pytest.mark.parametrize(
@@ -598,11 +592,9 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     ),
 )
 def test_HTML_template_has_URLs_replaced_with_links(content, html_snippet):
-    email_template = HTMLEmailTemplate({"content": content, "subject": "", "template_type": "email"})
-    generated_html = str(email_template)
-    print("Expected HTML Snippet:", html_snippet)
-    print("Generated HTML:", generated_html)
-    assert html_snippet in generated_html
+    assert html_snippet in str(
+        HTMLEmailTemplate({"content": content, "subject": "", "template_type": "email"})
+    )
 
 
 @pytest.mark.parametrize(
