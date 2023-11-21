@@ -527,7 +527,7 @@ def test_makes_links_out_of_URLs(
         'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
         '<a {} href="{}">{}</a></button>'
     ).format(
-        extra_attributes, url_with_entities_replaced, "Join Service"
+        extra_attributes, url, "Join Service"
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
