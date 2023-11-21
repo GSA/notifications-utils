@@ -476,7 +476,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "Go to gov.uk/example.",
-            'Go to  '
+            'Go to '
             '<a href="http://gov.uk/example">Join Service</a>.',
         ),
         (

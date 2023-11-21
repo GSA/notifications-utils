@@ -538,13 +538,13 @@ def test_makes_links_out_of_URLs(
 @pytest.mark.parametrize(
     "url, url_with_entities_replaced",
     (
-        ("example.com", "example.com"),
-        ("www.gov.uk/", "www.gov.uk/"),
-        ("service.gov.uk", "service.gov.uk"),
-        ("gov.uk/coronavirus", "gov.uk/coronavirus"),
+        ("example.com", "Join Service"),
+        ("www.gov.uk/", "Join Service"),
+        ("service.gov.uk", "Join Service"),
+        ("gov.uk/coronavirus", "Join Service"),
         (
             "service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
-            "service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
+            "Join Service",
         ),
     ),
 )
