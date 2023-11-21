@@ -582,7 +582,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
             (
                 '<a style="word-wrap: break-word; color: #1D70B8;"'
                 ' href="https://service.example.com/accept_invite/a1b2c3d4">'
-                "Join Serivce"
+                "Join Service"
                 "</a>"
             ),
         ),
