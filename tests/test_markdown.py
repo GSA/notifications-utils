@@ -22,9 +22,10 @@ from notifications_utils.template import HTMLEmailTemplate
     ],
 )
 def test_makes_links_out_of_URLs(url):
-    link = '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a>'.format(
-        url, url
-    )
+    link_text = "Join Service"
+    link = (
+        '<a style="word-wrap: break-word; color: #1D70B8;" href="{}">{}</a>'
+    ).format(url, link_text)
     assert notify_email_markdown(url) == (
         '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
         "{}"
@@ -39,7 +40,7 @@ def test_makes_links_out_of_URLs(url):
             ("this is some text with a link http://example.com in the middle"),
             (
                 "this is some text with a link "
-                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">http://example.com</a>'
+                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">Join Service</a>'
                 " in the middle"
             ),
         ),
@@ -47,7 +48,9 @@ def test_makes_links_out_of_URLs(url):
             ("this link is in brackets (http://example.com)"),
             (
                 "this link is in brackets "
-                '(<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">http://example.com</a>)'
+                '('
+                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">'
+                'Join Service</a>)'
             ),
         ),
     ],
@@ -85,7 +88,7 @@ def test_handles_placeholders_in_urls():
     ) == (
         '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
         '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com/?token=">'
-        "http://example.com/?token="
+        "Join Service"
         "</a>"
         "<span class='placeholder'>((token))</span>&amp;key=1"
         "</p>"
@@ -97,13 +100,13 @@ def test_handles_placeholders_in_urls():
     [
         (
             """https://example.com"onclick="alert('hi')""",
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22onclick=%22alert%28%27hi">https://example.com"onclick="alert('hi</a>')""",  # noqa
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22onclick=%22alert%28%27hi">https://example.com"onclick="alert('hi</a>‘)""",  # noqa
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22onclick=%22alert%28%27hi">Join Service</a>')""",  # noqa
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22onclick=%22alert%28%27hi">Join Service</a>‘)""",  # noqa
         ),
         (
             """https://example.com"style='text-decoration:blink'""",
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">https://example.com"style='text-decoration:blink</a>'""",  # noqa
-            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">https://example.com"style='text-decoration:blink</a>’""",  # noqa
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">Join Service</a>'""",  # noqa
+            """<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com%22style=%27text-decoration:blink">Join Service</a>’""",  # noqa
         ),
     ],
 )
@@ -132,7 +135,7 @@ def test_URLs_get_escaped(url, expected_html, expected_html_in_template):
             (
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" href="https://example.com">'
-                "https://example.com"
+                "Join Service"
                 "</a>"
                 "</p>"
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
@@ -460,7 +463,8 @@ def test_table(markdown_function):
             "http://example.com",
             (
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
-                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">http://example.com</a>'
+                '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">'
+                'Join Service</a>'
                 "</p>"
             ),
         ],
@@ -471,7 +475,7 @@ def test_table(markdown_function):
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" '
                 'href="https://example.com%22onclick=%22alert%28%27hi">'
-                'https://example.com"onclick="alert(\'hi'
+                'Join Service'
                 "</a>')"
                 "</p>"
             ),
