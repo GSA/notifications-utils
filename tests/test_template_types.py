@@ -491,27 +491,28 @@ def test_markdown_in_templates(
     ],
 )
 @pytest.mark.parametrize(
+    LINK_TEXT = "Join Service"
     "url, url_with_entities_replaced",
     [
-        ("http://example.com", "http://example.com"),
-        ("http://www.gov.uk/", "http://www.gov.uk/"),
-        ("https://www.gov.uk/", "https://www.gov.uk/"),
-        ("http://service.gov.uk", "http://service.gov.uk"),
+        ("http://example.com", LINK_TEXT),
+        ("http://www.gov.uk/", LINK_TEXT),
+        ("https://www.gov.uk/", LINK_TEXT),
+        ("http://service.gov.uk", LINK_TEXT),
         (
             "http://service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
-            "http://service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
+            LINK_TEXT,
         ),
-        pytest.param("example.com", "example.com", marks=pytest.mark.xfail),
-        pytest.param("www.example.com", "www.example.com", marks=pytest.mark.xfail),
+        pytest.param("example.com", LINK_TEXT, marks=pytest.mark.xfail),
+        pytest.param("www.example.com", LINK_TEXT, marks=pytest.mark.xfail),
         pytest.param(
             "http://service.gov.uk/blah.ext?q=one two three",
-            "http://service.gov.uk/blah.ext?q=one two three",
+            LINK_TEXT,
             marks=pytest.mark.xfail,
         ),
-        pytest.param("ftp://example.com", "ftp://example.com", marks=pytest.mark.xfail),
+        pytest.param("ftp://example.com", LINK_TEXT, marks=pytest.mark.xfail),
         pytest.param(
             "mailto:test@example.com",
-            "mailto:test@example.com",
+            LINK_TEXT,
             marks=pytest.mark.xfail,
         ),
     ],
