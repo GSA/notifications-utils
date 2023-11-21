@@ -567,8 +567,8 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
         'padding: 0.75rem 1.25rem; text-align: center; text-decoration: none; width: auto;">'
         f"<a "
         f'class="govuk-link govuk-link--no-visited-state" '
-        f'href="http://{url_with_entities_replaced}">'
-        f"{url_with_entities_replaced}"
+        f'href="http://{url}">'
+        f"Join Service"
         f"</a></button>"
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
