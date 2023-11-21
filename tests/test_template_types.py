@@ -498,7 +498,7 @@ def test_markdown_in_templates(
         ("https://www.gov.uk/", "Join Service"),
         ("http://service.gov.uk", "Join Service"),
         (
-            "http://service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
+            "http://service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
             "Join Service",
         ),
         pytest.param("example.com", "Join Service", marks=pytest.mark.xfail),
@@ -543,7 +543,7 @@ def test_makes_links_out_of_URLs(
         ("service.gov.uk", "Join Service"),
         ("gov.uk/coronavirus", "Join Service"),
         (
-            "service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
+            "service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
             "Join Service",
         ),
     ),
@@ -598,9 +598,11 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     ),
 )
 def test_HTML_template_has_URLs_replaced_with_links(content, html_snippet):
-    assert html_snippet in str(
-        HTMLEmailTemplate({"content": content, "subject": "", "template_type": "email"})
-    )
+    email_template = HTMLEmailTemplate({"content": content, "subject": "", "template_type": "email"})
+    generated_html = str(email_template)
+    # Print the generated HTML for debugging
+    print(generated_html)
+    assert html_snippet in generated_html
 
 
 @pytest.mark.parametrize(
