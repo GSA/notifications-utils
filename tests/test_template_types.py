@@ -553,11 +553,11 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     template_type,
     url,
     url_with_entities_replaced,
-):
+): 
     expected_link = (
         f"<a "
         f'class="govuk-link govuk-link--no-visited-state" '
-        f'href="{url}">'
+        f'href="http://{url}">'
         f"{url_with_entities_replaced}"
         f"</a>"
     )
