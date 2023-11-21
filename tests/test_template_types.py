@@ -600,8 +600,8 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
 def test_HTML_template_has_URLs_replaced_with_links(content, html_snippet):
     email_template = HTMLEmailTemplate({"content": content, "subject": "", "template_type": "email"})
     generated_html = str(email_template)
-    # Print the generated HTML for debugging
-    print(generated_html)
+    print("Expected HTML Snippet:", html_snippet)
+    print("Generated HTML:", generated_html)
     assert html_snippet in generated_html
 
 
