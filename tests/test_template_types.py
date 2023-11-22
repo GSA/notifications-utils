@@ -247,7 +247,7 @@ def test_alt_text_with_no_brand_text_and_govuk_banner_shown():
             brand_name="Notify Logo",
         )
     )
-    assert 'alt=""' in email
+    assert 'alt=""' not in email
     assert 'alt="Notify Logo"' in email
 
 
