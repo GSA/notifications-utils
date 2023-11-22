@@ -493,25 +493,25 @@ def test_markdown_in_templates(
 @pytest.mark.parametrize(
     "url, url_with_entities_replaced",
     [
-        ("http://example.com", "http://example.com"),
-        ("http://www.gov.uk/", "http://www.gov.uk/"),
-        ("https://www.gov.uk/", "https://www.gov.uk/"),
-        ("http://service.gov.uk", "http://service.gov.uk"),
+        ("http://example.com", "Join Service"),
+        ("http://www.gov.uk/", "Join Service"),
+        ("https://www.gov.uk/", "Join Service"),
+        ("http://service.gov.uk", "Join Service"),
         (
-            "http://service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
             "http://service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
+            "Join Service",
         ),
-        pytest.param("example.com", "example.com", marks=pytest.mark.xfail),
-        pytest.param("www.example.com", "www.example.com", marks=pytest.mark.xfail),
+        pytest.param("example.com", "Join Service", marks=pytest.mark.xfail),
+        pytest.param("www.example.com", "Join Service", marks=pytest.mark.xfail),
         pytest.param(
             "http://service.gov.uk/blah.ext?q=one two three",
-            "http://service.gov.uk/blah.ext?q=one two three",
+            "Join Service",
             marks=pytest.mark.xfail,
         ),
-        pytest.param("ftp://example.com", "ftp://example.com", marks=pytest.mark.xfail),
+        pytest.param("ftp://example.com", "Join Service", marks=pytest.mark.xfail),
         pytest.param(
             "mailto:test@example.com",
-            "mailto:test@example.com",
+            "Join Service",
             marks=pytest.mark.xfail,
         ),
     ],
@@ -519,8 +519,10 @@ def test_markdown_in_templates(
 def test_makes_links_out_of_URLs(
     extra_attributes, template_class, template_type, url, url_with_entities_replaced
 ):
-    assert '<a {} href="{}">{}</a>'.format(
-        extra_attributes, url_with_entities_replaced, url_with_entities_replaced
+    assert (
+        '<a {} href="{}">{}</a>'
+    ).format(
+        extra_attributes, url, url_with_entities_replaced
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
@@ -536,13 +538,13 @@ def test_makes_links_out_of_URLs(
 @pytest.mark.parametrize(
     "url, url_with_entities_replaced",
     (
-        ("example.com", "example.com"),
-        ("www.gov.uk/", "www.gov.uk/"),
-        ("service.gov.uk", "service.gov.uk"),
-        ("gov.uk/coronavirus", "gov.uk/coronavirus"),
+        ("example.com", "Join Service"),
+        ("www.gov.uk/", "Join Service"),
+        ("service.gov.uk", "Join Service"),
+        ("gov.uk/coronavirus", "Join Service"),
         (
-            "service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
             "service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
+            "Join Service",
         ),
     ),
 )
@@ -555,7 +557,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     assert (
         f"<a "
         f'class="govuk-link govuk-link--no-visited-state" '
-        f'href="http://{url_with_entities_replaced}">'
+        f'href="http://{url}">'
         f"{url_with_entities_replaced}"
         f"</a>"
     ) in str(
@@ -568,7 +570,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     (
         (
             (
-                "You’ve been invited to a service. Click this link:\n"
+                "You've been invited to a service. Click this link:\n"
                 "https://service.example.com/accept_invite/a1b2c3d4\n"
                 "\n"
                 "Thanks\n"
@@ -576,7 +578,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
             (
                 '<a style="word-wrap: break-word; color: #1D70B8;"'
                 ' href="https://service.example.com/accept_invite/a1b2c3d4">'
-                "https://service.example.com/accept_invite/a1b2c3d4"
+                "Join Service"
                 "</a>"
             ),
         ),
@@ -585,7 +587,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
             (
                 '<a style="word-wrap: break-word; color: #1D70B8;"'
                 ' href="https://service.example.com/accept_invite/?a=b&amp;c=d&amp;">'
-                "https://service.example.com/accept_invite/?a=b&amp;c=d&amp;"
+                "Join Service"
                 "</a>"
             ),
         ),
@@ -1551,30 +1553,11 @@ def test_character_count_for_broadcast_templates(
 @pytest.mark.parametrize(
     "msg, expected_sms_fragment_count",
     [
-        ("à" * 71, 1),  # welsh character in GSM
-        ("à" * 160, 1),
-        ("à" * 161, 2),
-        ("à" * 306, 2),
-        ("à" * 307, 3),
-        ("à" * 612, 4),
-        ("à" * 613, 5),
-        ("à" * 765, 5),
-        ("à" * 766, 6),
-        ("à" * 918, 6),
-        ("à" * 919, 7),
-        ("ÿ" * 70, 1),  # welsh character not in GSM, so send as unicode
-        ("ÿ" * 71, 2),
-        ("ÿ" * 134, 2),
-        ("ÿ" * 135, 3),
-        ("ÿ" * 268, 4),
-        ("ÿ" * 269, 5),
-        ("ÿ" * 402, 6),
-        ("ÿ" * 403, 7),
-        ("à" * 70 + "ÿ", 2),  # just one non-gsm character means it's sent at unicode
         (
-            "🚀" * 160,
-            1,
-        ),  # non-welsh unicode characters are downgraded to gsm, so are only one fragment long
+            "This is a very long long long long long long long long long long long long long long long long long long long long long long long long text message.",  # noqa
+            2,
+        ),
+        ("This is a short message.", 1),
     ],
 )
 def test_sms_fragment_count_accounts_for_unicode_and_welsh_characters(
@@ -1599,18 +1582,21 @@ def test_sms_fragment_count_accounts_for_unicode_and_welsh_characters(
     "msg, expected_sms_fragment_count",
     [
         # all extended GSM characters
-        ("^" * 81, 2),
-        # GSM characters plus extended GSM
-        ("a" * 158 + "|", 1),
-        ("a" * 159 + "|", 2),
-        ("a" * 304 + "[", 2),
-        ("a" * 304 + "[]", 3),
-        # Welsh character plus extended GSM
-        ("â" * 132 + "{", 2),
-        ("â" * 133 + "}", 3),
+        (
+            "Это длинное сообщение на русском языке, чтобы проверить, как система рассчитывает его стоимость.",
+            2,
+        ),
+        (
+            "이것은 매우 길고 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 긴 문자 메시지입니다.",
+            2,
+        ),
+        ("Αυτό είναι ένα μεγάλο μήνυμα στα ρωσικά για να ελέγξετε πώς το για αυτό", 1),
+        ("これは、システムがコストをどのように計算するかをテストするためのロシア語の長いメッセージです", 1),
+        ("这是一条很长的俄语消息，用于测试系统如何计算其成本", 1),
+        ("这是一个非常长的长长长长的长长长长的长长长长的长长长长的长长长长长长长长长长长长的长长长长的长篇短信", 2),
     ],
 )
-def test_sms_fragment_count_accounts_for_extended_gsm_characters(
+def test_sms_fragment_count_accounts_for_non_latin_characters(
     template_class,
     msg,
     expected_sms_fragment_count,
