@@ -241,13 +241,13 @@ def test_alt_text_with_no_brand_text_and_govuk_banner_shown():
         HTMLEmailTemplate(
             {"content": "hello world", "subject": "", "template_type": "email"},
             govuk_banner=True,
-            brand_logo=False,
+            brand_logo="http://example.com/image.png",
             brand_text=None,
             brand_banner=True,
             brand_name="Notify Logo",
         )
     )
-    assert 'alt=""' in email
+    assert 'alt=""' not in email
     assert 'alt="Notify Logo"' in email
 
 
