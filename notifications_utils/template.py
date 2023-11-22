@@ -246,16 +246,15 @@ class BaseSMSTemplate(Template):
 
     @property
     def fragment_count(self):
-        content_with_placeholders = str(self)
+        """
+        A fragment is up to 140 bytes, which could consist of 160 GSM chars, 140 ascii chars, or 70 ucs-2 chars,
+        or any combination thereof.
 
-        # Extended GSM characters count as 2 characters
-        character_count = self.content_count + count_extended_gsm_chars(
-            content_with_placeholders
-        )
-
-        return get_sms_fragment_count(
-            character_count, non_gsm_characters(content_with_placeholders)
-        )
+        Since we are supporting more or less "all" languages, it doesn't seem like we really want to count chars,
+        and that counting bytes should suffice.
+        """
+        content_len = len(self.content_with_placeholders_filled_in.encode("utf8"))
+        return math.ceil(content_len / 140)
 
     def is_message_too_long(self):
         """
