@@ -1,9 +1,6 @@
 """
 Shared python code for Notify applications
 """
-import ast
-import re
-
 from setuptools import find_packages, setup
 
 setup(
