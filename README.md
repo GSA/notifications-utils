@@ -226,7 +226,7 @@ We do not maintain any hooks in this repository.
 
 ## To update the version of this library
 
-Modify the `pyproject.toml` file on line 3 and follow the
+We follow the
 [Semantic Versioning](https://semver.org/#summary) principles:
 
 >Given a version number MAJOR.MINOR.PATCH, increment the:
@@ -235,8 +235,14 @@ Modify the `pyproject.toml` file on line 3 and follow the
 >MINOR version when you add functionality in a backward compatible manner
 >PATCH version when you make backward compatible bug fixes
 
-Once you finish making the change, commit the `pyproject.toml` file and create a
-new Pull Request (or add it to an existing one) for review and acceptance.
+You'll need to modify two files with matching version numbers:
+
+- Line 3 in `pyproject.toml`
+- Line 11 in `setup.py` (this will be deprecated in the near future)
+
+Once you finish making these adjustments, commit the changes and create a new
+Pull Request (or add them to an existing one) for review and acceptance. This
+will make the new version available for the other repos to consume.
 
 ## Python Dependency Management
 

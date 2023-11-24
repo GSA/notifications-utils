@@ -6,16 +6,9 @@ import re
 
 from setuptools import find_packages, setup
 
-_version_re = re.compile(r"__version__\s+=\s+(.*)")
-
-with open("notifications_utils/version.py", "rb") as f:
-    version = str(
-        ast.literal_eval(_version_re.search(f.read().decode("utf-8")).group(1))
-    )
-
 setup(
     name="notifications-utils",
-    version=version,
+    version="0.2.3",
     url="https://github.com/GSA/notifications-utils",
     license_files=("LICENSE.md",),
     author="General Services Administration",
