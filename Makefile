@@ -7,7 +7,9 @@ help:
 
 .PHONY: bootstrap
 bootstrap: ## Build project
-	poetry install --sync
+	poetry self update
+	poetry install --sync --no-root
+	poetry run pre-commit install
 
 .PHONY: dead-code
 dead-code:
@@ -59,7 +61,7 @@ audit:
 .PHONY: py-lock
 py-lock: ## Syncs dependencies and updates lock file without performing recursive internal updates
 	poetry lock --no-update
-	poetry install --sync
+	poetry install --sync --no-root
 
 .PHONY: freeze-requirements
 freeze-requirements: ## Pin all requirements including sub dependencies into requirements.txt
