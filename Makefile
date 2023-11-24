@@ -70,20 +70,3 @@ freeze-requirements: ## Pin all requirements including sub dependencies into req
 .PHONY: static-scan
 static-scan:
 	poetry run bandit -r app/
-
-.PHONY: reset-version
-reset-version:
-	git fetch
-	git checkout origin/main -- notifications_utils/version.py
-
-.PHONY: version-major
-version-major: reset-version ## Update the major version number
-	poetry run python scripts/bump_version.py major
-
-.PHONY: version-minor
-version-minor: reset-version ## Update the minor version number
-	poetry run python scripts/bump_version.py minor
-
-.PHONY: version-patch
-version-patch: reset-version ## Update the patch version number
-	poetry run python scripts/bump_version.py patch

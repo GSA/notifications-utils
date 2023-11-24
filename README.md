@@ -210,17 +210,17 @@ make test
 
 ## To update the version of this library
 
-Run one of the following `Makefile` commands, depending on the need:
+Modify the `pyproject.toml` file on line 3 and follow the
+[Semantic Versioning](https://semver.org/#summary) principles:
 
-- `make version-major`
-- `make version-minor`
-- `make version-patch`
+>Given a version number MAJOR.MINOR.PATCH, increment the:
+>
+>MAJOR version when you make incompatible API changes
+>MINOR version when you add functionality in a backward compatible manner
+>PATCH version when you make backward compatible bug fixes
 
-The output will tell you how to update the dependency reference for the other
-repos that rely on this one.
-
-This will ensure that the transitive dependencies won't be modified and remain
-compatible.
+Once you finish making the change, commit the `pyproject.toml` file and create a
+new Pull Request (or add it to an existing one) for review and acceptance.
 
 ## Python Dependency Management
 
