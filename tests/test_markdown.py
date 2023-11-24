@@ -48,9 +48,9 @@ def test_makes_links_out_of_URLs(url):
             ("this link is in brackets (http://example.com)"),
             (
                 "this link is in brackets "
-                '('
+                "("
                 '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">'
-                'Join Service</a>)'
+                "Join Service</a>)"
             ),
         ),
     ],
@@ -464,7 +464,7 @@ def test_table(markdown_function):
             (
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" href="http://example.com">'
-                'Join Service</a>'
+                "Join Service</a>"
                 "</p>"
             ),
         ],
@@ -475,7 +475,7 @@ def test_table(markdown_function):
                 '<p style="Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;">'
                 '<a style="word-wrap: break-word; color: #1D70B8;" '
                 'href="https://example.com%22onclick=%22alert%28%27hi">'
-                'Join Service'
+                "Join Service"
                 "</a>')"
                 "</p>"
             ),
