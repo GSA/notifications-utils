@@ -208,6 +208,22 @@ You can run tests for this library with the following command:
 make test
 ```
 
+## Git Hooks
+
+We're using [`pre-commit`](https://pre-commit.com/) to manage hooks in order to
+automate common tasks or easily-missed cleanup. It's installed as part of
+`make bootstrap` and is limited to this project's virtualenv.
+
+To run the hooks in advance of a `git` operation, use
+`poetry run pre-commit run`. For running across the whole codebase (useful after
+adding a new hook), use `poetry run pre-commit run --all-files`.
+
+The configuration is stored in `.pre-commit-config.yaml`. In that config, there
+are links to the repos from which the hooks are pulled, so hop through there if
+ou want a detailed description of what each one is doing.
+
+We do not maintain any hooks in this repository.
+
 ## To update the version of this library
 
 Modify the `pyproject.toml` file on line 3 and follow the
