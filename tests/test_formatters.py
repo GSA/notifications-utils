@@ -476,38 +476,31 @@ def test_normalise_whitespace(value):
         ),
         (
             "Go to gov.uk/example.",
-            'Go to '
-            '<a href="http://gov.uk/example">Join Service</a>.',
+            "Go to " '<a href="http://gov.uk/example">Join Service</a>.',
         ),
         (
             "Go to gov.uk/example:",
-            'Go to '
-            '<a href="http://gov.uk/example">Join Service</a>:',
+            "Go to " '<a href="http://gov.uk/example">Join Service</a>:',
         ),
         (
             "Go to gov.uk/example;",
-            'Go to '
-            '<a href="http://gov.uk/example;">Join Service</a>',
+            "Go to " '<a href="http://gov.uk/example;">Join Service</a>',
         ),
         (
             "(gov.uk/example)",
-            '('
-            '<a href="http://gov.uk/example">Join Service</a>)',
+            "(" '<a href="http://gov.uk/example">Join Service</a>)',
         ),
         (
             "(gov.uk/example)...",
-            '('
-            '<a href="http://gov.uk/example">Join Service</a>)...',
+            "(" '<a href="http://gov.uk/example">Join Service</a>)...',
         ),
         (
             "(gov.uk/example.)",
-            '('
-            '<a href="http://gov.uk/example">Join Service</a>.)',
+            "(" '<a href="http://gov.uk/example">Join Service</a>.)',
         ),
         (
             "(see example.com/foo_(bar))",
-            '(see '
-            '<a href="http://example.com/foo_%28bar%29">Join Service</a>)',
+            "(see " '<a href="http://example.com/foo_%28bar%29">Join Service</a>)',
         ),
         (
             "example.com/foo(((((((bar",
@@ -515,13 +508,12 @@ def test_normalise_whitespace(value):
         ),
         (
             "government website (gov.uk). Other websites…",
-            'government website ('
+            "government website ("
             '<a href="http://gov.uk">Join Service</a>). Other websites…',
         ),
         (
             "[gov.uk/example]",
-            '['
-            '<a href="http://gov.uk/example">Join Service</a>]',
+            "[" '<a href="http://gov.uk/example">Join Service</a>]',
         ),
         (
             "gov.uk/foo, gov.uk/bar",
@@ -530,8 +522,7 @@ def test_normalise_whitespace(value):
         ),
         (
             "<p>gov.uk/foo</p>",
-            '<p>'
-            '<a href="http://gov.uk/foo">Join Service</a></p>',
+            "<p>" '<a href="http://gov.uk/foo">Join Service</a></p>',
         ),
         (
             "gov.uk?foo&amp;",

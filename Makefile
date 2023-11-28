@@ -7,7 +7,9 @@ help:
 
 .PHONY: bootstrap
 bootstrap: ## Build project
-	poetry install --sync
+	poetry self update
+	poetry install --sync --no-root
+	poetry run pre-commit install
 
 .PHONY: dead-code
 dead-code:
@@ -19,7 +21,6 @@ test: ## Run tests
 	poetry run flake8 .
 	poetry run isort --check-only ./notifications_utils ./tests
 	poetry run pytest -n4 --maxfail=10
-	poetry run python setup.py sdist
 
 .PHONY: test-with-coverage
 test-with-coverage: ## Run tests with coverage
@@ -29,7 +30,6 @@ test-with-coverage: ## Run tests with coverage
 	poetry run coverage run -m pytest -n4 --maxfail=10
 	poetry run coverage report -m --fail-under=95
 	poetry run coverage html -d .coverage_cache
-	poetry run python setup.py sdist
 
 .PHONY: avg-complexity
 avg-complexity:
@@ -59,7 +59,7 @@ audit:
 .PHONY: py-lock
 py-lock: ## Syncs dependencies and updates lock file without performing recursive internal updates
 	poetry lock --no-update
-	poetry install --sync
+	poetry install --sync --no-root
 
 .PHONY: freeze-requirements
 freeze-requirements: ## Pin all requirements including sub dependencies into requirements.txt
@@ -68,20 +68,3 @@ freeze-requirements: ## Pin all requirements including sub dependencies into req
 .PHONY: static-scan
 static-scan:
 	poetry run bandit -r app/
-
-.PHONY: reset-version
-reset-version:
-	git fetch
-	git checkout origin/main -- notifications_utils/version.py
-
-.PHONY: version-major
-version-major: reset-version ## Update the major version number
-	poetry run python scripts/bump_version.py major
-
-.PHONY: version-minor
-version-minor: reset-version ## Update the minor version number
-	poetry run python scripts/bump_version.py minor
-
-.PHONY: version-patch
-version-patch: reset-version ## Update the patch version number
-	poetry run python scripts/bump_version.py patch
