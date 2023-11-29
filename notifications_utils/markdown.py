@@ -187,9 +187,9 @@ class NotifyEmailMarkdownRenderer(NotifyLetterMarkdownPreviewRenderer):
             content,
         )
 
-    def autolink(self, link, is_email=False):
+    def autolink(self, link, is_email):
         if is_email:
-            return link
+            return "this is linked"
         return create_sanitised_html_for_url(link, style=LINK_STYLE)
 
 
