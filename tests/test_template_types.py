@@ -519,8 +519,8 @@ def test_markdown_in_templates(
 def test_makes_links_out_of_URLs(
     extra_attributes, template_class, template_type, url, url_with_entities_replaced
 ):
-    assert ('<a {} href="{}">{}</a>').format(
-        extra_attributes, url, url_with_entities_replaced
+    assert '<a {} href="{}">{}</a>'.format(
+        extra_attributes, url_with_entities_replaced, url_with_entities_replaced
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
