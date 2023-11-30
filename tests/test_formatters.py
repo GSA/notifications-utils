@@ -29,11 +29,11 @@ from notifications_utils.template import (
     [
         (
             """https://example.com/"onclick="alert('hi')""",
-            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22onclick=%22alert%28%27hi%27%29">Join Service</a>""",  # noqa
+            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22onclick=%22alert%28%27hi%27%29">https://example.com/"onclick="alert('hi')</a>""",  # noqa
         ),
         (
             """https://example.com/"style='text-decoration:blink'""",
-            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22style=%27text-decoration:blink%27">Join Service</a>""",  # noqa
+            """<a class="govuk-link govuk-link--no-visited-state" href="https://example.com/%22style=%27text-decoration:blink%27">https://example.com/"style='text-decoration:blink'</a>""",  # noqa
         ),
     ],
 )
@@ -46,7 +46,7 @@ def test_URLs_get_escaped_in_sms(url, expected_html):
 def test_HTML_template_has_URLs_replaced_with_links():
     assert (
         '<a style="word-wrap: break-word; color: #1D70B8;" href="https://service.example.com/accept_invite/a1b2c3d4">'
-        "Join Service"
+        "https://service.example.com/accept_invite/a1b2c3d4"
         "</a>"
     ) in str(
         HTMLEmailTemplate(
@@ -288,10 +288,10 @@ def test_removing_whitespace_before_full_stops(dirty, clean):
         ),
         (
             """
-            <a href="http://example.com?q='foo'">Join Service</a>
+            <a href="http://example.com?q='foo'">http://example.com?q='foo'</a>
         """,
             """
-            <a href="http://example.com?q='foo'">Join Service</a>
+            <a href="http://example.com?q='foo'">http://example.com?q='foo'</a>
         """,
         ),
     ],
@@ -440,93 +440,93 @@ def test_normalise_whitespace(value):
     (
         (
             "http://example.com",
-            '<a href="http://example.com">Join Service</a>',
+            '<a href="http://example.com">http://example.com</a>',
         ),
         (
             "https://example.com",
-            '<a href="https://example.com">Join Service</a>',
+            '<a href="https://example.com">https://example.com</a>',
         ),
         (
             "example.com",
-            '<a href="http://example.com">Join Service</a>',
+            '<a href="http://example.com">example.com</a>',
         ),
         (
             "www.foo.bar.example.com",
-            '<a href="http://www.foo.bar.example.com">Join Service</a>',
+            '<a href="http://www.foo.bar.example.com">www.foo.bar.example.com</a>',
         ),
         (
             "example.com/",
-            '<a href="http://example.com/">Join Service</a>',
+            '<a href="http://example.com/">example.com/</a>',
         ),
         (
             "www.foo.bar.example.com/",
-            '<a href="http://www.foo.bar.example.com/">Join Service</a>',
+            '<a href="http://www.foo.bar.example.com/">www.foo.bar.example.com/</a>',
         ),
         (
             "example.com/foo",
-            '<a href="http://example.com/foo">Join Service</a>',
+            '<a href="http://example.com/foo">example.com/foo</a>',
         ),
         (
             "example.com?foo",
-            '<a href="http://example.com?foo">Join Service</a>',
+            '<a href="http://example.com?foo">example.com?foo</a>',
         ),
         (
             "example.com#foo",
-            '<a href="http://example.com#foo">Join Service</a>',
+            '<a href="http://example.com#foo">example.com#foo</a>',
         ),
         (
             "Go to gov.uk/example.",
-            "Go to " '<a href="http://gov.uk/example">Join Service</a>.',
+            "Go to " '<a href="http://gov.uk/example">gov.uk/example</a>.',
         ),
         (
             "Go to gov.uk/example:",
-            "Go to " '<a href="http://gov.uk/example">Join Service</a>:',
+            "Go to " '<a href="http://gov.uk/example">gov.uk/example</a>:',
         ),
         (
             "Go to gov.uk/example;",
-            "Go to " '<a href="http://gov.uk/example;">Join Service</a>',
+            "Go to " '<a href="http://gov.uk/example;">gov.uk/example;</a>',
         ),
         (
             "(gov.uk/example)",
-            "(" '<a href="http://gov.uk/example">Join Service</a>)',
+            "(" '<a href="http://gov.uk/example">gov.uk/example</a>)',
         ),
         (
             "(gov.uk/example)...",
-            "(" '<a href="http://gov.uk/example">Join Service</a>)...',
+            "(" '<a href="http://gov.uk/example">gov.uk/example</a>)...',
         ),
         (
             "(gov.uk/example.)",
-            "(" '<a href="http://gov.uk/example">Join Service</a>.)',
+            "(" '<a href="http://gov.uk/example">gov.uk/example</a>.)',
         ),
         (
             "(see example.com/foo_(bar))",
-            "(see " '<a href="http://example.com/foo_%28bar%29">Join Service</a>)',
+            "(see " '<a href="http://example.com/foo_%28bar%29">example.com/foo_(bar)</a>)',
         ),
         (
             "example.com/foo(((((((bar",
-            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar">Join Service</a>',
+            '<a href="http://example.com/foo%28%28%28%28%28%28%28bar">example.com/foo(((((((bar</a>',
         ),
         (
             "government website (gov.uk). Other websites…",
             "government website ("
-            '<a href="http://gov.uk">Join Service</a>). Other websites…',
+            '<a href="http://gov.uk">gov.uk</a>). Other websites…',
         ),
         (
             "[gov.uk/example]",
-            "[" '<a href="http://gov.uk/example">Join Service</a>]',
+            "[" '<a href="http://gov.uk/example">gov.uk/example</a>]',
         ),
         (
             "gov.uk/foo, gov.uk/bar",
-            '<a href="http://gov.uk/foo">Join Service</a>, '
-            '<a href="http://gov.uk/bar">Join Service</a>',
+            '<a href="http://gov.uk/foo">gov.uk/foo</a>, '
+            '<a href="http://gov.uk/bar">gov.uk/bar</a>',
         ),
         (
             "<p>gov.uk/foo</p>",
-            "<p>" '<a href="http://gov.uk/foo">Join Service</a></p>',
+            "<p>" '<a href="http://gov.uk/foo">gov.uk/foo</a></p>',
         ),
         (
             "gov.uk?foo&amp;",
-            '<a href="http://gov.uk?foo&amp;">Join Service</a>',
+            '<a href="http://gov.uk?foo&amp;">gov.uk?foo&amp;</a>',
         ),
         (
             "a .service.gov.uk domain",
@@ -534,7 +534,7 @@ def test_normalise_whitespace(value):
         ),
         (
             'http://foo.com/"bar"?x=1#2',
-            '<a href="http://foo.com/%22bar%22?x=1#2">Join Service</a>',
+            '<a href="http://foo.com/%22bar%22?x=1#2">http://foo.com/"bar"?x=1#2</a>',
         ),
         (
             "firstname.lastname@example.com",
@@ -555,13 +555,13 @@ def test_autolink_urls_matches_correctly(content, expected_html):
     (
         (
             {},
-            '<a href="http://example.com">Join Service</a>',
+            '<a href="http://example.com">http://example.com</a>',
         ),
         (
             {
                 "classes": "govuk-link",
             },
-            '<a class="govuk-link" href="http://example.com">Join Service</a>',
+            '<a class="govuk-link" href="http://example.com">http://example.com</a>',
         ),
     ),
 )
