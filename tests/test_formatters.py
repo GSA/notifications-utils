@@ -500,7 +500,8 @@ def test_normalise_whitespace(value):
         ),
         (
             "(see example.com/foo_(bar))",
-            "(see " '<a href="http://example.com/foo_%28bar%29">example.com/foo_(bar)</a>)',
+            "(see "
+            '<a href="http://example.com/foo_%28bar%29">example.com/foo_(bar)</a>)',
         ),
         (
             "example.com/foo(((((((bar",
