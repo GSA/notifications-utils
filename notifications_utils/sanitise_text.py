@@ -89,7 +89,7 @@ class SanitiseText:
     def is_chinese(cls, value):
         # This range supports all "CJK Unified Ideoglyphs"
         # It may be missing some rare/historic characters that are not in common use
-        if regex.search(r"[\u4e00-\u9fff]+", value):
+        if regex.search(r"[\u4e00-\u9fff]+", value) or value == '。':
             return True
         return False
 
