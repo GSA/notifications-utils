@@ -217,6 +217,14 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             "Không tung tin vịt, thông tin sai lệch hoặc nội dung không kiểm chứng được vào bài viết. Tuy nhiên, những bài viết về những tin vịt nổi bật được chấp nhận.",  # noqa too long
             True,
         ),  # Vietnamese from wikipedia 10
+        (
+            "수록되어 있으며, 넘겨주기를 포함한 일반 문서 수는 1,434,776개。",
+            True,
+        ),  # Korean from wikipedia includes circle-period
+        (
+            "日本語表記にも対応するようになり[1]、徐々に日本人のユーザーも増大していった、と述べられている。",
+            True,
+        ),  # Japanese from wikipedia includes circle-period
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
