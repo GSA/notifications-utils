@@ -30,14 +30,15 @@ params, ids = zip(
         ("’", "'"),
         "compatibility transform unicode char (RIGHT SINGLE QUOTATION MARK (U+2019)",
     ),
-    (
-        ("“", '"'),
-        "compatibility transform unicode char (LEFT DOUBLE QUOTATION MARK (U+201C)	",
-    ),
-    (
-        ("”", '"'),
-        "compatibility transform unicode char (RIGHT DOUBLE QUOTATION MARK (U+201D)",
-    ),
+    # Conflict with Chinese quotes
+    # (
+    #    ("“", '"'),
+    #    "compatibility transform unicode char (LEFT DOUBLE QUOTATION MARK (U+201C)	",
+    # ),
+    # (
+    #    ("”", '"'),
+    #    "compatibility transform unicode char (RIGHT DOUBLE QUOTATION MARK (U+201D)",
+    # ),
     (("\xa0", " "), "nobreak transform unicode char (NO-BREAK SPACE (U+00A0))"),
     # this unicode char is not decomposable
     (("😬", "?"), "undecomposable unicode char (grimace emoji)"),
@@ -127,6 +128,7 @@ def test_encode_string(content, expected):
             {"\n", "\r", "€"},
         ),
         ("Αυτό είναι ένα τεστ", SanitiseSMS, set()),
+        ("。、“”()：;？！", SanitiseSMS, set()),  # Chinese punctuation
     ],
 )
 def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
@@ -245,14 +247,6 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             "Fariin Khiyaamo Suurtogal ah DSHS: Waxaanu ka ogaanay khiyaamo suurtogal ah akoonkaaga. Wax # ee ku yaal xaga danbe ee kadadhka EBT si aad u joojisid ama u aadid xafiiska deegaanka uguna dalbatid a new one (mid cusub). Ku jawaab JOOJI si aad u joojisid",  # noqa too long
             True,
         ),  # noqa too long # State of WA Somali
-        ("我今天早上起床以后，马上就出门了。", True),  # Special Chinese comma
-        ("我喜欢猫、狗、鸟。", True),  # Special Chinese enumeration comma
-        ("妈妈说：“两岁的弟弟喜欢 ‘帮忙’ 打扫家里。”", True),  # Special Chinese quotes
-        ("今天是中国新年 (农历一月一日)。", True),  # Special Chinese parentheses
-        ("老师说：上课了。", True),  # Special Chinese colon
-        ("明天如果冷，我们就吃火锅 ; 明天如果不冷，我们就吃便当。", True),  # Special Chinese semi-colon
-        ("他是你男朋友吗？", True),  # Special Chinese question mark
-        ("她上个星期天结婚了！", True),  # Special Chinese exclamation mark
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
@@ -272,6 +266,7 @@ def test_sms_supporting_additional_languages(content, expected):
         ("𐤓𐤓𐤓𐤈𐤆", {"𐤆", "𐤈", "𐤓"}),  # Phoenician
         ("这是一次测试", set()),  # Mandarin (Simplified)
         ("Bunda Türkçe karakterler var", set()),  # Turkish
+        ("。、“”()：;？！", set()),  # Chinese punctuation
     ],
 )
 def test_get_non_compatible_characters(content, expected):
