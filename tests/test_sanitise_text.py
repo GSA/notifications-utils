@@ -225,6 +225,34 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             "日本語表記にも対応するようになり[1]、徐々に日本人のユーザーも増大していった、と述べられている。",
             True,
         ),  # Japanese from wikipedia includes circle-period
+        (
+            "DSHS:我们发现您的账户存在潜在欺诈行为。请致电您的 EBT 卡背面的号码废止或前往当地办公室获取一个新账户。回复 “STOP(退订)” 退订",
+            True,
+        ),  # State of Washington Chinese Simplified
+        (
+            "DSHS៖ ប ើងោនកត់សម្គា ល់ប ើញក្ដរបោកប្រោស់ជាសក្ដា នុពលបៅបលើគណនីរបស់អ្នក។ សូមបៅបៅបលខ #បៅបលើខនងក្ដត EBT របស់អ្នក ប ើមបីបោោះបង់ ឬក៏បៅក្ដន់ក្ដរយាិ ល័ បៅកនុងតំបន់របស់អ្នក ប ើមបីបសនើសុំក្ដតថ្មី។ ប្លើ តបជាអ្កសរ ឈប់ ប ើមបីបញ្ឈប់",  # noqa too long
+            True,
+        ),  # State of Washington Khmer
+        (
+            "DSHS: 귀하의 계정 상에 사기가 일어났을 가능성이 포착되었습니다. 귀하의 EBT 카드 뒷면에있는 번호로 전화를 걸어 취소하거나 현지 사무소로 가서 새 것을 발급 받으세요. 중단하려면중단이라고 회신하세요.",  # noqa too long
+            True,
+        ),  # State of WA Korean
+        (
+            "ຂ ຄໍ້ ວາມການສໍ້ໂກງທອາດເປັນໄປໄດ ໍ້ DSHS: ພວກເຮາົໄດສໍ້ງັເກດເຫນັການສໂກງທີ່ອາດເປັນໄປໄດໃໍ້ນບນັຊຂ ອງທີ່ານ. ໂທຫາ # ທ ຢີ່ ດາໍ້ນຫ ງັຂອງບດັ EBT ຂອງທີ່ານເພອຍກົ ເລກ ຫ ໄປຍງັຫອໍ້ງການປະຈາ ທອໍ້ງຖ ນຂອງທີ່ານ ເພີ່ອຂ ບດັ ໃຫມີ່ . ຕອບກບັດວໍ້ ຍ STOP (ຢຸດເຊາົ) ເພອຢຸດເຊາົ",  # noqa too long
+            True,
+        ),  # noqa too long # State of WA Lao
+        (
+            "Fariin Khiyaamo Suurtogal ah DSHS: Waxaanu ka ogaanay khiyaamo suurtogal ah akoonkaaga. Wax # ee ku yaal xaga danbe ee kadadhka EBT si aad u joojisid ama u aadid xafiiska deegaanka uguna dalbatid a new one (mid cusub). Ku jawaab JOOJI si aad u joojisid",  # noqa too long
+            True,
+        ),  # noqa too long # State of WA Somali
+        ("我今天早上起床以后，马上就出门了。", True),  # Special Chinese comma
+        ("我喜欢猫、狗、鸟。", True),  # Special Chinese enumeration comma
+        ("妈妈说：“两岁的弟弟喜欢 ‘帮忙’ 打扫家里。”", True),  # Special Chinese quotes
+        ("今天是中国新年 (农历一月一日)。", True),  # Special Chinese parentheses
+        ("老师说：上课了。", True),  # Special Chinese colon
+        ("明天如果冷，我们就吃火锅 ; 明天如果不冷，我们就吃便当。", True),  # Special Chinese semi-colon
+        ("他是你男朋友吗？", True),  # Special Chinese question mark
+        ("她上个星期天结婚了！", True),  # Special Chinese exclamation mark
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
