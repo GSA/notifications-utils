@@ -30,14 +30,15 @@ params, ids = zip(
         ("’", "'"),
         "compatibility transform unicode char (RIGHT SINGLE QUOTATION MARK (U+2019)",
     ),
-    (
-        ("“", '"'),
-        "compatibility transform unicode char (LEFT DOUBLE QUOTATION MARK (U+201C)	",
-    ),
-    (
-        ("”", '"'),
-        "compatibility transform unicode char (RIGHT DOUBLE QUOTATION MARK (U+201D)",
-    ),
+    # Conflict with Chinese quotes
+    # (
+    #    ("“", '"'),
+    #    "compatibility transform unicode char (LEFT DOUBLE QUOTATION MARK (U+201C)	",
+    # ),
+    # (
+    #    ("”", '"'),
+    #    "compatibility transform unicode char (RIGHT DOUBLE QUOTATION MARK (U+201D)",
+    # ),
     (("\xa0", " "), "nobreak transform unicode char (NO-BREAK SPACE (U+00A0))"),
     # this unicode char is not decomposable
     (("😬", "?"), "undecomposable unicode char (grimace emoji)"),
@@ -127,6 +128,7 @@ def test_encode_string(content, expected):
             {"\n", "\r", "€"},
         ),
         ("Αυτό είναι ένα τεστ", SanitiseSMS, set()),
+        ("。、“”()：;？！", SanitiseSMS, set()),  # Chinese punctuation
     ],
 )
 def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
@@ -146,6 +148,105 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
         ("𐤓𐤓𐤓𐤈𐤆", False),  # Phoenician
         ("这是一次测试", True),  # Mandarin (Simplified)
         ("Bunda Türkçe karakterler var", True),  # Turkish
+        (
+            "盾牌镍币是第一种采用白铜制作的5美分硬币，由詹姆斯·B·朗埃克设计，从1866年发行到1883年再由自由女神头像镍币取代。",
+            True,
+        ),  # Chinese from wikipedia 1
+        (
+            "国际志愿者日為每年的12月5日，它是由联合国大会在1985年12月17日通过的A/RES/40/212决议[1]上确定的[2]。",
+            True,
+        ),  # Chinese from wikipedia 2
+        ("哪一種多邊形內部至少存在一個可以看見多邊形所有邊界和所有內部區域的點？", True),  # Chinese from wikipedia 3
+        (
+            "都柏林在官方城市邊界內的人口是大約495,000人（愛爾蘭中央統計處2002年人口調查），然而這種統計已經沒有什麼太大的意義，因為都柏林的市郊地區和衛星城鎮已經大幅地發展與擴張。",
+            True,
+        ),  # noqa too long # Chinese from wikipedia 4
+        (
+            "一名是Dubh Linn（愛爾蘭語，意為「黑色的水池」）的英國習語。當然也有人質疑這語源。",
+            True,
+        ),  # Chinese from wikipedia 5
+        (
+            "都柏林拥有世界闻名的文学历史，曾经产生过许多杰出的文学家，例如诺贝尔文学奖得主威廉·巴特勒·叶芝、蕭伯納和塞繆爾·貝克特。",
+            True,
+        ),  # Chinese from wikipedia 6
+        (
+            "愛爾蘭國家博物館的四个分馆中有三個分館都位於都柏林：考古学分馆在基尔代尔街，装饰艺术和历史分馆在柯林斯军营，而自然史分馆在梅林街[12]。",
+            True,
+        ),  # Chinese from wikipedia 7
+        (
+            "從17世紀開始，城市在寬闊街道事務委員會的幫助下開始迅速擴張。乔治亚都柏林曾一度是大英帝國僅次於倫敦的第二大城市。",
+            True,
+        ),  # Chinese from wikipedia 8
+        ("一些著名的都柏林街道建築仍以倒閉前在此經營的酒吧和商業公司命名。", True),  # Chinese from wikipedia 9
+        (
+            "1922年，隨著愛爾蘭的分裂，都柏林成為愛爾蘭自由邦（1922年–1937年）的首都。現在則為愛爾蘭共和國的首都。",
+            True,
+        ),  # Chinese from wikipedia 10
+        (
+            "Dưới đây là danh sách tất cả các tên người dùng hiện đang có tại Wikipedia, hoặc những tên người dùng trong một nhóm chỉ định. ",  # noqa too long
+            True,
+        ),  # Vietnamese from wikipedia 1
+        (
+            "Các bảo quản viên đảm nhận những trách nhiệm này với tư cách là tình nguyện viên sau khi trải qua quá trình xem xét của cộng đồng. ",  # noqa too long
+            True,
+        ),  # Vietnamese from wikipedia 2
+        (
+            'Họ không bao giờ được yêu cầu sử dụng các công cụ của mình và không bao giờ được sử dụng chúng để giành lợi thế trong một cuộc tranh chấp mà họ có tham gia. Không nên nhầm lẫn bảo quản viên với quản trị viên hệ thống của Wikimedia ("sysadmins").',  # noqa too long
+            True,
+        ),  # Vietnamese from wikipedia 3
+        (
+            "Để đạt được mục tiêu chung đó, Wikipedia đề ra một số quy định và hướng dẫn. ",
+            True,
+        ),  # Vietnamese from wikipedia 4
+        ("Wikipedia là một bách khoa toàn thư. ", True),  # Vietnamese from wikipedia 5
+        (
+            "Phải đảm bảo bài viết mang lại ích lợi cho độc giả (coi độc giả là yếu tố quan trọng khi viết bài)",
+            True,
+        ),  # Vietnamese from wikipedia 6
+        (
+            "Bài viết ở Wikipedia có thể chứa đựng từ ngữ và hình ảnh gây khó chịu nhưng chỉ vì mục đích tốt đẹp. Không cần thêm vào phủ định trách nhiệm.",  # noqa too long
+            True,
+        ),  # Vietnamese from wikipedia 7
+        (
+            "Đừng sử dụng hình ảnh mà chỉ có thể xem được chính xác với công cụ 3D.",
+            True,
+        ),  # Vietnamese from wikipedia 8
+        (
+            "Trích dẫn bất cứ nôi dung tranh luận gốc nào cũng nên có liên quan đến tranh luận đó (hoặc minh họa cho phong cách) và chỉ nên dài vừa đủ.",  # noqa too long
+            True,
+        ),  # Vietnamese from wikipedia 9
+        (
+            "Không tung tin vịt, thông tin sai lệch hoặc nội dung không kiểm chứng được vào bài viết. Tuy nhiên, những bài viết về những tin vịt nổi bật được chấp nhận.",  # noqa too long
+            True,
+        ),  # Vietnamese from wikipedia 10
+        (
+            "수록되어 있으며, 넘겨주기를 포함한 일반 문서 수는 1,434,776개。",
+            True,
+        ),  # Korean from wikipedia includes circle-period
+        (
+            "日本語表記にも対応するようになり[1]、徐々に日本人のユーザーも増大していった、と述べられている。",
+            True,
+        ),  # Japanese from wikipedia includes circle-period
+        (
+            "DSHS:我们发现您的账户存在潜在欺诈行为。请致电您的 EBT 卡背面的号码废止或前往当地办公室获取一个新账户。回复 “STOP(退订)” 退订",
+            True,
+        ),  # State of Washington Chinese Simplified
+        (
+            "DSHS៖ ប ើងោនកត់សម្គា ល់ប ើញក្ដរបោកប្រោស់ជាសក្ដា នុពលបៅបលើគណនីរបស់អ្នក។ សូមបៅបៅបលខ #បៅបលើខនងក្ដត EBT របស់អ្នក ប ើមបីបោោះបង់ ឬក៏បៅក្ដន់ក្ដរយាិ ល័ បៅកនុងតំបន់របស់អ្នក ប ើមបីបសនើសុំក្ដតថ្មី។ ប្លើ តបជាអ្កសរ ឈប់ ប ើមបីបញ្ឈប់",  # noqa too long
+            True,
+        ),  # State of Washington Khmer
+        (
+            "DSHS: 귀하의 계정 상에 사기가 일어났을 가능성이 포착되었습니다. 귀하의 EBT 카드 뒷면에있는 번호로 전화를 걸어 취소하거나 현지 사무소로 가서 새 것을 발급 받으세요. 중단하려면중단이라고 회신하세요.",  # noqa too long
+            True,
+        ),  # State of WA Korean
+        (
+            "ຂ ຄໍ້ ວາມການສໍ້ໂກງທອາດເປັນໄປໄດ ໍ້ DSHS: ພວກເຮາົໄດສໍ້ງັເກດເຫນັການສໂກງທີ່ອາດເປັນໄປໄດໃໍ້ນບນັຊຂ ອງທີ່ານ. ໂທຫາ # ທ ຢີ່ ດາໍ້ນຫ ງັຂອງບດັ EBT ຂອງທີ່ານເພອຍກົ ເລກ ຫ ໄປຍງັຫອໍ້ງການປະຈາ ທອໍ້ງຖ ນຂອງທີ່ານ ເພີ່ອຂ ບດັ ໃຫມີ່ . ຕອບກບັດວໍ້ ຍ STOP (ຢຸດເຊາົ) ເພອຢຸດເຊາົ",  # noqa too long
+            True,
+        ),  # noqa too long # State of WA Lao
+        (
+            "Fariin Khiyaamo Suurtogal ah DSHS: Waxaanu ka ogaanay khiyaamo suurtogal ah akoonkaaga. Wax # ee ku yaal xaga danbe ee kadadhka EBT si aad u joojisid ama u aadid xafiiska deegaanka uguna dalbatid a new one (mid cusub). Ku jawaab JOOJI si aad u joojisid",  # noqa too long
+            True,
+        ),  # noqa too long # State of WA Somali
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
@@ -165,6 +266,7 @@ def test_sms_supporting_additional_languages(content, expected):
         ("𐤓𐤓𐤓𐤈𐤆", {"𐤆", "𐤈", "𐤓"}),  # Phoenician
         ("这是一次测试", set()),  # Mandarin (Simplified)
         ("Bunda Türkçe karakterler var", set()),  # Turkish
+        ("。、“”()：;？！", set()),  # Chinese punctuation
     ],
 )
 def test_get_non_compatible_characters(content, expected):
