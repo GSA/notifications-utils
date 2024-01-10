@@ -133,6 +133,9 @@ class RedisClient:
         else:
             return False
 
+    def raw_set(self, key, value, ex=None, px=None, nx=False, xx=False):
+        self.redis_store.set(key, value, ex, px, nx, xx)
+
     def set(
         self, key, value, ex=None, px=None, nx=False, xx=False, raise_exception=False
     ):
@@ -151,6 +154,9 @@ class RedisClient:
                 return self.redis_store.incr(key)
             except Exception as e:
                 self.__handle_exception(e, raise_exception, "incr", key)
+
+    def raw_get(self, key):
+        return self.redis_store.get(key)
 
     def get(self, key, raise_exception=False):
         key = prepare_value(key)
