@@ -1593,8 +1593,8 @@ def test_sms_fragment_count_accounts_for_unicode_and_welsh_characters(
         ("这是一条很长的俄语消息，用于测试系统如何计算其成本", 1),
         ("这是一个非常长的长长长长的长长长长的长长长长的长长长长的长长长长长长长长长长长长的长长长长的长篇短信", 2),
         ("これは、システムがコストをどのように計算するかをテストするためのロシア語の長いメッセージです foo foofoofoofoofoofoofoofoo", 2),
-        ("Это длинное сообщение на русском языке, чтобы проверить, как система рассчитывает его стоимость. foo foo foo foo \
-         foo foo foo foo foo foo", 2),
+        ("Это длинное сообщение на русском языке, чтобы проверить, как система рассчитывает его стоимость.\
+          foo foo foo foo foo foo foo foo foo foo", 2),
         ("这是一条很长的俄语消息，foo foo foo foo foo foo foo foo foo foo foo foo 用于测试系统如何计算其成本", 1)
     ],
 )
