@@ -1598,8 +1598,9 @@ def test_sms_fragment_count_accounts_for_unicode_and_welsh_characters(
         ("Hello Carlos. Your Example Corp. bill of $100 is now available. Autopay is scheduled for next Thursday,\
          April 9. To view the details of your bill, go to https://example.com/bill1.", 2),
         ("亚马逊公司是一家总部位于美国西雅图的跨国电子商务企业，业务起始于线上书店，不久之后商品走向多元化。杰夫·贝佐斯于1994年7月创建了这家公司。", 2),
-        #This test should break into two messages, but \u2019 gets converted to (')
-        ("John: Your appointment with Dr. Salazar’s office is scheduled for next Thursday at 4:30pm. Reply YES to confirm, NO to reschedule.", 1),
+        # This test should break into two messages, but \u2019 gets converted to (')
+        ("John: Your appointment with Dr. Salazar’s office is scheduled for next Thursday at 4:30pm.\
+          Reply YES to confirm, NO to reschedule.", 1),
     ],
 )
 def test_sms_fragment_count_accounts_for_non_latin_characters(

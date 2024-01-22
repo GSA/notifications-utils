@@ -254,6 +254,7 @@ class BaseSMSTemplate(Template):
         Since we are supporting more or less "all" languages, it doesn't seem like we really want to count chars,
         and that counting bytes should suffice.
         """
+
         #check if all chars are in the GSM-7 character set
         def gsm_check(x):
             rule = re.compile(r'^[\sa-zA-Z0-9_@?£!1$"¥#è?¤é%ù&ì\\ò(Ç)*:Ø+;ÄäøÆ,<LÖlöæ\-=ÑñÅß.>ÜüåÉ/§à¡¿\']+$')
@@ -265,6 +266,7 @@ class BaseSMSTemplate(Template):
         message_str = self.content_with_placeholders_filled_in
 
         content_len = len(message_str)
+
         """
         Checks for GSM-7 char set, calculates msg size, and 
         then fragments based on multipart message rules. ASCII
