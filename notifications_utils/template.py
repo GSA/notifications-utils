@@ -255,7 +255,7 @@ class BaseSMSTemplate(Template):
         and that counting bytes should suffice.
         """
 
-        #check if all chars are in the GSM-7 character set
+        # check if all chars are in the GSM-7 character set
         def gsm_check(x):
             rule = re.compile(r'^[\sa-zA-Z0-9_@?£!1$"¥#è?¤é%ù&ì\\ò(Ç)*:Ø+;ÄäøÆ,<LÖlöæ\-=ÑñÅß.>ÜüåÉ/§à¡¿\']+$')
             if not rule.search(x):
@@ -268,7 +268,7 @@ class BaseSMSTemplate(Template):
         content_len = len(message_str)
 
         """
-        Checks for GSM-7 char set, calculates msg size, and 
+        Checks for GSM-7 char set, calculates msg size, and
         then fragments based on multipart message rules. ASCII
         was not specifically called out as almost all messages will
         switch from 7bit GSM to Unicode.
@@ -276,10 +276,10 @@ class BaseSMSTemplate(Template):
         if gsm_check(message_str):
             if content_len <= 160:
                 return math.ceil(content_len / 160)
-            else: 
+            else:
                 return math.ceil(content_len / 153)
         else:
-            if content_len <= 70: 
+            if content_len <= 70:
                 return math.ceil(content_len / 70)
             else:
                 return math.ceil(content_len / 67)
