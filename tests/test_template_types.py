@@ -1553,7 +1553,7 @@ def test_character_count_for_broadcast_templates(
     [
         (
             "This is a very long long long long long long long long long long long long long long long long long long long long long long long long text message.",  # noqa
-            2,
+            1,
         ),
         ("This is a short message.", 1),
     ],
