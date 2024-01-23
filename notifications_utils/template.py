@@ -258,10 +258,10 @@ class BaseSMSTemplate(Template):
         # check if all chars are in the GSM-7 character set
         def gsm_check(x):
             rule = re.compile(r'^[\sa-zA-Z0-9_@?£!1$"¥#è?¤é%ù&ì\\ò(Ç)*:Ø+;ÄäøÆ,<LÖlöæ\-=ÑñÅß.>ÜüåÉ/§à¡¿\']+$')
-            if not rule.search(x):
+            gsm_match = rule.search(x)
+            if gsm_match is None:
                 return False
-            else:
-                return True
+            return True
 
         message_str = self.content_with_placeholders_filled_in
 
