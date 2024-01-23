@@ -272,6 +272,8 @@ class BaseSMSTemplate(Template):
         then fragments based on multipart message rules. ASCII
         was not specifically called out as almost all messages will
         switch from 7bit GSM to Unicode.
+        
+        Calculations are based on https://messente.com/documentation/tools/sms-length-calculator
         """
         if gsm_check(message_str):
             if content_len <= 160:
