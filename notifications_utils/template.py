@@ -271,7 +271,8 @@ class BaseSMSTemplate(Template):
         Checks for GSM-7 char set, calculates msg size, and
         then fragments based on multipart message rules. ASCII
         was not specifically called out as almost all messages will
-        switch from 7bit GSM to Unicode.        
+        switch from 7bit GSM to Unicode.
+        
         Calculations are based on https://messente.com/documentation/tools/sms-length-calculator
         """
         if gsm_check(message_str):
