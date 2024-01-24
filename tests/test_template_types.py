@@ -1553,7 +1553,7 @@ def test_character_count_for_broadcast_templates(
     [
         (
             "This is a very long long long long long long long long long long long long long long long long long long long long long long long long text message.",  # noqa
-            2,
+            1,
         ),
         ("This is a short message.", 1),
     ],
@@ -1588,14 +1588,31 @@ def test_sms_fragment_count_accounts_for_unicode_and_welsh_characters(
             "이것은 매우 길고 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 긴 문자 메시지입니다.",
             2,
         ),
-        ("Αυτό είναι ένα μεγάλο μήνυμα στα ρωσικά για να ελέγξετε πώς το για αυτό", 1),
+        ("Αυτό είναι ένα μεγάλο μήνυμα στα ρωσικά για να ελέγξετε πώς το για αυτό", 2),
         ("これは、システムがコストをどのように計算するかをテストするためのロシア語の長いメッセージです", 1),
         ("这是一条很长的俄语消息，用于测试系统如何计算其成本", 1),
-        ("这是一个非常长的长长长长的长长长长的长长长长的长长长长的长长长长长长长长长长长长的长长长长的长篇短信", 2),
-        ("これは、システムがコストをどのように計算するかをテストするためのロシア語の長いメッセージです foo foofoofoofoofoofoofoofoo", 2),
-        ("Это длинное сообщение на русском языке, чтобы проверить, как система рассчитывает его стоимость.\
-          foo foo foo foo foo foo foo foo foo foo", 2),
-        ("这是一条很长的俄语消息，foo foo foo foo foo foo foo foo foo foo foo foo 用于测试系统如何计算其成本", 1)
+        ("这是一个非常长的长长长长的长长长长的长长长长的长长长长的长长长长长长长长长长长长的长长长长的长篇短信", 1),
+        (
+            "これは、システムがコストをどのように計算するかをテストするためのロシア語の長いメッセージです foo foofoofoofoofoofoofoofoo",
+            2,
+        ),
+        (
+            "Это длинное сообщение на русском языке, чтобы проверить, как система рассчитывает его стоимость.\
+          foo foo foo foo foo foo foo foo foo foo",
+            3,
+        ),
+        (
+            "Hello Carlos. Your Example Corp. bill of $100 is now available. Autopay is scheduled for next Thursday,\
+         April 9. To view the details of your bill, go to https://example.com/bill1.",
+            2,
+        ),
+        ("亚马逊公司是一家总部位于美国西雅图的跨国电子商务企业，业务起始于线上书店，不久之后商品走向多元化。杰夫·贝佐斯于1994年7月创建了这家公司。", 2),
+        # This test should break into two messages, but \u2019 gets converted to (')
+        (
+            "John: Your appointment with Dr. Salazar’s office is scheduled for next Thursday at 4:30pm.\
+          Reply YES to confirm, NO to reschedule.",
+            1,
+        ),
     ],
 )
 def test_sms_fragment_count_accounts_for_non_latin_characters(

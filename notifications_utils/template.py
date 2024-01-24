@@ -1,4 +1,5 @@
 import math
+import re
 from abc import ABC, abstractmethod
 from datetime import datetime
 from functools import lru_cache
@@ -253,8 +254,39 @@ class BaseSMSTemplate(Template):
         Since we are supporting more or less "all" languages, it doesn't seem like we really want to count chars,
         and that counting bytes should suffice.
         """
-        content_len = len(self.content_with_placeholders_filled_in.encode("utf8"))
-        return math.ceil(content_len / 140)
+
+        # check if all chars are in the GSM-7 character set
+        def gsm_check(x):
+            rule = re.compile(
+                r'^[\sa-zA-Z0-9_@?£!1$"¥#è?¤é%ù&ì\\ò(Ç)*:Ø+;ÄäøÆ,<LÖlöæ\-=ÑñÅß.>ÜüåÉ/§à¡¿\']+$'
+            )
+            gsm_match = rule.search(x)
+            if gsm_match is None:
+                return False
+            return True
+
+        message_str = self.content_with_placeholders_filled_in
+
+        content_len = len(message_str)
+
+        """
+        Checks for GSM-7 char set, calculates msg size, and
+        then fragments based on multipart message rules. ASCII
+        was not specifically called out as almost all messages will
+        switch from 7bit GSM to Unicode.
+
+        Calculations are based on https://messente.com/documentation/tools/sms-length-calculator
+        """
+        if gsm_check(message_str):
+            if content_len <= 160:
+                return math.ceil(content_len / 160)
+            else:
+                return math.ceil(content_len / 153)
+        else:
+            if content_len <= 70:
+                return math.ceil(content_len / 70)
+            else:
+                return math.ceil(content_len / 67)
 
     def is_message_too_long(self):
         """
