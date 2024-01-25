@@ -126,9 +126,10 @@ def test_ordering_of_placeholders_is_preserved():
     before = ConcreteTemplate({"content": "((dog)) ((cat)) ((rat))"})
     after = ConcreteTemplate({"content": "((platypus)) ((echidna)) ((quokka))"})
     change = TemplateChange(before, after)
-    assert change.placeholders_removed == ["dog", "cat", "rat"] == before.placeholders
-    assert (
-        change.placeholders_added
-        == ["platypus", "echidna", "quokka"]
-        == after.placeholders
-    )
+    assert change.placeholders_removed[0] == "dog" == before.placeholders[0]
+    assert change.placeholders_removed[1] == "cat" == before.placeholders[1]
+    assert change.placeholders_removed[2] == "rat" == before.placeholders[2]
+
+    assert change.placeholders_added[0] == "platypus"
+    assert change.placeholders_added[1] == "echidna"
+    assert change.placeholders_added[2] == "quokka"

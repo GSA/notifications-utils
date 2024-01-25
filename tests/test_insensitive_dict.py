@@ -91,6 +91,6 @@ def test_maintains_insertion_order():
             "C": None,
         }
     )
-    assert d.keys() == ["b", "a", "c"]
+    assert list(d.keys()) == ["b", "a", "c"]
     d["BB"] = None
-    assert d.keys() == ["b", "a", "c", "bb"]
+    assert list(d.keys()) == ["b", "a", "c", "bb"]

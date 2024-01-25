@@ -9,7 +9,7 @@ from itertools import islice
 
 import phonenumbers
 from flask import current_app
-from orderedset import OrderedSet
+from ordered_set_37 import OrderedSet
 from phonenumbers.phonenumberutil import NumberParseException
 
 from notifications_utils.formatters import (
