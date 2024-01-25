@@ -95,9 +95,11 @@ def test_matches_keys_to_placeholder_names():
 )
 def test_extracting_placeholders(template_content, template_subject, expected):
     assert (
-        list(ConcreteTemplateWithSubject(
-            {"content": template_content, "subject": template_subject}
-        ).placeholders)
+        list(
+            ConcreteTemplateWithSubject(
+                {"content": template_content, "subject": template_subject}
+            ).placeholders
+        )
         == expected
     )
 
