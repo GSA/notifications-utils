@@ -2,7 +2,7 @@ import re
 from itertools import count
 
 import mistune
-from ordered_set_37 import OrderedSet
+from ordered_set import OrderedSet
 
 from notifications_utils import MAGIC_SEQUENCE, magic_sequence_regex
 from notifications_utils.formatters import create_sanitised_html_for_url
