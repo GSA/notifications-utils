@@ -58,13 +58,18 @@ mistune.InlineLexer.inline_html_rules = list(
 
 
 class NotifyLetterMarkdownPreviewRenderer(mistune.Renderer):
-    def block_code(self, code, language=None):
+    # TODO if we start removing the dead code detected by
+    # the vulture tool (such as the parameter 'language' here)
+    # it will break all the tests.  Need to do some massive
+    # cleanup apparently, although it's not clear why vulture
+    # only recently started detecting this.
+    def block_code(self, code, language=None):  # noqa
         return code
 
     def block_quote(self, text):
         return text
 
-    def header(self, text, level, raw=None):
+    def header(self, text, level, raw=None):  # noqa
         if level == 1:
             return super().header(text, 2)
         return self.paragraph(text)
@@ -85,7 +90,7 @@ class NotifyLetterMarkdownPreviewRenderer(mistune.Renderer):
             link.replace("http://", "").replace("https://", "")
         )
 
-    def image(self, src, title, alt_text):
+    def image(self, src, title, alt_text):  # noqa
         return ""
 
     def linebreak(self):
@@ -111,7 +116,7 @@ class NotifyLetterMarkdownPreviewRenderer(mistune.Renderer):
 
 
 class NotifyEmailMarkdownRenderer(NotifyLetterMarkdownPreviewRenderer):
-    def header(self, text, level, raw=None):
+    def header(self, text, level, raw=None):  # noqa
         if level == 1:
             return (
                 '<h2 style="Margin: 0 0 20px 0; padding: 0; '
@@ -196,7 +201,7 @@ class NotifyEmailMarkdownRenderer(NotifyLetterMarkdownPreviewRenderer):
 class NotifyPlainTextEmailMarkdownRenderer(NotifyEmailMarkdownRenderer):
     COLUMN_WIDTH = 65
 
-    def header(self, text, level, raw=None):
+    def header(self, text, level, raw=None):  # noqa
         if level == 1:
             return "".join(
                 (
@@ -263,12 +268,12 @@ class NotifyPlainTextEmailMarkdownRenderer(NotifyEmailMarkdownRenderer):
             )
         )
 
-    def autolink(self, link, is_email=False):
+    def autolink(self, link, is_email=False):  # noqa
         return link
 
 
 class NotifyEmailPreheaderMarkdownRenderer(NotifyPlainTextEmailMarkdownRenderer):
-    def header(self, text, level, raw=None):
+    def header(self, text, level, raw=None):  # noqa
         return self.paragraph(text)
 
     def hrule(self):
