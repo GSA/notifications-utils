@@ -34,7 +34,7 @@ def test_cant_be_instatiated_with_abstract_properties():
         )
     else:
         assert str(e.value) == (
-            "Can't instantiate abstract class Custom with abstract method ALLOWED_PROPERTIES"
+            "Can't instantiate abstract class Custom without an implementation for abstract method 'ALLOWED_PROPERTIES'"
         )
 
     with pytest.raises(TypeError) as e:
@@ -45,8 +45,8 @@ def test_cant_be_instatiated_with_abstract_properties():
             "Can't instantiate abstract class SerialisedModelCollection with abstract methods model"
         )
     else:
-        assert str(e.value) == (
-            "Can't instantiate abstract class SerialisedModelCollection with abstract method model"
+        assert str(e.value).startswith(
+            "Can't instantiate abstract class SerialisedModelCollection without an implementation"
         )
 
     with pytest.raises(TypeError) as e:
@@ -58,7 +58,7 @@ def test_cant_be_instatiated_with_abstract_properties():
         )
     else:
         assert str(e.value) == (
-            "Can't instantiate abstract class CustomCollection with abstract method model"
+            "Can't instantiate abstract class CustomCollection without an implementation for abstract method 'model'"
         )
 
 
@@ -79,8 +79,10 @@ def test_cant_override_custom_property_from_dict():
 
     with pytest.raises(AttributeError) as e:
         assert Custom({"foo": "NOPE"}).foo == "bar"
-
-    assert str(e.value) == "can't set attribute"
+    assert (
+        str(e.value)
+        == "property 'foo' of 'test_cant_override_custom_property_from_dict.<locals>.Custom' object has no setter"
+    )
 
 
 @pytest.mark.parametrize(

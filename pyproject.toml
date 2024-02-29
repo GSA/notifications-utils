@@ -7,7 +7,7 @@ readme = "README.md"
 
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.12"
+python = "^3.12.2"
 async-timeout = "^4.0.2"
 bleach = "^6.1.0"
 blinker = "^1.6.2"
@@ -30,7 +30,7 @@ jmespath = "^1.0.1"
 markupsafe = "^2.1.2"
 mistune = "==0.8.4"
 numpy = "^1.24.2"
-orderedset = "^2.0.3"
+ordered-set = "^4.1.0"
 phonenumbers = "^8.13.8"
 pycparser = "^2.21"
 python-dateutil = "^2.8.2"
