@@ -1,5 +1,3 @@
-from unittest import mock  # noqa
-
 import pytest
 from werkzeug.test import EnvironBuilder
 

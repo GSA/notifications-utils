@@ -58,6 +58,11 @@ mistune.InlineLexer.inline_html_rules = list(
 
 
 class NotifyLetterMarkdownPreviewRenderer(mistune.Renderer):
+    # TODO if we start removing the dead code detected by
+    # the vulture tool (such as the parameter 'language' here)
+    # it will break all the tests.  Need to do some massive
+    # cleanup apparently, although it's not clear why vulture
+    # only recently started detecting this.
     def block_code(self, code, language=None):  # noqa
         return code
 
@@ -263,7 +268,7 @@ class NotifyPlainTextEmailMarkdownRenderer(NotifyEmailMarkdownRenderer):
             )
         )
 
-    def autolink(self, link, is_email=False):
+    def autolink(self, link, is_email=False):  # noqa
         return link
 
 

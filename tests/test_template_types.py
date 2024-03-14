@@ -493,25 +493,25 @@ def test_markdown_in_templates(
 @pytest.mark.parametrize(
     "url, url_with_entities_replaced",
     [
-        ("http://example.com", "Join Service"),
-        ("http://www.gov.uk/", "Join Service"),
-        ("https://www.gov.uk/", "Join Service"),
-        ("http://service.gov.uk", "Join Service"),
+        ("http://example.com", "http://example.com"),
+        ("http://www.gov.uk/", "http://www.gov.uk/"),
+        ("https://www.gov.uk/", "https://www.gov.uk/"),
+        ("http://service.gov.uk", "http://service.gov.uk"),
         (
+            "http://service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
             "http://service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
-            "Join Service",
         ),
-        pytest.param("example.com", "Join Service", marks=pytest.mark.xfail),
-        pytest.param("www.example.com", "Join Service", marks=pytest.mark.xfail),
+        pytest.param("example.com", "example.com", marks=pytest.mark.xfail),
+        pytest.param("www.example.com", "www.example.com", marks=pytest.mark.xfail),
         pytest.param(
             "http://service.gov.uk/blah.ext?q=one two three",
-            "Join Service",
+            "http://service.gov.uk/blah.ext?q=one two three",
             marks=pytest.mark.xfail,
         ),
-        pytest.param("ftp://example.com", "Join Service", marks=pytest.mark.xfail),
+        pytest.param("ftp://example.com", "ftp://example.com", marks=pytest.mark.xfail),
         pytest.param(
             "mailto:test@example.com",
-            "Join Service",
+            "mailto:test@example.com",
             marks=pytest.mark.xfail,
         ),
     ],
@@ -519,10 +519,8 @@ def test_markdown_in_templates(
 def test_makes_links_out_of_URLs(
     extra_attributes, template_class, template_type, url, url_with_entities_replaced
 ):
-    assert (
-        '<a {} href="{}">{}</a>'
-    ).format(
-        extra_attributes, url, url_with_entities_replaced
+    assert '<a {} href="{}">{}</a>'.format(
+        extra_attributes, url_with_entities_replaced, url_with_entities_replaced
     ) in str(
         template_class({"content": url, "subject": "", "template_type": template_type})
     )
@@ -538,13 +536,13 @@ def test_makes_links_out_of_URLs(
 @pytest.mark.parametrize(
     "url, url_with_entities_replaced",
     (
-        ("example.com", "Join Service"),
-        ("www.gov.uk/", "Join Service"),
-        ("service.gov.uk", "Join Service"),
-        ("gov.uk/coronavirus", "Join Service"),
+        ("example.com", "example.com"),
+        ("www.gov.uk/", "www.gov.uk/"),
+        ("service.gov.uk", "service.gov.uk"),
+        ("gov.uk/coronavirus", "gov.uk/coronavirus"),
         (
+            "service.gov.uk/blah.ext?q=a%20b%20c&order=desc#fragment",
             "service.gov.uk/blah.ext?q=a%20b%20c&amp;order=desc#fragment",
-            "Join Service",
         ),
     ),
 )
@@ -557,7 +555,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
     assert (
         f"<a "
         f'class="govuk-link govuk-link--no-visited-state" '
-        f'href="http://{url}">'
+        f'href="http://{url_with_entities_replaced}">'
         f"{url_with_entities_replaced}"
         f"</a>"
     ) in str(
@@ -578,7 +576,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
             (
                 '<a style="word-wrap: break-word; color: #1D70B8;"'
                 ' href="https://service.example.com/accept_invite/a1b2c3d4">'
-                "Join Service"
+                "https://service.example.com/accept_invite/a1b2c3d4"
                 "</a>"
             ),
         ),
@@ -587,7 +585,7 @@ def test_makes_links_out_of_URLs_without_protocol_in_sms_and_broadcast(
             (
                 '<a style="word-wrap: break-word; color: #1D70B8;"'
                 ' href="https://service.example.com/accept_invite/?a=b&amp;c=d&amp;">'
-                "Join Service"
+                "https://service.example.com/accept_invite/?a=b&amp;c=d&amp;"
                 "</a>"
             ),
         ),
@@ -1554,8 +1552,9 @@ def test_character_count_for_broadcast_templates(
     "msg, expected_sms_fragment_count",
     [
         (
-            "This is a very long long long long long long long long long long long long long long long long long long long long long long long long text message.",  # noqa
-            2,
+            """This is a very long long long long long long long long long long
+             long long long long long long long long long long long long long long text message.""",
+            1,
         ),
         ("This is a short message.", 1),
     ],
@@ -1590,10 +1589,31 @@ def test_sms_fragment_count_accounts_for_unicode_and_welsh_characters(
             "이것은 매우 길고 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 오래 긴 문자 메시지입니다.",
             2,
         ),
-        ("Αυτό είναι ένα μεγάλο μήνυμα στα ρωσικά για να ελέγξετε πώς το για αυτό", 1),
+        ("Αυτό είναι ένα μεγάλο μήνυμα στα ρωσικά για να ελέγξετε πώς το για αυτό", 2),
         ("これは、システムがコストをどのように計算するかをテストするためのロシア語の長いメッセージです", 1),
         ("这是一条很长的俄语消息，用于测试系统如何计算其成本", 1),
-        ("这是一个非常长的长长长长的长长长长的长长长长的长长长长的长长长长长长长长长长长长的长长长长的长篇短信", 2),
+        ("这是一个非常长的长长长长的长长长长的长长长长的长长长长的长长长长长长长长长长长长的长长长长的长篇短信", 1),
+        (
+            "これは、システムがコストをどのように計算するかをテストするためのロシア語の長いメッセージです foo foofoofoofoofoofoofoofoo",
+            2,
+        ),
+        (
+            "Это длинное сообщение на русском языке, чтобы проверить, как система рассчитывает его стоимость.\
+          foo foo foo foo foo foo foo foo foo foo",
+            3,
+        ),
+        (
+            "Hello Carlos. Your Example Corp. bill of $100 is now available. Autopay is scheduled for next Thursday,\
+         April 9. To view the details of your bill, go to https://example.com/bill1.",
+            2,
+        ),
+        ("亚马逊公司是一家总部位于美国西雅图的跨国电子商务企业，业务起始于线上书店，不久之后商品走向多元化。杰夫·贝佐斯于1994年7月创建了这家公司。", 2),
+        # This test should break into two messages, but \u2019 gets converted to (')
+        (
+            "John: Your appointment with Dr. Salazar’s office is scheduled for next Thursday at 4:30pm.\
+          Reply YES to confirm, NO to reschedule.",
+            1,
+        ),
     ],
 )
 def test_sms_fragment_count_accounts_for_non_latin_characters(
