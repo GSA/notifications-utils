@@ -13,7 +13,7 @@ from notifications_utils.letter_timings import (
 @freeze_time("2017-07-14 13:59:59")  # Friday, before print deadline (3PM EST)
 @pytest.mark.parametrize(
     "upload_time, expected_print_time, is_printed, first_class, expected_earliest, expected_latest",
-    [  # noqa
+    [
         # EST
         # ==================================================================
         #  First thing Monday
@@ -155,9 +155,10 @@ def test_get_estimated_delivery_date_for_letter(
 ):
     # remove the day string from the upload_time, which is purely informational
 
-    format_dt = lambda x: x.astimezone(  # noqa E731
-        pytz.timezone("America/New_York")
-    ).strftime("%A %Y-%m-%d %H:%M")
+    def format_dt(x):
+        return x.astimezone(pytz.timezone("America/New_York")).strftime(
+            "%A %Y-%m-%d %H:%M"
+        )
 
     upload_time = upload_time.split(" ", 1)[1]
 

@@ -158,9 +158,10 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
         ),  # Chinese from wikipedia 2
         ("哪一種多邊形內部至少存在一個可以看見多邊形所有邊界和所有內部區域的點？", True),  # Chinese from wikipedia 3
         (
-            "都柏林在官方城市邊界內的人口是大約495,000人（愛爾蘭中央統計處2002年人口調查），然而這種統計已經沒有什麼太大的意義，因為都柏林的市郊地區和衛星城鎮已經大幅地發展與擴張。",
+            """都柏林在官方城市邊界內的人口是大約495,000人（愛爾蘭中央統計處2002年人口調查），
+            然而這種統計已經沒有什麼太大的意義，因為都柏林的市郊地區和衛星城鎮已經大幅地發展與擴張。""",
             True,
-        ),  # noqa too long # Chinese from wikipedia 4
+        ),  # Chinese from wikipedia 4
         (
             "一名是Dubh Linn（愛爾蘭語，意為「黑色的水池」）的英國習語。當然也有人質疑這語源。",
             True,
@@ -183,15 +184,20 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             True,
         ),  # Chinese from wikipedia 10
         (
-            "Dưới đây là danh sách tất cả các tên người dùng hiện đang có tại Wikipedia, hoặc những tên người dùng trong một nhóm chỉ định. ",  # noqa too long
+            """Dưới đây là danh sách tất cả các tên người dùng hiện đang có
+            tại Wikipedia, hoặc những tên người dùng trong một nhóm chỉ định. """,
             True,
         ),  # Vietnamese from wikipedia 1
         (
-            "Các bảo quản viên đảm nhận những trách nhiệm này với tư cách là tình nguyện viên sau khi trải qua quá trình xem xét của cộng đồng. ",  # noqa too long
+            """Các bảo quản viên đảm nhận những trách nhiệm này với tư cách là tình
+            nguyện viên sau khi trải qua quá trình xem xét của cộng đồng. """,
             True,
         ),  # Vietnamese from wikipedia 2
         (
-            'Họ không bao giờ được yêu cầu sử dụng các công cụ của mình và không bao giờ được sử dụng chúng để giành lợi thế trong một cuộc tranh chấp mà họ có tham gia. Không nên nhầm lẫn bảo quản viên với quản trị viên hệ thống của Wikimedia ("sysadmins").',  # noqa too long
+            """Họ không bao giờ được yêu cầu sử dụng các công cụ của mình và không bao
+            giờ được sử dụng chúng để giành lợi thế trong một cuộc tranh chấp mà họ có
+            tham gia. Không nên nhầm lẫn bảo quản viên với quản trị viên hệ
+            thống của Wikimedia ("sysadmins").""",
             True,
         ),  # Vietnamese from wikipedia 3
         (
@@ -204,7 +210,8 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             True,
         ),  # Vietnamese from wikipedia 6
         (
-            "Bài viết ở Wikipedia có thể chứa đựng từ ngữ và hình ảnh gây khó chịu nhưng chỉ vì mục đích tốt đẹp. Không cần thêm vào phủ định trách nhiệm.",  # noqa too long
+            """Bài viết ở Wikipedia có thể chứa đựng từ ngữ và hình ảnh gây khó chịu
+            nhưng chỉ vì mục đích tốt đẹp. Không cần thêm vào phủ định trách nhiệm.""",
             True,
         ),  # Vietnamese from wikipedia 7
         (
@@ -212,11 +219,13 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             True,
         ),  # Vietnamese from wikipedia 8
         (
-            "Trích dẫn bất cứ nôi dung tranh luận gốc nào cũng nên có liên quan đến tranh luận đó (hoặc minh họa cho phong cách) và chỉ nên dài vừa đủ.",  # noqa too long
+            """Trích dẫn bất cứ nôi dung tranh luận gốc nào cũng nên có liên quan
+            đến tranh luận đó (hoặc minh họa cho phong cách) và chỉ nên dài vừa đủ.""",
             True,
         ),  # Vietnamese from wikipedia 9
         (
-            "Không tung tin vịt, thông tin sai lệch hoặc nội dung không kiểm chứng được vào bài viết. Tuy nhiên, những bài viết về những tin vịt nổi bật được chấp nhận.",  # noqa too long
+            """Không tung tin vịt, thông tin sai lệch hoặc nội dung không kiểm chứng được vào bài viết.
+            Tuy nhiên, những bài viết về những tin vịt nổi bật được chấp nhận.""",
             True,
         ),  # Vietnamese from wikipedia 10
         (
@@ -232,21 +241,29 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             True,
         ),  # State of Washington Chinese Simplified
         (
-            "DSHS៖ ប ើងោនកត់សម្គា ល់ប ើញក្ដរបោកប្រោស់ជាសក្ដា នុពលបៅបលើគណនីរបស់អ្នក។ សូមបៅបៅបលខ #បៅបលើខនងក្ដត EBT របស់អ្នក ប ើមបីបោោះបង់ ឬក៏បៅក្ដន់ក្ដរយាិ ល័ បៅកនុងតំបន់របស់អ្នក ប ើមបីបសនើសុំក្ដតថ្មី។ ប្លើ តបជាអ្កសរ ឈប់ ប ើមបីបញ្ឈប់",  # noqa too long
+            """DSHS៖ ប ើងោនកត់សម្គា ល់ប ើញក្ដរបោកប្រោស់ជាសក្ដា នុពលបៅបលើគណនីរបស់អ្នក។ សូមបៅបៅបលខ #បៅបលើខនងក្ដត
+            EBT របស់អ្នក ប ើមបីបោោះបង់ ឬក៏បៅក្ដន់ក្ដរយាិ ល័ បៅកនុងតំបន់របស់អ្នក
+            ប ើមបីបសនើសុំក្ដតថ្មី។ ប្លើ តបជាអ្កសរ ឈប់ ប ើមបីបញ្ឈប់""",
             True,
         ),  # State of Washington Khmer
         (
-            "DSHS: 귀하의 계정 상에 사기가 일어났을 가능성이 포착되었습니다. 귀하의 EBT 카드 뒷면에있는 번호로 전화를 걸어 취소하거나 현지 사무소로 가서 새 것을 발급 받으세요. 중단하려면중단이라고 회신하세요.",  # noqa too long
+            """DSHS: 귀하의 계정 상에 사기가 일어났을 가능성이 포착되었습니다. 귀하의 EBT 카드 뒷면에있는
+            번호로 전화를 걸어 취소하거나 현지 사무소로 가서 새 것을 발급 받으세요. 중단하려면중단이라고 회신하세요.""",
             True,
         ),  # State of WA Korean
         (
-            "ຂ ຄໍ້ ວາມການສໍ້ໂກງທອາດເປັນໄປໄດ ໍ້ DSHS: ພວກເຮາົໄດສໍ້ງັເກດເຫນັການສໂກງທີ່ອາດເປັນໄປໄດໃໍ້ນບນັຊຂ ອງທີ່ານ. ໂທຫາ # ທ ຢີ່ ດາໍ້ນຫ ງັຂອງບດັ EBT ຂອງທີ່ານເພອຍກົ ເລກ ຫ ໄປຍງັຫອໍ້ງການປະຈາ ທອໍ້ງຖ ນຂອງທີ່ານ ເພີ່ອຂ ບດັ ໃຫມີ່ . ຕອບກບັດວໍ້ ຍ STOP (ຢຸດເຊາົ) ເພອຢຸດເຊາົ",  # noqa too long
+            """ຂ ຄໍ້ ວາມການສໍ້ໂກງທອາດເປັນໄປໄດ ໍ້ DSHS: ພວກເຮາົໄດສໍ້ງັເກດເຫນັການສໂກງທີ່ອາດເປັນໄປໄດໃໍ້ນບນັຊຂ ອງທີ່ານ.
+            ໂທຫາ # ທ ຢີ່ ດາໍ້ນຫ ງັຂອງບດັ EBT ຂອງທີ່ານເພອຍກົ ເລກ ຫ ໄປຍງັຫອໍ້ງການປະຈາ ທອໍ້ງຖ ນຂອງທີ່ານ ເພີ່ອຂ
+            ບດັ ໃຫມີ່ . ຕອບກບັດວໍ້ ຍ STOP (ຢຸດເຊາົ) ເພອຢຸດເຊາົ""",
             True,
-        ),  # noqa too long # State of WA Lao
+        ),  # State of WA Lao
         (
-            "Fariin Khiyaamo Suurtogal ah DSHS: Waxaanu ka ogaanay khiyaamo suurtogal ah akoonkaaga. Wax # ee ku yaal xaga danbe ee kadadhka EBT si aad u joojisid ama u aadid xafiiska deegaanka uguna dalbatid a new one (mid cusub). Ku jawaab JOOJI si aad u joojisid",  # noqa too long
+            """Fariin Khiyaamo Suurtogal ah DSHS: Waxaanu ka ogaanay khiyaamo suurtogal ah akoonkaaga.
+            Wax # ee ku yaal xaga danbe ee kadadhka
+            EBT si aad u joojisid ama u aadid xafiiska deegaanka uguna dalbatid a new one (mid cusub).
+            Ku jawaab JOOJI si aad u joojisid""",
             True,
-        ),  # noqa too long # State of WA Somali
+        ),  # State of WA Somali
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):

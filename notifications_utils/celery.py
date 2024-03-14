@@ -29,11 +29,12 @@ def make_task(app):
                 g.request_id = self.request_id
                 yield
 
-        def on_success(self, retval, task_id, args, kwargs):  # noqa
+        def on_success(self, retval, task_id, args, kwargs):
             # enables request id tracing for these logs
             with self.app_context():
                 elapsed_time = time.monotonic() - self.start
-
+                # To avoid deadcode warning
+                app.logger.debug(f"Celery task retval {retval} task_id {task_id}")
                 app.logger.info(
                     "Celery task {task_name} (queue: {queue_name}) took {time}".format(
                         task_name=self.name,
@@ -42,9 +43,11 @@ def make_task(app):
                     )
                 )
 
-        def on_failure(self, exc, task_id, args, kwargs, einfo):  # noqa
+        def on_failure(self, exc, task_id, args, kwargs, einfo):
             # enables request id tracing for these logs
             with self.app_context():
+                # To avoid deadcode warning
+                app.logger.debug(f"Celery task einfo {einfo}")
                 app.logger.exception(
                     "Celery task {task_name} (queue: {queue_name}) failed".format(
                         task_name=self.name,
