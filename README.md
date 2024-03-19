@@ -190,20 +190,20 @@ _If you're not sure which version of Python was installed with `pyenv`, you can 
 
 Once all of pre-requisites for the project are installed and to switch to newer environment with newer python version follow the below steps to create new virtual environment.
 
-First install the newer Python version we need with `pyenv`, (say the planned upgrade to 3.15) like so :
+First install the newer Python version we need with `pyenv`, (say the planned upgrade to 3.12) like so :
 
 ```sh
-pyenv install 3.15
+pyenv install 3.12
 ```
 
 Now go into the project directory (`notifications-api` by default), create a
 virtual environment, and set the local Python version to point to the virtual
-environment (assumes version Python `3.15.2` is what is installed on your
+environment (assumes version Python `3.12.2` is what is installed on your
 machine):
 
 ```sh
 cd notifications-api
-pyenv virtualenv 3.15.2 notify-utils-upgrade
+pyenv virtualenv 3.12.2 notify-utils-upgrade
 pyenv local notify-utils-upgrade
 ```
 
