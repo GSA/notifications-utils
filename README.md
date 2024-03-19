@@ -184,9 +184,9 @@ pyenv virtualenv 3.12.2 notify-utils
 pyenv local notify-utils
 ```
 
-_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently.You should see the virtual environment name in terminal as 'notify-utils'._
+_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently._
 
-### Switching to different environment
+## Switching to different environment
 
 Once all of pre-requisites for the project are installed and to switch to newer environment with newer python version follow the below steps to create new virtual environment.
 
@@ -207,8 +207,8 @@ pyenv virtualenv 3.15.2 notify-utils-upgrade
 pyenv local notify-utils-upgrade
 ```
 
-_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently.you can deactivate the current environment by running `source deactivate` or `deactivate`.Close the terminal and reopen a new terminal should see the newer virtual environment name in terminal as 'notify-utils-upgrade'. you can the get python version ,executable, and other details for this environment by running `poetry env info`._
-
+_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently.You can deactivate the current environment by running `source deactivate` or `deactivate`.Close the terminal and reopen a new terminal should show the newer virtual environment._
+_You can get version ,executable, and other details for this environment by running `poetry env info`._
 
 ## Running the Project and Routine Maintenance
 
