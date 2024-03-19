@@ -142,12 +142,12 @@ session to make the changes take effect.
 Now we're ready to install the Python version we need with `pyenv`, like so:
 
 ```sh
-pyenv install 3.9
+pyenv install 3.12
 ```
 
-This will install the latest version of Python 3.9.
+This will install the latest version of Python 3.12.
 
-_NOTE: This project currently runs on Python 3.9.x._
+_NOTE: This project currently runs on Python 3.12.x._
 
 #### Python Dependency Installation
 
@@ -175,16 +175,40 @@ git clone git@github.com:GSA/notifications-utils.git
 
 Now go into the project directory (`notifications-utils` by default), create a
 virtual environment, and set the local Python version to point to the virtual
-environment (assumes version Python `3.9.18` is what is installed on your
+environment (assumes version Python `3.12.2` is what is installed on your
 machine):
 
 ```sh
 cd notifications-utils
-pyenv virtualenv 3.9.18 notify-utils
+pyenv virtualenv 3.12.2 notify-utils
 pyenv local notify-utils
 ```
 
-_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently._
+_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently.You should see the virtual environment name in terminal as 'notify-utils'._
+
+### Switching to different environment
+
+Once all of pre-requisites for the project are installed and to switch to newer environment with newer python version follow the below steps to create new virtual environment.
+
+First install the newer Python version we need with `pyenv`, (say the planned upgrade to 3.15) like so :
+
+```sh
+pyenv install 3.15
+```
+
+Now go into the project directory (`notifications-api` by default), create a
+virtual environment, and set the local Python version to point to the virtual
+environment (assumes version Python `3.15.2` is what is installed on your
+machine):
+
+```sh
+cd notifications-api
+pyenv virtualenv 3.15.2 notify-utils-upgrade
+pyenv local notify-utils-upgrade
+```
+
+_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently.you can deactivate the current environment by running `source deactivate` or `deactivate`.Close the terminal and reopen a new terminal should see the newer virtual environment name in terminal as 'notify-utils-upgrade'. you can the get python version ,executable, and other details for this environment by running `poetry env info`._
+
 
 ## Running the Project and Routine Maintenance
 
