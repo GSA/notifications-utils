@@ -14,7 +14,7 @@ from notifications_utils.timezones import utc_string_to_aware_gmt_datetime
     ],
 )
 def test_utc_string_to_aware_gmt_datetime_rejects_bad_input(input_value):
-    with pytest.raises(Exception):  # noqa B017
+    with pytest.raises(BaseException):
         utc_string_to_aware_gmt_datetime(input_value)
 
 

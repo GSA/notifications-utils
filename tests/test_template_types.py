@@ -1555,7 +1555,8 @@ def test_character_count_for_broadcast_templates(
     "msg, expected_sms_fragment_count",
     [
         (
-            "This is a very long long long long long long long long long long long long long long long long long long long long long long long long text message.",  # noqa
+            """This is a very long long long long long long long long long long
+             long long long long long long long long long long long long long long text message.""",
             1,
         ),
         ("This is a short message.", 1),

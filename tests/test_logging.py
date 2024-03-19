@@ -14,8 +14,8 @@ def test_get_handlers_sets_up_logging_appropriately_with_debug():
     handlers = logging.get_handlers(app)
 
     assert len(handlers) == 1
-    assert type(handlers[0]) == builtin_logging.StreamHandler  # noqa E721
-    assert type(handlers[0].formatter) == builtin_logging.Formatter  # noqa E721
+    assert isinstance(handlers[0], builtin_logging.StreamHandler)
+    assert isinstance(handlers[0].formatter, builtin_logging.Formatter)
 
 
 def test_get_handlers_sets_up_logging_appropriately_without_debug():
@@ -28,8 +28,8 @@ def test_get_handlers_sets_up_logging_appropriately_without_debug():
     handlers = logging.get_handlers(app)
 
     assert len(handlers) == 1
-    assert type(handlers[0]) == builtin_logging.StreamHandler  # noqa E721
-    assert type(handlers[0].formatter) == logging.JSONFormatter  # noqa E721
+    assert isinstance(handlers[0], builtin_logging.StreamHandler)
+    assert isinstance(handlers[0].formatter, logging.JSONFormatter)
 
 
 def test_base_json_formatter_contains_service_id():
