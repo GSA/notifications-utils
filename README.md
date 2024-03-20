@@ -27,7 +27,7 @@ they're tailored specifically for this project.
 
 ## Local Environment Setup
 
-This project is currently set up as a Python 3.9.x-based module.
+This project is currently set up as a Python 3.12.x-based module.
 
 These instructions will walk you through how to set your machine up with all of
 the required tools for this project.
@@ -167,7 +167,7 @@ Once all of pre-requisites for the project are installed and you have a
 cloud.gov account, you can now set up the API project and get things running
 locally!
 
-First, clone the respository in the directory of your choosing on your machine:
+First, clone the repository in the directory of your choosing on your machine:
 
 ```sh
 git clone git@github.com:GSA/notifications-utils.git
@@ -188,7 +188,7 @@ _If you're not sure which version of Python was installed with `pyenv`, you can 
 
 ## Switching to different environment
 
-Once all of pre-requisites for the project are installed and to switch to newer environment with newer python version follow the below steps to create new virtual environment.
+Once all of pre-requisites for the project are installed and for first time setup or if you're upgrading an existing project to newer environment with newer python version follow below steps to create new virtual environment.
 
 First install the newer Python version we need with `pyenv`, (say the planned upgrade to 3.12) like so :
 
@@ -207,8 +207,8 @@ pyenv virtualenv 3.12.2 notify-utils-upgrade
 pyenv local notify-utils-upgrade
 ```
 
-_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently.You can deactivate the current environment by running `source deactivate` or `deactivate`.Close the terminal and reopen a new terminal should show the newer virtual environment._
-_You can get version ,executable, and other details for this environment by running `poetry env info`._
+_If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently.You can deactivate the current environment by running `source deactivate` or `deactivate`.Close the shell session and reopen a new shell session should show the newer virtual environment._
+_You can get version,executable, and other details for this environment by running `poetry env info`._
 
 ## Running the Project and Routine Maintenance
 
