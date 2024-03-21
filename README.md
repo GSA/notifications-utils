@@ -27,7 +27,7 @@ they're tailored specifically for this project.
 
 ## Local Environment Setup
 
-This project is currently set up as a Python 3.9.x-based module.
+This project is currently set up as a Python 3.12.x-based module.
 
 These instructions will walk you through how to set your machine up with all of
 the required tools for this project.
@@ -142,12 +142,12 @@ session to make the changes take effect.
 Now we're ready to install the Python version we need with `pyenv`, like so:
 
 ```sh
-pyenv install 3.9
+pyenv install 3.12
 ```
 
-This will install the latest version of Python 3.9.
+This will install the latest version of Python 3.12.
 
-_NOTE: This project currently runs on Python 3.9.x._
+_NOTE: This project currently runs on Python 3.12.x._
 
 #### Python Dependency Installation
 
@@ -167,7 +167,7 @@ Once all of pre-requisites for the project are installed and you have a
 cloud.gov account, you can now set up the API project and get things running
 locally!
 
-First, clone the respository in the directory of your choosing on your machine:
+First, clone the repository in the directory of your choosing on your machine:
 
 ```sh
 git clone git@github.com:GSA/notifications-utils.git
@@ -175,16 +175,49 @@ git clone git@github.com:GSA/notifications-utils.git
 
 Now go into the project directory (`notifications-utils` by default), create a
 virtual environment, and set the local Python version to point to the virtual
-environment (assumes version Python `3.9.18` is what is installed on your
+environment (assumes version Python `3.12.2` is what is installed on your
 machine):
 
 ```sh
 cd notifications-utils
-pyenv virtualenv 3.9.18 notify-utils
+pyenv virtualenv 3.12.2 notify-utils
 pyenv local notify-utils
 ```
 
 _If you're not sure which version of Python was installed with `pyenv`, you can check by running `pyenv versions` and it'll list everything available currently._
+
+#### Upgrading Python in existing projects
+
+If you're upgrading an existing project to a newer version of Python, you can
+follow these steps to get yourself up-to-date.
+
+First, use `pyenv` to install the newer version of Python you'd like to use;
+we'll use `3.12` in our example here since we recently upgraded to this version:
+
+```sh
+pyenv install 3.12
+```
+
+Next, delete the virtual environment you previously had set up.  If you followed
+the instructions above with the first-time set up, you can do this with `pyenv`:
+
+```sh
+pyenv virtualenv-delete notify-utils
+```
+
+Now, make sure you are in your project directory and recreate the same virtual
+environment with the newer version of Python you just installed:
+
+```sh
+cd notifications-utils
+pyenv virtualenv 3.12.2 notify-utils
+pyenv local notify-utils
+```
+
+At this point, proceed with the rest of the instructions here in the README and
+you'll be set with an upgraded version of Python.
+
+_If you're not sure about the details of your current virtual environment, you can run `poetry env info` to get more information. If you've been using `pyenv` for everything, you can also see all available virtual environments with `pyenv virtualenvs`._
 
 ## Running the Project and Routine Maintenance
 

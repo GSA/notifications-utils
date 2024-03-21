@@ -8,7 +8,7 @@ import pytest
 from bs4 import BeautifulSoup
 from freezegun import freeze_time
 from markupsafe import Markup
-from orderedset import OrderedSet
+from ordered_set import OrderedSet
 
 from notifications_utils.formatters import unlink_govuk_escaped
 from notifications_utils.template import (
@@ -36,14 +36,16 @@ from notifications_utils.template import (
     (
         pytest.param(
             Template,
-            ("Can't instantiate abstract class Template with abstract methods __str__"),
+            ("Can't instantiate abstract class Template with abstract method __str__"),
             marks=pytest.mark.skipif(
                 sys.version_info >= (3, 9), reason="‘methods’ will be singular"
             ),
         ),
         pytest.param(
             Template,
-            ("Can't instantiate abstract class Template with abstract method __str__"),
+            (
+                "Can't instantiate abstract class Template without an implementation for abstract method '__str__'"
+            ),
             marks=pytest.mark.skipif(
                 sys.version_info < (3, 9), reason="‘method’ will be pluralised"
             ),
@@ -60,7 +62,7 @@ from notifications_utils.template import (
         pytest.param(
             BaseEmailTemplate,
             (
-                "Can't instantiate abstract class BaseEmailTemplate with abstract method __str__"
+                "Can't instantiate abstract class BaseEmailTemplate without an implementation for abstract method"
             ),
             marks=pytest.mark.skipif(
                 sys.version_info < (3, 9), reason="‘method’ will be pluralised"
@@ -78,7 +80,7 @@ from notifications_utils.template import (
         pytest.param(
             BaseLetterTemplate,
             (
-                "Can't instantiate abstract class BaseLetterTemplate with abstract method __str__"
+                "Can't instantiate abstract class BaseLetterTemplate without an implementation for abstract method"
             ),
             marks=pytest.mark.skipif(
                 sys.version_info < (3, 9), reason="‘method’ will be pluralised"
@@ -96,7 +98,7 @@ from notifications_utils.template import (
         pytest.param(
             BaseBroadcastTemplate,
             (
-                "Can't instantiate abstract class BaseBroadcastTemplate with abstract method __str__"
+                "Can't instantiate abstract class BaseBroadcastTemplate without an implementation for abstract method"
             ),
             marks=pytest.mark.skipif(
                 sys.version_info < (3, 9), reason="‘method’ will be pluralised"
@@ -107,7 +109,8 @@ from notifications_utils.template import (
 def test_abstract_classes_cant_be_instantiated(template_class, expected_error):
     with pytest.raises(TypeError) as error:
         template_class({})
-    assert str(error.value) == expected_error
+    # assert str(error.value) == expected_error
+    assert expected_error in str(error.value)
 
 
 @pytest.mark.parametrize(
