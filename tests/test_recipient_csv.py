@@ -770,7 +770,7 @@ def test_bad_or_missing_data(
             1234
             +447900123
         """,
-            {0, 1},
+            {0, 1, 2},
         ),
         (
             """
@@ -779,7 +779,7 @@ def test_bad_or_missing_data(
             +12022340104, USA
             +23051234567, Mauritius
         """,
-            set(),
+            {2},
         ),
     ],
 )
