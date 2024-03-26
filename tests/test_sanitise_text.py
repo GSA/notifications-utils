@@ -156,7 +156,10 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             "国际志愿者日為每年的12月5日，它是由联合国大会在1985年12月17日通过的A/RES/40/212决议[1]上确定的[2]。",
             True,
         ),  # Chinese from wikipedia 2
-        ("哪一種多邊形內部至少存在一個可以看見多邊形所有邊界和所有內部區域的點？", True),  # Chinese from wikipedia 3
+        (
+            "哪一種多邊形內部至少存在一個可以看見多邊形所有邊界和所有內部區域的點？",
+            True,
+        ),  # Chinese from wikipedia 3
         (
             """都柏林在官方城市邊界內的人口是大約495,000人（愛爾蘭中央統計處2002年人口調查），
             然而這種統計已經沒有什麼太大的意義，因為都柏林的市郊地區和衛星城鎮已經大幅地發展與擴張。""",
@@ -178,7 +181,10 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             "從17世紀開始，城市在寬闊街道事務委員會的幫助下開始迅速擴張。乔治亚都柏林曾一度是大英帝國僅次於倫敦的第二大城市。",
             True,
         ),  # Chinese from wikipedia 8
-        ("一些著名的都柏林街道建築仍以倒閉前在此經營的酒吧和商業公司命名。", True),  # Chinese from wikipedia 9
+        (
+            "一些著名的都柏林街道建築仍以倒閉前在此經營的酒吧和商業公司命名。",
+            True,
+        ),  # Chinese from wikipedia 9
         (
             "1922年，隨著愛爾蘭的分裂，都柏林成為愛爾蘭自由邦（1922年–1937年）的首都。現在則為愛爾蘭共和國的首都。",
             True,

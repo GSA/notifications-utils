@@ -393,9 +393,11 @@ class SMSPreviewTemplate(BaseSMSTemplate):
                     )
                     .then(
                         add_prefix,
-                        (escape_html(self.prefix) or None)
-                        if self.show_prefix
-                        else None,
+                        (
+                            (escape_html(self.prefix) or None)
+                            if self.show_prefix
+                            else None
+                        ),
                     )
                     .then(sms_encode if self.downgrade_non_sms_characters else str)
                     .then(remove_whitespace_before_punctuation)
@@ -831,9 +833,11 @@ class LetterPreviewTemplate(BaseLetterTemplate):
                     "admin_base_url": self.admin_base_url,
                     "logo_file_name": self.logo_file_name,
                     # logo_class should only ever be None, svg or png
-                    "logo_class": self.logo_file_name.lower()[-3:]
-                    if self.logo_file_name
-                    else None,
+                    "logo_class": (
+                        self.logo_file_name.lower()[-3:]
+                        if self.logo_file_name
+                        else None
+                    ),
                     "subject": self.subject,
                     "message": self._message,
                     "address": self._address_block,
