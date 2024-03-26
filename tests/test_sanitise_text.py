@@ -264,6 +264,10 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             Ku jawaab JOOJI si aad u joojisid""",
             True,
         ),  # State of WA Somali
+        (
+            "إدارة الخدمات الاجتماعية والصحية في ولاية واشنطن (Washington State Department of Social and Health Services, WA DSHS): ستُجرى المقابلة الهاتفية معك المعنية بمراقبة جودة الطعام يوم xx/xx/xx الساعة 00:00 صباحًا/مساءً. قد يؤدي الفشل إلى إغلاق مخصصاتك. اتصل بالرقم 1-800-473-5661 إذا كانت لديك أسئلة.",  # noqa
+            True,
+        ),  # State of WA Arabic
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
