@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="notifications-utils",
-    version="0.3.0",
+    version="0.4.0",
     url="https://github.com/GSA/notifications-utils",
     license_files=("LICENSE.md",),
     author="General Services Administration",
@@ -21,7 +21,7 @@ setup(
         "requests>=2.25.0",
         "python-json-logger>=2.0.1",
         "Flask>=2.2.2",
-        "orderedset>=2.0.3",
+        "ordered-set>=4.1.0",
         "Jinja2>=2.11.3",
         "Flask-Redis>=0.4.0",
         "pyyaml>=5.3.1",
