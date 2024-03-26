@@ -113,7 +113,7 @@ class SanitiseText:
             return True
         elif regex.search(r"\p{IsArabic}", value):
             return True
-        #elif regex.search(r"[\u08A0-\u08FF]+", value):
+        # elif regex.search(r"[\u08A0-\u08FF]+", value):
         #    return True
         elif regex.search(r"\p{IsArmenian}", value):
             return True
