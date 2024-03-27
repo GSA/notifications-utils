@@ -107,7 +107,11 @@ class SanitiseText:
 
     @classmethod
     def is_arabic(cls, value):
-        if regex.search(r"\p{IsArabic}", value) or value in [" ُ", " ُ"]:
+        if (
+            regex.search(r"\p{IsArabic}", value)
+            or regex.search(r"[\uFE70]+", value)
+            or regex.search(r"[\u064F]+", value)
+        ):
             return True
         return False
 
