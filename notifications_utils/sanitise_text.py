@@ -106,12 +106,25 @@ class SanitiseText:
         return False
 
     @classmethod
+    def is_arabic(cls, value):
+        # For some reason, the python definition of Arabic (IsArabic) doesn't include
+        # some standard diacritics, so add them here.
+        if (
+            regex.search(r"\p{IsArabic}", value)
+            or regex.search(r"[\uFE70]+", value)
+            or regex.search(r"[\u064B]+", value)
+            or regex.search(r"[\u064F]+", value)
+        ):
+            return True
+        return False
+
+    @classmethod
     def _is_extended_language_group_one(cls, value):
         if regex.search(r"\p{IsHangul}", value):  # Korean
             return True
         elif regex.search(r"\p{IsCyrillic}", value):
             return True
-        elif regex.search(r"\p{IsArabic}", value):
+        elif SanitiseText.is_arabic(value):
             return True
         elif regex.search(r"\p{IsArmenian}", value):
             return True
