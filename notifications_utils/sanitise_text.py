@@ -110,6 +110,7 @@ class SanitiseText:
         if (
             regex.search(r"\p{IsArabic}", value)
             or regex.search(r"[\uFE70]+", value)
+            or regex.search(r"[\u064B]+", value)
             or regex.search(r"[\u064F]+", value)
         ):
             return True
