@@ -106,12 +106,18 @@ class SanitiseText:
         return False
 
     @classmethod
+    def is_arabic(cls, value):
+        if regex.search(r"\p{IsArabic}", value) or value in [" ُ", " ُ"]:
+            return True
+        return False
+
+    @classmethod
     def _is_extended_language_group_one(cls, value):
         if regex.search(r"\p{IsHangul}", value):  # Korean
             return True
         elif regex.search(r"\p{IsCyrillic}", value):
             return True
-        elif regex.search(r"\p{IsArabic}", value):
+        elif SanitiseText.is_arabic(value):
             return True
         elif regex.search(r"\p{IsArmenian}", value):
             return True

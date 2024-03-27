@@ -294,6 +294,7 @@ def test_sms_supporting_additional_languages(content, expected):
         ("这是一次测试", set()),  # Mandarin (Simplified)
         ("Bunda Türkçe karakterler var", set()),  # Turkish
         ("。、“”()：;？！", set()),  # Chinese punctuation
+        # (" ُ ُ", set()),  # Arabic diacritics
     ],
 )
 def test_get_non_compatible_characters(content, expected):
