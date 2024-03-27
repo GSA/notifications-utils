@@ -107,6 +107,8 @@ class SanitiseText:
 
     @classmethod
     def is_arabic(cls, value):
+        # For some reason, the python definition of Arabic (IsArabic) doesn't include
+        # some standard diacritics, so add them here.
         if (
             regex.search(r"\p{IsArabic}", value)
             or regex.search(r"[\uFE70]+", value)
