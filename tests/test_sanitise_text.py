@@ -274,6 +274,14 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             "إدارة الخدمات الاجتماعية والصحية في ولاية واشنطن (Washington State Department of Social and Health Services, WA DSHS): ستُجرى المقابلة الهاتفية معك المعنية بمراقبة جودة الطعام يوم xx/xx/xx الساعة 00:00 صباحًا/مساءً. قد يؤدي الفشل إلى إغلاق مخصصاتك. اتصل بالرقم 1-800-473-5661 إذا كانت لديك أسئلة.",  # noqa
             True,
         ),  # State of WA Arabic
+        (
+            "WA DSHS: ਤੁਹਾਡੀ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਭੋਜਨ ਫ਼ੋਨ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ/ਸ਼ਾਮ 'ਤੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। ਸਵਾਲਾਂ ਨਾਲ 1-800-473-5661 'ਤੇ ਕਾਲ ਕਰੋ।",  # noqa
+            True,
+        ),  # State of WA Punjabi
+        (
+            "WA DSHS: ਵਿਅਕਤੀਗਤ ਭੋਜਨ ਵਿੱਚ ਤੁਹਾਡਾ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ /ਸ਼ਾਮ 00:00 ਵਜੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। 1-800-473-5661 'ਤੇ w/ਸਵਾਲ ਨਾਲ ਕਾਲ ਕਰੋ।",  # noqa
+            True,
+        ),  # State of WA Punjabi
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
@@ -295,6 +303,14 @@ def test_sms_supporting_additional_languages(content, expected):
         ("Bunda Türkçe karakterler var", set()),  # Turkish
         ("。、“”()：;？！", set()),  # Chinese punctuation
         (" ُ ُ", set()),  # Arabic diacritics
+        (
+            "WA DSHS: ਤੁਹਾਡੀ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਭੋਜਨ ਫ਼ੋਨ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ/ਸ਼ਾਮ 'ਤੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। ਸਵਾਲਾਂ ਨਾਲ 1-800-473-5661 'ਤੇ ਕਾਲ ਕਰੋ।",  # noqa
+            set(),
+        ),  # Punjabi
+        (
+            "WA DSHS: ਵਿਅਕਤੀਗਤ ਭੋਜਨ ਵਿੱਚ ਤੁਹਾਡਾ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ /ਸ਼ਾਮ 00:00 ਵਜੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। 1-800-473-5661 'ਤੇ w/ਸਵਾਲ ਨਾਲ ਕਾਲ ਕਰੋ।",  # noqa
+            set(),
+        ),  # more Punjabi
     ],
 )
 def test_get_non_compatible_characters(content, expected):
