@@ -1,3 +1,4 @@
+import binascii
 import os
 from uuid import UUID
 
@@ -37,14 +38,17 @@ def test_base64_converter_to_url(python_val):
 
 
 @pytest.mark.parametrize(
-    "url_val",
+    "url_val,expectation",
     [
-        "this_is_valid_base64_but_is_too_long_to_be_a_uuid",
-        "this_one_has_emoji_➕➕➕",
+        (
+            "this_is_valid_base64_but_is_too_long_to_be_a_uuid",
+            pytest.raises(binascii.Error),
+        ),
+        ("this_one_has_emoji_➕➕➕", pytest.raises(UnicodeEncodeError)),
     ],
 )
-def test_base64_converter_to_python_raises_validation_error(url_val):
-    with pytest.raises(BaseException):
+def test_base64_converter_to_python_raises_validation_error(url_val, expectation):
+    with expectation:
         base64_to_uuid(url_val)
 
 

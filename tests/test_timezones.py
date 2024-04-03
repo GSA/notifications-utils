@@ -1,20 +1,21 @@
+import dateutil
 import pytest
 
 from notifications_utils.timezones import utc_string_to_aware_gmt_datetime
 
 
 @pytest.mark.parametrize(
-    "input_value",
+    "input_value,expectation",
     [
-        "foo",
-        100,
-        True,
-        False,
-        None,
+        ("foo", pytest.raises(dateutil.parser._parser.ParserError)),
+        (100, pytest.raises(TypeError)),
+        (True, pytest.raises(TypeError)),
+        (False, pytest.raises(TypeError)),
+        (None, pytest.raises(TypeError)),
     ],
 )
-def test_utc_string_to_aware_gmt_datetime_rejects_bad_input(input_value):
-    with pytest.raises(BaseException):
+def test_utc_string_to_aware_gmt_datetime_rejects_bad_input(input_value, expectation):
+    with expectation:
         utc_string_to_aware_gmt_datetime(input_value)
 
 

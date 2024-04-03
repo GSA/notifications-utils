@@ -8,6 +8,7 @@ help:
 .PHONY: bootstrap
 bootstrap: ## Build project
 	poetry self update
+	poetry lock --no-update
 	poetry install --sync --no-root
 	poetry run pre-commit install
 
