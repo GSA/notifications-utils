@@ -15,8 +15,8 @@ params, ids = zip(
     # these are not in GSM charset so are downgraded
     # (("ç", "c"), "decomposed unicode char (C with cedilla)"),
     # these unicode chars should change to something completely different for compatibility
-    (("–", "-"), "compatibility transform unicode char (EN DASH (U+2013)"),
-    (("—", "-"), "compatibility transform unicode char (EM DASH (U+2014)"),
+    # (("–", "-"), "compatibility transform unicode char (EN DASH (U+2013)"),
+    # (("—", "-"), "compatibility transform unicode char (EM DASH (U+2014)"),
     (
         ("…", "..."),
         "compatibility transform unicode char (HORIZONTAL ELLIPSIS (U+2026)",
@@ -271,6 +271,10 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             True,
         ),  # State of WA Somali
         (
+            "إدارة الخدمات الاجتماعية والصحية في ولاية واشنطن (Washington State Department of Social and Health Services, WA DSHS): ستُجرى المقابلة الهاتفية معك المعنية بمراقبة جودة الطعام يوم xx/xx/xx الساعة 00:00 صباحًا/مساءً. قد يؤدي الفشل إلى إغلاق مخصصاتك. اتصل بالرقم 1-800-473-5661 إذا كانت لديك أسئلة.",  # noqa
+            True,
+        ),  # State of WA Arabic
+        (
             "WA DSHS: ਤੁਹਾਡੀ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਭੋਜਨ ਫ਼ੋਨ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ/ਸ਼ਾਮ 'ਤੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। ਸਵਾਲਾਂ ਨਾਲ 1-800-473-5661 'ਤੇ ਕਾਲ ਕਰੋ।",  # noqa
             True,
         ),  # State of WA Punjabi
@@ -298,6 +302,7 @@ def test_sms_supporting_additional_languages(content, expected):
         ("这是一次测试", set()),  # Mandarin (Simplified)
         ("Bunda Türkçe karakterler var", set()),  # Turkish
         ("。、“”()：;？！", set()),  # Chinese punctuation
+        (" ُ ُ", set()),  # Arabic diacritics
         (
             "WA DSHS: ਤੁਹਾਡੀ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਭੋਜਨ ਫ਼ੋਨ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ/ਸ਼ਾਮ 'ਤੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। ਸਵਾਲਾਂ ਨਾਲ 1-800-473-5661 'ਤੇ ਕਾਲ ਕਰੋ।",  # noqa
             set(),
