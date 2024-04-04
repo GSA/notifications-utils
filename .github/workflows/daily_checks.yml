@@ -13,7 +13,7 @@ jobs:
   pip-audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-project
       - name: Create requirements.txt
         run: poetry export --without-hashes --format=requirements.txt > requirements.txt
@@ -29,7 +29,7 @@ jobs:
   static-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-project
       - name: Install bandit
         run: pip install bandit
