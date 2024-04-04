@@ -106,16 +106,51 @@ class SanitiseText:
         return False
 
     @classmethod
+    def is_arabic(cls, value):
+        # For some reason, the python definition of Arabic (IsArabic) doesn't include
+        # some standard diacritics, so add them here.
+        if (
+            regex.search(r"\p{IsArabic}", value)
+            or regex.search(r"[\uFE70]+", value)
+            or regex.search(r"[\u064B]+", value)
+            or regex.search(r"[\u064F]+", value)
+        ):
+            return True
+        return False
+
+    @classmethod
+    def is_punjabi(cls, value):
+        # Gukmukhi script or Shahmukhi script
+
+        if regex.search(r"[\u0A00-\u0A7F]+", value):
+            return True
+        elif regex.search(r"[\u0600-\u06FF]+", value):
+            return True
+        elif regex.search(r"[\u0750-\u077F]+", value):
+            return True
+        elif regex.search(r"[\u08A0-\u08FF]+", value):
+            return True
+        elif regex.search(r"[\uFB50-\uFDFF]+", value):
+            return True
+        elif regex.search(r"[\uFE70-\uFEFF]+", value):
+            return True
+        elif regex.search(r"[\u0900-\u097F]+", value):
+            return True
+        return False
+
+    @classmethod
     def _is_extended_language_group_one(cls, value):
         if regex.search(r"\p{IsHangul}", value):  # Korean
             return True
         elif regex.search(r"\p{IsCyrillic}", value):
             return True
-        elif regex.search(r"\p{IsArabic}", value):
+        elif SanitiseText.is_arabic(value):
             return True
         elif regex.search(r"\p{IsArmenian}", value):
             return True
         elif regex.search(r"\p{IsBengali}", value):
+            return True
+        elif SanitiseText.is_punjabi(value):
             return True
         return False
 

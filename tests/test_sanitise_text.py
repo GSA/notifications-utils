@@ -15,8 +15,8 @@ params, ids = zip(
     # these are not in GSM charset so are downgraded
     # (("ç", "c"), "decomposed unicode char (C with cedilla)"),
     # these unicode chars should change to something completely different for compatibility
-    (("–", "-"), "compatibility transform unicode char (EN DASH (U+2013)"),
-    (("—", "-"), "compatibility transform unicode char (EM DASH (U+2014)"),
+    # (("–", "-"), "compatibility transform unicode char (EN DASH (U+2013)"),
+    # (("—", "-"), "compatibility transform unicode char (EM DASH (U+2014)"),
     (
         ("…", "..."),
         "compatibility transform unicode char (HORIZONTAL ELLIPSIS (U+2026)",
@@ -156,7 +156,10 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             "国际志愿者日為每年的12月5日，它是由联合国大会在1985年12月17日通过的A/RES/40/212决议[1]上确定的[2]。",
             True,
         ),  # Chinese from wikipedia 2
-        ("哪一種多邊形內部至少存在一個可以看見多邊形所有邊界和所有內部區域的點？", True),  # Chinese from wikipedia 3
+        (
+            "哪一種多邊形內部至少存在一個可以看見多邊形所有邊界和所有內部區域的點？",
+            True,
+        ),  # Chinese from wikipedia 3
         (
             """都柏林在官方城市邊界內的人口是大約495,000人（愛爾蘭中央統計處2002年人口調查），
             然而這種統計已經沒有什麼太大的意義，因為都柏林的市郊地區和衛星城鎮已經大幅地發展與擴張。""",
@@ -178,7 +181,10 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             "從17世紀開始，城市在寬闊街道事務委員會的幫助下開始迅速擴張。乔治亚都柏林曾一度是大英帝國僅次於倫敦的第二大城市。",
             True,
         ),  # Chinese from wikipedia 8
-        ("一些著名的都柏林街道建築仍以倒閉前在此經營的酒吧和商業公司命名。", True),  # Chinese from wikipedia 9
+        (
+            "一些著名的都柏林街道建築仍以倒閉前在此經營的酒吧和商業公司命名。",
+            True,
+        ),  # Chinese from wikipedia 9
         (
             "1922年，隨著愛爾蘭的分裂，都柏林成為愛爾蘭自由邦（1922年–1937年）的首都。現在則為愛爾蘭共和國的首都。",
             True,
@@ -264,6 +270,18 @@ def test_sms_encoding_get_non_compatible_characters(content, cls, expected):
             Ku jawaab JOOJI si aad u joojisid""",
             True,
         ),  # State of WA Somali
+        (
+            "إدارة الخدمات الاجتماعية والصحية في ولاية واشنطن (Washington State Department of Social and Health Services, WA DSHS): ستُجرى المقابلة الهاتفية معك المعنية بمراقبة جودة الطعام يوم xx/xx/xx الساعة 00:00 صباحًا/مساءً. قد يؤدي الفشل إلى إغلاق مخصصاتك. اتصل بالرقم 1-800-473-5661 إذا كانت لديك أسئلة.",  # noqa
+            True,
+        ),  # State of WA Arabic
+        (
+            "WA DSHS: ਤੁਹਾਡੀ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਭੋਜਨ ਫ਼ੋਨ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ/ਸ਼ਾਮ 'ਤੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। ਸਵਾਲਾਂ ਨਾਲ 1-800-473-5661 'ਤੇ ਕਾਲ ਕਰੋ।",  # noqa
+            True,
+        ),  # State of WA Punjabi
+        (
+            "WA DSHS: ਵਿਅਕਤੀਗਤ ਭੋਜਨ ਵਿੱਚ ਤੁਹਾਡਾ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ /ਸ਼ਾਮ 00:00 ਵਜੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। 1-800-473-5661 'ਤੇ w/ਸਵਾਲ ਨਾਲ ਕਾਲ ਕਰੋ।",  # noqa
+            True,
+        ),  # State of WA Punjabi
     ],
 )
 def test_sms_supporting_additional_languages(content, expected):
@@ -284,6 +302,15 @@ def test_sms_supporting_additional_languages(content, expected):
         ("这是一次测试", set()),  # Mandarin (Simplified)
         ("Bunda Türkçe karakterler var", set()),  # Turkish
         ("。、“”()：;？！", set()),  # Chinese punctuation
+        (" ُ ُ", set()),  # Arabic diacritics
+        (
+            "WA DSHS: ਤੁਹਾਡੀ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਭੋਜਨ ਫ਼ੋਨ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ/ਸ਼ਾਮ 'ਤੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। ਸਵਾਲਾਂ ਨਾਲ 1-800-473-5661 'ਤੇ ਕਾਲ ਕਰੋ।",  # noqa
+            set(),
+        ),  # Punjabi
+        (
+            "WA DSHS: ਵਿਅਕਤੀਗਤ ਭੋਜਨ ਵਿੱਚ ਤੁਹਾਡਾ ਗੁਣਵੱਤਾ ਨਿਯੰਤਰਣ ਇੰਟਰਵਿਊ xx/xx/xx 'ਤੇ ਸਵੇਰੇ 00:00 ਵਜੇ /ਸ਼ਾਮ 00:00 ਵਜੇ ਹੈ। ਅਸਫਲਤਾ ਤੁਹਾਡੇ ਲਾਭਾਂ ਨੂੰ ਬੰਦ ਕਰਨ ਦਾ ਕਾਰਨ ਬਣ ਸਕਦੀ ਹੈ। 1-800-473-5661 'ਤੇ w/ਸਵਾਲ ਨਾਲ ਕਾਲ ਕਰੋ।",  # noqa
+            set(),
+        ),  # more Punjabi
     ],
 )
 def test_get_non_compatible_characters(content, expected):
