@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="notifications-utils",
-    version="0.4.0",
+    version="0.4.5",
     url="https://github.com/GSA/notifications-utils",
     license_files=("LICENSE.md",),
     author="General Services Administration",
