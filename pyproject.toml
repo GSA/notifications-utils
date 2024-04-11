@@ -44,7 +44,7 @@ s3transfer = "^0.10.1"
 shapely = "^2.0.1"
 six = "^1.16.0"
 smartypants = "^2.0.1"
-urllib3 = "^1.26.18"
+urllib3 = "^2.2.1"
 webencodings = "^0.5.1"
 werkzeug = "^3.0.1"
 
