@@ -610,6 +610,8 @@ def validate_phone_number(number, international=False):
 
     try:
         parsed = phonenumbers.parse(number, None)
+        if parsed.country_code != 1:
+            raise InvalidPhoneError("Invalid country code")
         number = f"{parsed.country_code}{parsed.national_number}"
         if len(number) < 8:
             raise InvalidPhoneError("Not enough digits")
