@@ -46,7 +46,7 @@ six = "^1.16.0"
 smartypants = "^2.0.1"
 urllib3 = "^2.2.1"
 webencodings = "^0.5.1"
-werkzeug = "^3.0.1"
+werkzeug = "^3.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
