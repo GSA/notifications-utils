@@ -365,6 +365,27 @@ def test_normalised(address, expected_normalised, expected_as_single_line):
 
 
 @pytest.mark.parametrize(
+    "address",
+    (
+        "United Kingdom",
+        "Guernsey",
+        "Jersey",
+        "Isle of Man",
+    ),
+)
+def test_address_of_only_a_uk_country_is_invalid_not_an_error(address):
+    # An address whose single line is a UK-postage country leaves no lines
+    # once the country is stripped off. These properties should treat it as
+    # an empty address rather than raising IndexError.
+    postal_address = PostalAddress(address)
+    assert postal_address.normalised == ""
+    assert postal_address.postcode is None
+    assert postal_address.has_valid_postcode is False
+    assert postal_address.valid is False
+    assert bool(postal_address) is False
+
+
+@pytest.mark.parametrize(
     "address, expected_postage",
     (
         (
